@@ -8,7 +8,7 @@
         <br>
         <input class="form-control" type="text" placeholder="请设置密码" name="password" v-model="password">
         <br>
-        <input class="form-control" type="text" placeholder="请选择组长" name="leader">
+        <input class="form-control" type="text" placeholder="请再次输入密码" name="password" v-model="password_confirm">
         <br>
         <el-row><el-button @click="addUser" value="注册" class="submitbutton_registered" type="warning">注册</el-button></el-row>
         <el-row><el-button @click="goUser" class="submitbutton_registered" type="warning">已有账号，前往登录</el-button></el-row>
@@ -26,6 +26,7 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       username: '',
       password: '',
+      password_confirm: '',
       el:''
     }
   },
@@ -34,6 +35,7 @@ export default {
       console.log('hello');
       let username = this.username;
       let password = this.password;
+      let password_confirm = this.password_confirm;
 
       if(username == ''){
           this.$alert('用户名不能为空', '注意⚠️', {
@@ -43,6 +45,12 @@ export default {
       else if(password == '')
       {
           this.$alert('密码不能为空', '注意⚠️', {
+          confirmButtonText: '确定',}
+        )
+      }
+      else if(password != password_confirm)
+      {
+          this.$alert('两次密码输入不一致，请重新输入', '注意⚠️', {
           confirmButtonText: '确定',}
         )
       }

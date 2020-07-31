@@ -1,17 +1,10 @@
 <template>
 <body>
   <div id="div_login">
-    <div id="div_title"><h1>普通用户登陆</h1></div>
+    <div id="div_title"><h1>用户登陆</h1></div>
     <div id="midden">
-      <div id="peoplechoose">
-      <el-menu :default-active="activeIndex" background-color="" mode="horizontal" @select="handleSelect">
-    <el-menu-item @click="goManager" class="el-menu-demo" index="1">管理员</el-menu-item>
-    <el-menu-item @click="goLeader" class="el-menu-demo" index="2">用户组长</el-menu-item>
-    <el-menu-item @click="goUser" class="el-menu-demo" index="3">普通用户</el-menu-item>
-      </el-menu>
-      </div>
     <br>
-    <input placeholder="请输入普通用户账号" type="text" name="username" v-model="ruleForm.username" class="inputinfo"/>
+    <input placeholder="请输入用户账号" type="text" name="account" v-model="ruleForm.account" class="inputinfo"/>
     <br>
     <input placeholder="请输入密码" type="text" name="password" v-model="ruleForm.password" class="inputinfo"/>
     <el-row><el-button @click="submitForm('ruleForm')" value="登陆" class="submitbutton_login" type="warning">登陆</el-button></el-row>
@@ -29,11 +22,11 @@ export default {
     return {
         errorInfo : false,
         ruleForm: {
-            username: '',
+            account: '',
             password: '',                   
         },
         rules: {
-            username: [
+            account: [
                 { required: true, message: '请输入用户名', trigger: 'blur' }
             ],
             password: [
@@ -43,21 +36,9 @@ export default {
     }
   },
   methods: {
-    goUser() {
-  		this.$router.push('/User')
-    },
-    goLeader() {
-  		this.$router.push('/Leader')
-    },
-  	goManager() {
-      this.$router.push('/Manager')
-    },
-    goRegister() {
-      this.$router.push('/Register')
-    },
     submitForm(ruleForm) {
       const self = this;
-      localStorage.setItem('ms_username',self.ruleForm.username);
+      localStorage.setItem('ms_username',self.ruleForm.account);
       localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
       console.log(JSON.stringify(self.ruleForm));                        
       self.$axios.post('/api/user/findUser',self.ruleForm) //前端接口
