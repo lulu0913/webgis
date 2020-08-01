@@ -1,10 +1,10 @@
 <template>
   <div>
     <form id = "app">
-        <h2 class="form-signin0-heading">普通用户注册</h2>
+        <h2 class="form-signin0-heading">用户注册</h2>
         <br>
         <div id="mid">
-        <input class="form-control" type="text" placeholder="用户名"  name="username" v-model="username">
+        <input class="form-control" type="text" placeholder="账户名"  name="account" v-model="account">
         <br>
         <input class="form-control" type="text" placeholder="请设置密码" name="password" v-model="password">
         <br>
@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      username: '',
+      account: '',
       password: '',
       password_confirm: '',
       el:''
@@ -33,12 +33,12 @@ export default {
   methods: {
     addUser() {
       console.log('hello');
-      let username = this.username;
+      let account = this.account;
       let password = this.password;
       let password_confirm = this.password_confirm;
 
-      if(username == ''){
-          this.$alert('用户名不能为空', '注意⚠️', {
+      if(account == ''){
+          this.$alert('账户名不能为空', '注意⚠️', {
           confirmButtonText: '确定',}
         )
       }
@@ -56,12 +56,12 @@ export default {
       }
       else{
         this.$axios.post('/api/user/addUser', { //后端接口路由
-        username: username,
+        account: account,
         password: password
       },{}).then((response) => {
         console.log(response);
         if(response.data==-1){
-          alert('用户名已存在');
+          alert('账户名已存在');
         }
         else{
           alert('注册成功');
