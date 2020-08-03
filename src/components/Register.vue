@@ -66,12 +66,12 @@ export default {
         else{
           alert('注册成功');
         }
-        this.$router.push('/Login');
+        this.$router.push('/account/login');
       })
       }
     },
     goUser(){
-      this.$router.push('/Login');
+      this.$router.push('/account/login');
     }
 
   }

@@ -21,21 +21,21 @@ Vue.prototype.$qs = qs;
 export default new Router({
   routes: [
     {
-      path: '/register',
+      path: '/account/register',
       name: 'Register',
       component:Register 
     },  
     {
       path:'/',
-      redirect:'/Login'
+      redirect:'/account/login'
     },
     {
-      path: '/Login',
+      path: '/account/login',
       name: 'Login',
       component:Login
     },
     {
-      path: '/Edit',
+      path: '/account/passwordChange',
       name: 'Edit',
       component:Edit
     },

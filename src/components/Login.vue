@@ -9,6 +9,7 @@
     <input placeholder="请输入密码" type="text" name="password" v-model="ruleForm.password" class="inputinfo"/>
     <el-row><el-button @click="submitForm('ruleForm')" value="登陆" class="submitbutton_login" type="warning">登陆</el-button></el-row>
     <el-row><el-button @click="handleCommand()" value="注册" class="submitbutton_registered" type="warning">注册</el-button></el-row>
+    <el-row><el-button @click="myedit()" value="修改密码" class="submitbutton_edit" type="warning">修改密码</el-button></el-row>
     </div>
 </div>
 </body>
@@ -56,14 +57,17 @@ export default {
           confirmButtonText: '确定',})
           }
            else {
-              this.$router.push('/U');
+              this.$router.push('/U');  // 登录成功，跳转到功能界面
           }                          
       }).then((error) => {
           console.log(error);
       })
     },
     handleCommand() {
-        this.$router.push('/register');
+        this.$router.push('/account/register');
+    },
+    myedit() {
+        this.$router.push('/account/passwordChange');
     },
 
   }
