@@ -1,145 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" type="text/css">
+    <style>
+      html,body,#container{
+        height: 100%
+      }
+      .input-item{
+        height: 2.2rem;
+      }
+      .btn{
+        width: 6rem;
+        margin: 0 1rem 0 2rem;
+      }
+      .input-text{
+        width: 4rem;
+        margin-right:1rem;
+      }
+    </style>
+    <title>鼠标工具绘制</title>
+  </head>
+  <body>
+    <div id='container'></div>
+    <div class='info'>操作说明：圆和矩形通过拖拽来绘制，其他覆盖物通过点击来绘制</div>
+    <div class="input-card" style='width: 24rem;'>
+        <div class="input-item">
+          <input type="radio" name='func' checked="" value='marker'><span class="input-text">画点</span>
+          <input type="radio" name='func' value='polyline'><span class="input-text">画折线</span>
+          <input type="radio" name='func' value='polygon'><span class="input-text" style='width:5rem;'>画多边形</span>
+        </div>
+        <div class="input-item">
+          <input type="radio" name='func' value='rectangle'><span class="input-text">画矩形</span>
+          <input type="radio" name='func' value='circle'><span class="input-text">画圆</span>
+        </div>
+        <div class="input-item">
+            <input id="clear" type="button" class="btn" value="清除" />
+          <input id="close" type="button" class="btn" value="关闭绘图" />
+        </div>
+    </div>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值&plugin=AMap.MouseTool"></script>
+    <script type="text/javascript">
+    var map = new AMap.Map('container',{
+        zoom:14
+    });
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>绘制几何图形</title>
-</head>
-<script charset="utf-8" src="https://map.qq.com/api/gljs?libraries=tools&v=1.exp&key=ZZNBZ-RVW33-2Z33A-YSVGD-FERDT-C5BHM"></script>
-<style type="text/css">
-    html,
-    body {
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
+    var mouseTool = new AMap.MouseTool(map); 
+    //监听draw事件可获取画好的覆盖物
+    var overlays = [];
+    mouseTool.on('draw',function(e){
+        overlays.push(e.obj);
+    }) 
+    
+    function draw(type){
+      switch(type){
+        case 'marker':{
+            mouseTool.marker({
+              //同Marker的Option设置
+            });
+            break;
+        }
+        case 'polyline':{
+            mouseTool.polyline({
+              strokeColor:'#80d8ff'
+              //同Polyline的Option设置
+            });
+            break;
+        }
+        case 'polygon':{
+            mouseTool.polygon({
+              fillColor:'#00b0ff',
+              strokeColor:'#80d8ff'
+              //同Polygon的Option设置
+            });
+            break;
+        }
+        case 'rectangle':{
+            mouseTool.rectangle({
+              fillColor:'#00b0ff',
+              strokeColor:'#80d8ff'
+              //同Polygon的Option设置
+            });
+            break;
+        }
+        case 'circle':{
+            mouseTool.circle({
+              fillColor:'#00b0ff',
+              strokeColor:'#80d8ff'
+              //同Circle的Option设置
+            });
+            break;
+        }
+      }
     }
+    var radios = document.getElementsByName('func');
+    for(var i=0;i<radios.length;i+=1){
+        radios[i].onchange = function(e){
 
-    #container {
-        width: 100%;
-        height: 80%;
+          draw(e.target.value)
+        }
     }
+    draw('marker')
 
-	#toolControl {
-		position: absolute;
-		top: 10px;
-		left: 0px;
-		right: 0px;
-		margin: auto;
-		width: 168px;
-		z-index: 1001;
-	}
-	.toolItem {
-		width: 30px;
-		height: 30px;
-		float: left;
-		margin: 1px;
-		padding: 4px;
-		border-radius: 3px;
-		background-size: 30px 30px;
-		background-position: 4px 4px;
-		background-repeat: no-repeat;
-		box-shadow: 0 1px 2px 0 #E4E7EF;
-		background-color: #ffffff;
-		border: 1px solid #ffffff;
-	}
-	.toolItem:hover {
-		border-color: #789CFF;
-	}
-	.active {
-		border-color: #D5DFF2;
-		background-color: #D5DFF2;
-	}
-
-	#marker {
-		background-image: url('https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/marker_editor.png');
-	}
-	#polyline {
-		background-image: url('https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/polyline.png');
-	}
-	#polygon {
-		background-image: url('https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/polygon.png');
-	}
-	#circle {
-		background-image: url('https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/circle.png');
-	}
-</style>
-
-<body onload="initMap()">
-	<div id="container"></div>
-	<div id="toolControl">
-		<div class="toolItem active" id="marker" title="点标记"></div>
-		<div class="toolItem" id="polyline" title="折线"></div>
-		<div class="toolItem" id="polygon" title="多边形"></div>
-		<div class="toolItem" id="circle" title="圆形"></div>
-	</div>
-	<div>
-		绘制：鼠标左键点击及移动即可绘制图形<br/>
-		结束绘制：鼠标左键双击即可结束绘制折线、多边形、多边形会自动闭合；圆形单击即可结束<br/>
-		中断：绘制过程中按下esc键可中断该过程
-	</div>
-	<script type="text/javascript">
-		var map, editor, activeType = 'marker';
-
-		// 切换激活图层
-		document.getElementById('toolControl').addEventListener('click', (e) => {
-			let id = e.target.id;
-			if (id !== 'toolControl') {
-				document.getElementById(activeType).className = "toolItem";
-				document.getElementById(id).className = "toolItem active";
-				activeType = id;
-
-				editor.setActiveOverlay(id);
-			}
-		});
-
-        function initMap() {
-            // 初始化地图
-            map = new TMap.Map("container", {
-                zoom: 12, // 设置地图缩放级别
-                center: new TMap.LatLng(39.984104, 116.307503) // 设置地图中心点坐标
-			});
-			
-			// 初始化几何图形及编辑器
-			editor = new TMap.tools.GeometryEditor({
-				map, // 编辑器绑定的地图对象
-				overlayList: [ // 可编辑图层
-					{
-						overlay: new TMap.MultiMarker({
-							map
-						}),
-						id: 'marker'
-					},
-					{
-						overlay: new TMap.MultiPolyline({
-							map
-						}),
-						id: 'polyline'
-					},
-					{
-						overlay: new TMap.MultiPolygon({
-							map
-						}),
-						id: 'polygon'
-					},
-					{
-						overlay: new TMap.MultiCircle({
-							map
-						}),
-						id: 'circle'
-					}
-				],
-				actionMode: TMap.tools.constants.EDITOR_ACTION.DRAW, // 编辑器的工作模式
-				activeOverlayId: 'marker', // 激活图层
-				snappable: true // 开启吸附
-			});
-
-			// 监听绘制结束事件，获取绘制几何图形
-			editor.on('draw_complete', (geometry) => { 
-				console.log(geometry);
-			});
-		}
+    document.getElementById('clear').onclick = function(){
+        map.remove(overlays)
+        overlays = [];
+    }  
+    document.getElementById('close').onclick = function(){
+        mouseTool.close(true)//关闭，并清除覆盖物
+        for(var i=0;i<radios.length;i+=1){
+            radios[i].checked = false;
+        }
+    }
     </script>
-</body>
-
+  </body>
 </html>

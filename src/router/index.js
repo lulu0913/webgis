@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Edit from '@/components/Edit'
+import map from '@/components/road/map'
 import vueRsource from 'vue-resource'
 import axios from 'axios'
 import qs from 'qs'
@@ -38,6 +39,11 @@ export default new Router({
       path: '/account/passwordChange',
       name: 'Edit',
       component:Edit
+    },
+    {
+      path: '/road/map',
+      name: 'map',
+      component:map
     },
   ]
 })
