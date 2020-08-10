@@ -38,7 +38,7 @@
         lng: 0.0,
         lat: 0.0,
         polyline: {
-          mypath: [[[114.23109, 30.729849],[114.22109, 30.729149],[114.22109, 30.729749]],[[114.21109, 30.729849],[114.22009, 30.729849]]],
+          mypath: [[]],
           events: {
             click(e) {
               alert('click polyline');
@@ -55,14 +55,26 @@
         events: {
           click(e) {
             let { lng, lat } = e.lnglat;
-            // console.log(parseFloat(lng), lat);
-            self.polyline.path.push([lng, lat]);
+            mypaths = self.polyline.mypath;
+            console.log(mypaths.length)
+            mylength = mypaths.length
+            self.polyline.mypath[mylength-1].push([lng, lat]);
+            console.log(mypaths[mylength-1])
             // console.log('path:', self.polyline.path[0].lng)
-            if(self.polyline.path[0][0]){
-              self.lng = self.polyline.path[0][0];
-              self.lat = self.polyline.path[0][1];
+            if(mypaths[mylength-1][0][0]){
+              self.lng = mypaths[mylength-1][0][0];
+              self.lat = mypaths[mylength-1][0][1];
+              // console.log('ddd:', mypaths[mylength-1][0][0])
+              console.log('ddd:', self.lng)
+              console.log('ddd:', self.lat)
             }
-            // console.log(self.polyline.path[0][0])
+          },
+          rightclick(e){
+            mypaths = self.polyline.mypath;
+            mylength = mypaths.length;
+            if(self.polyline.mypath[mylength-1].length  ){
+              self.polyline.mypath.push([]);
+            }
           }
         },
       };
