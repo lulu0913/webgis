@@ -1,7 +1,7 @@
 <template>
   <div class="amap-page-container">
     <el-amap vid="amap" :zoom="zoom" :center="center" class="amap-demo" :events="events">
-      <el-amap-polyline :editable="polyline.editable"  :path="polyline.path" :events="polyline.events"></el-amap-polyline>
+      <el-amap-polyline v-for="(path, index) in polyline.mypath" :editable="polyline.editable"  :path="path" :events="polyline.events" :key="index"></el-amap-polyline>
     </el-amap>
 
     <div class="toolbar">
@@ -38,7 +38,7 @@
         lng: 0.0,
         lat: 0.0,
         polyline: {
-          path: [],
+          mypath: [[[114.23109, 30.729849],[114.22109, 30.729149],[114.22109, 30.729749]],[[114.21109, 30.729849],[114.22009, 30.729849]]],
           events: {
             click(e) {
               alert('click polyline');
