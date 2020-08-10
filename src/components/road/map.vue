@@ -1,6 +1,6 @@
 <template>
   <div class="amap-page-container">
-    <el-amap vid="amap" :zoom="zoom" :center="center" class="amap-demo">
+    <el-amap vid="amap" :zoom="zoom" :center="center" class="amap-demo" :events="events">
       <el-amap-polyline :editable="polyline.editable"  :path="polyline.path" :events="polyline.events"></el-amap-polyline>
     </el-amap>
 
@@ -31,14 +31,19 @@
 <script>
   module.exports = {
     data: function() {
+      let self = this;
       return {
-        zoom: 12,
-        center: [121.5273285, 31.25515044],
+        zoom: 16,
+        center: [114.22109, 30.729849],
+        lng: 0.0,
+        lat: 0.0,
         polyline: {
-          path: [[121.5389385, 31.21515044], [121.5389385, 31.29615044], [121.5273285, 31.21515044]],
+          path: [],
           events: {
             click(e) {
               alert('click polyline');
+              // console.log(self.lng, self.lat)
+              self.sendlnglat();
             },
             end: (e) => {
               let newPath = e.target.getPath().map(point => [point.lng, point.lat]);
@@ -46,13 +51,40 @@
             }
           },
           editable: false
-        }
+        },
+        events: {
+          click(e) {
+            let { lng, lat } = e.lnglat;
+            // console.log(parseFloat(lng), lat);
+            self.polyline.path.push([lng, lat]);
+            // console.log('path:', self.polyline.path[0].lng)
+            if(self.polyline.path[0][0]){
+              self.lng = self.polyline.path[0][0];
+              self.lat = self.polyline.path[0][1];
+            }
+            // console.log(self.polyline.path[0][0])
+          }
+        },
       };
     },
     methods: {
       changeEditable() {
         this.polyline.editable = !this.polyline.editable;
-      }
+      },
+
+      sendlnglat() {
+        alert('successful');
+        lng = this.lng;
+        lat = this.lat;
+        self.$axios.post('/api//road/add',{
+          lng: lng,
+          lat: lat }) //向后端发送经纬度，经纬度信息是起始端点信息
+        .then((response) => {
+                        
+        }).then((error) => {
+            console.log(error);
+        })
+      },
     }
   };
 </script>
