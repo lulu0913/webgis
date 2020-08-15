@@ -10,6 +10,31 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
+
+// 加载本地json 10-22
+var appData = require('../static/sjg-coords.json')
+var roles = appData.roles;
+ 
+/*const express = require('express')
+var app = express()
+var apiRoutes = express.Router();
+apiRoutes.get('/roles01',function (req,res) {
+  res.json({
+    errno:0,
+    data:roles
+  });
+});
+apiRoutes.post('/roles01',function (req,res) {
+  res.json({
+    errno:0,
+    data:roles
+  });
+});
+app.use('/api',apiRoutes);*/
+ 
+// end
+
+
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 

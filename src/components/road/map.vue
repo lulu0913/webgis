@@ -6,6 +6,7 @@
 
     <div class="toolbar">
       <button type="button" name="button" v-on:click="changeEditable">change editable</button>
+      <button type="button" name="button" v-on:click="showpath">show path</button>
     </div>
   </div>
 </template>
@@ -68,6 +69,13 @@
               console.log('ddd:', self.lng)
               console.log('ddd:', self.lat)
             }
+            var url = 'http://localhost:8080/static/sjg-coords.json';
+            self.$axios.get(url).then(res =>{
+              console.log(res.data['sjg-test-0'])
+              var testdata = res.data['sjg-test-0'];
+              self.mypath=res.data['sjg-test-0'];
+              console.log(self.mypath)
+            })
           },
           rightclick(e){
             mypaths = self.polyline.mypath;
@@ -97,6 +105,27 @@
             console.log(error);
         })
       },
+
+      showpath(){
+        var url = 'http://localhost:8080/static/sjg-coords.json';
+        this.$axios.get(url).then(res =>{
+          // console.log('第一个测试数据集: ', res.data['sjg-test-0'])
+          // var testdata = res.data['sjg-test-0'];
+          // // this.mypath=res.data['sjg-test-0'];
+          // console.log('my path: ', this.mypath)
+          // mypaths = this.polyline.mypath;
+          // console.log('现有路径长度: ', mypaths.length)
+          // mylength = mypaths.length
+          // this.polyline.mypath[mylength-1].push(testdata[0]);
+          // this.polyline.mypath[mylength-1].push(testdata[1]);
+          // console.log(mypaths[mylength-1])
+          var mydata = res.data;
+          for(var key in mydata){
+            console.log(mydata[key])
+            this.polyline.mypath.push(mydata[key]);
+          }
+        })
+      }
     }
   };
 </script>
