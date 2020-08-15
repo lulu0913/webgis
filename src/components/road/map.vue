@@ -2,6 +2,7 @@
   <div class="amap-page-container">
     <el-amap vid="amap" :zoom="zoom" :center="center" class="amap-demo" :events="events">
       <el-amap-polyline v-for="(path, index) in polyline.mypath" :editable="polyline.editable"  :path="path" :events="polyline.events" :key="index"></el-amap-polyline>
+       <el-amap-polygon v-for="(polygon, index) in polygons" :vid="index" :ref="`polygon_${index}`" :path="polygon.path" :draggable="polygon.draggable" :events="polygon.events" :key="index"></el-amap-polygon>
     </el-amap>
 
     <div class="toolbar">
@@ -38,6 +39,21 @@
         center: [114.22109, 30.729849],
         lng: 0.0,
         lat: 0.0,
+        polygons: [
+          {
+            draggable: true,
+            path: [[114.21111049692149, 30.731169216264068], [114.21091941560115, 30.731591700871533], [ 114.21075042175818, 30.7315152683434], [114.21094150307852, 30.731092783735935]],
+            events: {
+              click: () => {
+                alert('click polygon');
+                console.log(amapManager.getComponent(0));
+                console.log(this.$refs.map.$$getCenter())
+                console.log(this.$refs.polygon_0[0].$$getPath())
+              }
+            }
+          }
+        ],
+
         polyline: {
           mypath: [[]],
           events: {
