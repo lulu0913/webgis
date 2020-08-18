@@ -2,7 +2,12 @@
   <div class="amap-page-container">
     <el-amap vid="amap" :zoom="zoom" :center="center" class="amap-demo" :events="events">
       <el-amap-polyline v-for="(path, index) in polyline.mypath" :editable="polyline.editable"  :path="path" :events="polyline.events" :key="index"></el-amap-polyline>
-       <el-amap-polygon v-for="(polygon, index) in polygons" :path="polygon.path" :draggable="polygon.draggable" :events="polygon.events" :key="index"></el-amap-polygon>
+       <el-amap-polygon v-for="(polygon, index) in polygons" :path="polygon.path" :draggable="polygon.draggable" :events="polygon.events" 
+       :key="index" 
+       fillColor="#FFC0CB" 
+       fillOpacity="0.5"
+       strokeColor="#FF0000">
+       </el-amap-polygon>
     </el-amap>
 
     <div class="toolbar">
@@ -42,6 +47,7 @@
         polygons: [
           {
             draggable: true,
+            // path: [[114.21106824846075, 30.731150108132034], [114.21125932978109, 30.73072762352457], [114.2111748328596, 30.730689407260503], [114.21098375153926, 30.731111891867968]],
             path: [],
             events: {
               click: () => {
@@ -141,6 +147,11 @@
           for(key in mydata){
             var paths = {};
             paths.path = mydata[key];  //向地图中添加标注点
+            paths.events = {
+              click:() => {
+                alert('hhh');
+              }
+            };
             this.polygons.push(paths);
           }
           console.log(this.polygons)
