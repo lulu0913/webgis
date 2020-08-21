@@ -24,7 +24,13 @@ AMap.initAMapApiLoader({
   key: '3de0ac7816d5b21247ce23da7cd17d3e',
   // 插件集合 （插件按需引入）
   // plugin: ['AMap.Geolocation']
-  plugin: ['AMap.Geocoder','AMap.Geolocation','AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
+  plugin: ['AMap.Geocoder','AMap.Geolocation','AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
+  resizeEnable: true,
+  rotateEnable:true,
+  pitchEnable:true,
+  viewMode:'3D',
+  pitch:80,
+  rotation:-15,
 });
 
 /* eslint-disable no-new */

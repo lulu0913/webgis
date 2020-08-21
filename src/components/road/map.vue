@@ -1,19 +1,56 @@
 <template>
   <div class="amap-page-container">
-    <el-amap vid="amap" :zoom="zoom" :center="center" class="amap-demo" :events="events">
-      <el-amap-polyline v-for="(path, index) in polyline.mypath" :editable="polyline.editable"  :path="path" :events="polyline.events" :key="index"></el-amap-polyline>
-       <el-amap-polygon v-for="(polygon, index) in polygons" :path="polygon.path" :draggable="polygon.draggable" :events="polygon.events" 
-       :key="index" 
-       fillColor="#FFC0CB" 
-       fillOpacity="0.5"
-       strokeColor="#FF0000">
+    <el-amap vid="amap" :resizeEnable="resizeEnable"
+      :pitchEnable="pitchEnable"
+      :rotateEnable="rotateEnable"
+      :viewMode="viewMode"
+      :plugin="plugin" 
+      :expandZoomRange="expandZoomRange" 
+      :zooms="zooms" 
+      :zoom="zoom" 
+      :center="center" 
+      :pitch="pitch"
+      :rotation="rotation"
+      class="amap-demo" 
+      :events="events">
+      <el-amap-polyline 
+        v-for="(path, index) in polyline.mypath" 
+        :extData="index" 
+        :editable="polyline.editable"  
+        :path="path" 
+        :events="polyline.events" 
+        :key="{id: 1}">
+      </el-amap-polyline>
+      <el-amap-polygon 
+        v-for="(polygon, index) in polygons" 
+        :path="polygon.path" 
+        :draggable="polygon.draggable" 
+        :events="polygon.events" 
+        :key="index" 
+        :extData="index"
+        fillColor="#FFC0CB" 
+        fillOpacity="0.5"
+        strokeColor="#FF0000">
        </el-amap-polygon>
     </el-amap>
-
+      
     <div class="toolbar">
       <button type="button" name="button" v-on:click="changeEditable">change editable</button>
       <button type="button" name="button" v-on:click="showpath">show path</button>
     </div>
+    <el-dialog
+      class="info"
+      title="提示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+      <el-input v-model="form.targetid" disabled></el-input>
+      <el-input v-model="form.name"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -33,6 +70,12 @@
   .amap-page-container {
     position: relative;
   }
+  .info{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
 </style>
 
 <script>
@@ -40,6 +83,29 @@
     data: function() {
       let self = this;
       return {
+        plugin:[{
+          pName: 'MapType',
+          defaultType: 1,
+          showRoad: true,
+          events: {
+            init(instance) {
+              console.log(instance);
+            }
+          }
+        }],
+        form:{
+          name: '',
+          targetid: '',
+        },
+        centerDialogVisible: false,
+        resizeEnable: true,
+        rotateEnable:true,
+        pitchEnable:true,
+        pitch:80,
+        rotation:-15,
+        viewMode: '3D',
+        expandZoomRange: true,
+        zooms: [3, 20],
         zoom: 16,
         center: [114.22109, 30.729849],
         lng: 0.0,
@@ -92,7 +158,7 @@
               console.log('ddd:', self.lng)
               console.log('ddd:', self.lat)
             }
-            var url = 'http://localhost:8080/static/sjg-coords.json';
+            var url = 'static/hcx-coords.json';
             self.$axios.get(url).then(res =>{
               console.log(res.data['sjg-test-0'])
               var testdata = res.data['sjg-test-0'];
@@ -130,7 +196,7 @@
       },
 
       showpath(){
-        var url = 'http://localhost:8080/static/sjg-coords.json';
+        var url = 'static/hcx-coords.json';
         this.$axios.get(url).then(res =>{
           // console.log('第一个测试数据集: ', res.data['sjg-test-0'])
           // var testdata = res.data['sjg-test-0'];
@@ -143,18 +209,20 @@
           // this.polyline.mypath[mylength-1].push(testdata[1]);
           // console.log(mypaths[mylength-1])
           var mydata = res.data;
-          console.log(mydata)
+          // console.log(mydata)
           for(key in mydata){
             var paths = {};
             paths.path = mydata[key];  //向地图中添加标注点
             paths.events = {
-              click:() => {
-                alert('hhh');
+              click:(e) => {
+                this.form.targetid = e.target.getExtData()
+                this.centerDialogVisible = true
               }
             };
+            paths.key = key;
             this.polygons.push(paths);
           }
-          console.log(this.polygons)
+          // console.log(this.polygons)
         })
       }
     }
