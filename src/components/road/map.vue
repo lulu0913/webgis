@@ -301,6 +301,7 @@
             mypaths = self.polygons;
             mylength = mypaths.length;
             if(self.polygons[mylength-1].path.length){
+              self.polygons[mylength-1].key = "key"; // 这里的key要根据之后统一的道路命名规则来进行修改
               self.newpath();
             }
             console.log(self.polygons)
@@ -654,9 +655,16 @@
         this.polygons.push(temp);
       },
 
-      // 保存当前地图上的路径信息
+      // 保存当前地图上的路径信息，传给后端
       savepath(){
-
+        var pathdata = self.polygons;
+        self.$axios.post('/api//road/add',{
+          pathdata }) //向后端发送经纬度，经纬度信息是起始端点信息
+        .then((response) => {
+                        
+        }).then((error) => {
+            console.log(error);
+        })
       },
 
       // 清除当前道路上的所有路径标注
