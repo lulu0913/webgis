@@ -13,14 +13,18 @@
       :rotation="rotation"
       class="amap-demo" 
       :events="events">
-      <el-amap-polyline 
+
+      <!-- 画出来的是直线 -->
+      <!-- <el-amap-polyline 
         v-for="(path, index) in polyline.mypath" 
         :extData="index" 
         :editable="polyline.editable"  
         :path="path" 
         :events="polyline.events" 
         :key="{id: 1}">
-      </el-amap-polyline>
+      </el-amap-polyline>   -->
+
+      <!-- 画出来的是多边形 -->
       <el-amap-polygon 
         v-for="(polygon, index) in polygons" 
         :path="polygon.path" 
@@ -33,11 +37,15 @@
         strokeColor="#FF0000">
        </el-amap-polygon>
     </el-amap>
-      
+
+    <!-- 在地图上进行编辑的工具栏   -->
     <div class="toolbar">
-      <button type="button" name="button" v-on:click="changeEditable">change editable</button>
-      <button type="button" name="button" v-on:click="showpath">show path</button>
+      <el-button type="primary" name="button" title="显示本地json文件保存的路径信息" v-on:click="showpath" plain round>显示已有标注</el-button>
+      
+      <!-- 保存标注即将现有的路径的经纬度点坐标和路况信息传给后端 -->
+      <el-button type="success" name="button" title="保存当前地图上的路径信息" v-on:click="savepath" plain round>保存标注</el-button>
     </div>
+
     <el-dialog
       class="info"
       title="沥青道路状态"
@@ -145,6 +153,12 @@
     left: 0;
     z-index: 1000;
   }
+  .toolbar{
+    position: absolute;
+    z-index: 2;
+    top: 25px;
+    left: 20px;
+  }
 </style>
 
 <script>
@@ -201,23 +215,53 @@
         center: [114.22109, 30.729849],
         lng: 0.0,
         lat: 0.0,
+
+        // 在地图上画多边形
         polygons: [
           {
             draggable: true,
             // path: [[114.21106824846075, 30.731150108132034], [114.21125932978109, 30.73072762352457], [114.2111748328596, 30.730689407260503], [114.21098375153926, 30.731111891867968]],
             path: [],
             events: {
-              click: () => {
-                alert('click polygon');
-                console.log(amapManager.getComponent(0));
-                console.log(this.$refs.map.$$getCenter())
-                console.log(this.$refs.polygon_0[0].$$getPath())
+              click:(e) => {
+                self.form.targetid = e.target.getExtData()
+                if(self.roadType == 1){
+                  //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
+                  self.PitchTorncheckboxGroup = ['无异常'];
+                  self.PitchTorncheckboxGroupTemp = ['无异常'];
+                  self.PitchCrackcheckboxGroup = [];
+                  self.seen_PitchCrack = false;
+                  self.PitchShapecheckboxGroup = [];
+                  self.seen_PitchShape = false;
+                  self.PitchLoosecheckboxGroup = [];
+                  self.seen_PitchLoose = false;
+                  self.PitchOthercheckboxGroup = [];
+                  self.seen_PitchOther = false;
+                  self.PitchDialogVisible = true;
+                  self.CementDialogVisible = false;
+                }
+                else{
+                  //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
+                  self.CementTorncheckboxGroup = ['无异常'];
+                  self.CementTorncheckboxGroupTemp = ['无异常'];
+                  self.CementCrackcheckboxGroup = [];
+                  self.seen_CementCrack = false;
+                  self.CementJointcheckboxGroup = [];
+                  self.seen_CementJoint = false;
+                  self.CementSurfacecheckboxGroup = [];
+                  self.seen_CementSurface = false;
+                  self.CementOthercheckboxGroup = [];
+                  self.seen_CementOther = false;
+                  self.PitchDialogVisible = false;
+                  self.CementDialogVisible = true;
+                }
               }
             }
           },
 
         ],
 
+        // 在地图上画直线(该功能已删除，改成画多边形)
         polyline: {
           mypath: [[]],
           events: {
@@ -233,36 +277,33 @@
           },
           editable: false
         },
+
+        // 点击地图发生事件
         events: {
           click(e) {
             let { lng, lat } = e.lnglat;
-            mypaths = self.polyline.mypath;
-            console.log(mypaths.length)
+            mypaths = self.polygons;
             mylength = mypaths.length
-            self.polyline.mypath[mylength-1].push([lng, lat]);
-            console.log(mypaths[mylength-1])
-            // console.log('path:', self.polyline.path[0].lng)
-            if(mypaths[mylength-1][0][0]){
-              self.lng = mypaths[mylength-1][0][0];
-              self.lat = mypaths[mylength-1][0][1];
-              // console.log('ddd:', mypaths[mylength-1][0][0])
-              console.log('ddd:', self.lng)
-              console.log('ddd:', self.lat)
-            }
+            console.log('length: ', mylength)
+            self.polygons[mylength-1].path.push([lng, lat]);
+            // console.log('polygons: ', mypaths[mylength-1])
+
             var url = 'static/hcx-coords.json';
             self.$axios.get(url).then(res =>{
-              console.log(res.data['sjg-test-0'])
+              // console.log(res.data['sjg-test-0'])
               var testdata = res.data['sjg-test-0'];
               self.mypath=res.data['sjg-test-0'];
-              console.log(self.mypath)
+              // console.log(self.mypath)
             })
           },
+          // 右键完成当前的区域规划
           rightclick(e){
-            mypaths = self.polyline.mypath;
+            mypaths = self.polygons;
             mylength = mypaths.length;
-            if(self.polyline.mypath[mylength-1].length  ){
-              self.polyline.mypath.push([]);
+            if(self.polygons[mylength-1].path.length){
+              self.newpath();
             }
+            console.log(self.polygons)
           }
         },
         // 沥青道路状态选择
@@ -497,10 +538,12 @@
         this.PitchDialogVisible = false
       },
 
+      // 改变道路上画直线的可编辑性
       changeEditable() {
         this.polyline.editable = !this.polyline.editable;
       },
       
+      // 向后端传送经纬度等道路信息
       sendlnglat() {
         alert('successful');
         lng = this.lng;
@@ -515,19 +558,12 @@
         })
       },
 
+      // 读取本地的道路经纬度信息的json文件，并在地图上显示道路划分
       showpath(){
+        this.clearpath();
         var url = 'static/hcx-coords.json';
         this.$axios.get(url).then(res =>{
-          // console.log('第一个测试数据集: ', res.data['sjg-test-0'])
-          // var testdata = res.data['sjg-test-0'];
-          // // this.mypath=res.data['sjg-test-0'];
-          // console.log('my path: ', this.mypath)
-          // mypaths = this.polyline.mypath;
-          // console.log('现有路径长度: ', mypaths.length)
-          // mylength = mypaths.length
-          // this.polyline.mypath[mylength-1].push(testdata[0]);
-          // this.polyline.mypath[mylength-1].push(testdata[1]);
-          // console.log(mypaths[mylength-1])
+
           var mydata = res.data;
           // console.log(mydata)
           for(key in mydata){
@@ -572,7 +608,60 @@
             this.polygons.push(paths);
           }
           // console.log(this.polygons)
+          this.newpath();          
         })
+      },
+
+      // 初始化一条路径
+      newpath(){
+        var temp = {};
+        temp.path = [];
+        temp.events = {
+          click:(e) => {
+            this.form.targetid = e.target.getExtData()
+            if(this.roadType == 1){
+              //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
+              this.PitchTorncheckboxGroup = ['无异常'];
+              this.PitchTorncheckboxGroupTemp = ['无异常'];
+              this.PitchCrackcheckboxGroup = [];
+              this.seen_PitchCrack = false;
+              this.PitchShapecheckboxGroup = [];
+              this.seen_PitchShape = false;
+              this.PitchLoosecheckboxGroup = [];
+              this.seen_PitchLoose = false;
+              this.PitchOthercheckboxGroup = [];
+              this.seen_PitchOther = false;
+              this.PitchDialogVisible = true;
+              this.CementDialogVisible = false;
+            }
+            else{
+              //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
+              this.CementTorncheckboxGroup = ['无异常'];
+              this.CementTorncheckboxGroupTemp = ['无异常'];
+              this.CementCrackcheckboxGroup = [];
+              this.seen_CementCrack = false;
+              this.CementJointcheckboxGroup = [];
+              this.seen_CementJoint = false;
+              this.CementSurfacecheckboxGroup = [];
+              this.seen_CementSurface = false;
+              this.CementOthercheckboxGroup = [];
+              this.seen_CementOther = false;
+              this.PitchDialogVisible = false;
+              this.CementDialogVisible = true;
+            }
+          }
+        };
+        this.polygons.push(temp);
+      },
+
+      // 保存当前地图上的路径信息
+      savepath(){
+
+      },
+
+      // 清除当前道路上的所有路径标注
+      clearpath(){
+        this.polygons = [];
       }
     }
   };
