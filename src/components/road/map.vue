@@ -4,35 +4,35 @@
       :pitchEnable="pitchEnable"
       :rotateEnable="rotateEnable"
       :viewMode="viewMode"
-      :plugin="plugin" 
-      :expandZoomRange="expandZoomRange" 
-      :zooms="zooms" 
-      :zoom="zoom" 
-      :center="center" 
+      :plugin="plugin"
+      :expandZoomRange="expandZoomRange"
+      :zooms="zooms"
+      :zoom="zoom"
+      :center="center"
       :pitch="pitch"
       :rotation="rotation"
-      class="amap-demo" 
+      class="amap-demo"
       :events="events">
 
       <!-- 画出来的是直线 -->
-      <!-- <el-amap-polyline 
-        v-for="(path, index) in polyline.mypath" 
-        :extData="index" 
-        :editable="polyline.editable"  
-        :path="path" 
-        :events="polyline.events" 
+      <!-- <el-amap-polyline
+        v-for="(path, index) in polyline.mypath"
+        :extData="index"
+        :editable="polyline.editable"
+        :path="path"
+        :events="polyline.events"
         :key="{id: 1}">
       </el-amap-polyline>   -->
 
       <!-- 画出来的是多边形 -->
-      <el-amap-polygon 
-        v-for="(polygon, index) in polygons" 
-        :path="polygon.path" 
-        :draggable="polygon.draggable" 
-        :events="polygon.events" 
-        :key="index" 
+      <el-amap-polygon
+        v-for="(polygon, index) in polygons"
+        :path="polygon.path"
+        :draggable="polygon.draggable"
+        :events="polygon.events"
+        :key="index"
         :extData="index"
-        fillColor="#FFC0CB" 
+        fillColor="#FFC0CB"
         fillOpacity="0.5"
         strokeColor="#FF0000">
        </el-amap-polygon>
@@ -41,7 +41,7 @@
     <!-- 在地图上进行编辑的工具栏   -->
     <div class="toolbar">
       <el-button type="primary" name="button" title="显示本地json文件保存的路径信息" v-on:click="showpath" plain round>显示已有标注</el-button>
-      
+
       <!-- 保存标注即将现有的路径的经纬度点坐标和路况信息传给后端 -->
       <el-button type="success" name="button" title="保存当前地图上的路径信息" v-on:click="savepath" plain round>保存标注</el-button>
     </div>
@@ -54,31 +54,37 @@
       height=auto
       center>
       <div>
+      路面车道选择：<el-radio-group v-model="StreetRatio" @change="CheckPitchStreetOption()" size="medium">
+      <el-radio-button v-for="Options in StreetOptions" :label="Options" :key="Options">{{Options}}</el-radio-button>
+      </el-radio-group>
+      </div>
+      <div v-if="seen_PitchTorn">
+      <br>
       路面损害情况：<el-checkbox-group v-model="PitchTorncheckboxGroup" @change="CheckPitchOption()" size="medium">
       <el-checkbox-button v-for="Options in PitchTornOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
       <div v-if="seen_PitchCrack">
       <br>
-      路面裂缝情况：<el-checkbox-group v-model="PitchCrackcheckboxGroup" size="medium">
+      路面裂缝情况：<el-checkbox-group v-model="PitchCrackcheckboxGroup" @change="CheckPitchCrack($event)" size="medium">
       <el-checkbox-button v-for="Options in PitchCrackOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
       <div v-if="seen_PitchShape">
       <br>
-      路面变形情况：<el-checkbox-group v-model="PitchShapecheckboxGroup" size="medium">
+      路面变形情况：<el-checkbox-group v-model="PitchShapecheckboxGroup" @change="CheckPitchShape($event)" size="medium">
       <el-checkbox-button v-for="Options in PitchShapeOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
       <div v-if="seen_PitchLoose">
       <br>
-      路面松散情况：<el-checkbox-group v-model="PitchLoosecheckboxGroup" size="medium">
+      路面松散情况：<el-checkbox-group v-model="PitchLoosecheckboxGroup" @change="CheckPitchLoose($event)" size="medium">
       <el-checkbox-button v-for="Options in PitchLooseOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
       <div v-if="seen_PitchOther">
       <br>
-      路面其他情况：<el-checkbox-group v-model="PitchOthercheckboxGroup" size="medium">
+      路面其他情况：<el-checkbox-group v-model="PitchOthercheckboxGroup" @change="CheckPitchOther($event)" size="medium">
       <el-checkbox-button v-for="Options in PitchOtherOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
@@ -95,31 +101,37 @@
       height=auto
       center>
       <div>
+      路面车道选择：<el-radio-group v-model="StreetRatio" @change="CheckCementStreetOption()" size="medium">
+      <el-radio-button v-for="Options in StreetOptions" :label="Options" :key="Options">{{Options}}</el-radio-button>
+      </el-radio-group>
+      </div>
+      <div v-if="seen_CementTorn">
+      <br>
       路面损害情况：<el-checkbox-group v-model="CementTorncheckboxGroup" @change="CheckCementOption()" size="medium">
       <el-checkbox-button v-for="Options in CementTornOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
       <div v-if="seen_CementCrack">
       <br>
-      路面裂缝情况：<el-checkbox-group v-model="CementCrackcheckboxGroup" size="medium">
+      路面裂缝情况：<el-checkbox-group v-model="CementCrackcheckboxGroup" @change="CheckCementCrack($event)" size="medium">
       <el-checkbox-button v-for="Options in CementCrackOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
       <div v-if="seen_CementJoint">
       <br>
-      路面变形情况：<el-checkbox-group v-model="CementJointcheckboxGroup" size="medium">
+      路面变形情况：<el-checkbox-group v-model="CementJointcheckboxGroup" @change="CheckCementJoint($event)" size="medium">
       <el-checkbox-button v-for="Options in CementJointOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
       <div v-if="seen_CementSurface">
       <br>
-      路面松散情况：<el-checkbox-group v-model="CementSurfacecheckboxGroup" size="medium">
+      路面松散情况：<el-checkbox-group v-model="CementSurfacecheckboxGroup" @change="CheckCementSurface($event)" size="medium">
       <el-checkbox-button v-for="Options in CementSurfaceOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
       <div v-if="seen_CementOther">
       <br>
-      路面其他情况：<el-checkbox-group v-model="CementOthercheckboxGroup" size="medium">
+      路面其他情况：<el-checkbox-group v-model="CementOthercheckboxGroup" @change="CheckCementOther($event)" size="medium">
       <el-checkbox-button v-for="Options in CementOtherOptions" :label="Options" :key="Options">{{Options}}</el-checkbox-button>
       </el-checkbox-group>
       </div>
@@ -171,6 +183,8 @@
       }
     }
   }
+  // 车道数
+  const StreetOptions = ['一车道', '二车道', '三车道', '四车道', '五车道', '六车道', '七车道', '八车道',]
   // 沥青路面情况
   const PitchTornOptions = ['有裂缝', '有变形', '有松散', '其他情况', '无异常'];
   const PitchCrackOptions = ['线裂', '网裂', '龟裂'];
@@ -215,7 +229,9 @@
         center: [114.22109, 30.729849],
         lng: 0.0,
         lat: 0.0,
-
+        NowStreet: 1,
+        PitchRoadInfo: [],
+        CementRoadInfo: [],
         // 在地图上画多边形
         polygons: [
           {
@@ -225,40 +241,9 @@
             events: {
               click:(e) => {
                 self.form.targetid = e.target.getExtData()
-                if(self.roadType == 1){
-                  //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
-                  self.PitchTorncheckboxGroup = ['无异常'];
-                  self.PitchTorncheckboxGroupTemp = ['无异常'];
-                  self.PitchCrackcheckboxGroup = [];
-                  self.seen_PitchCrack = false;
-                  self.PitchShapecheckboxGroup = [];
-                  self.seen_PitchShape = false;
-                  self.PitchLoosecheckboxGroup = [];
-                  self.seen_PitchLoose = false;
-                  self.PitchOthercheckboxGroup = [];
-                  self.seen_PitchOther = false;
-                  self.PitchDialogVisible = true;
-                  self.CementDialogVisible = false;
-                }
-                else{
-                  //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
-                  self.CementTorncheckboxGroup = ['无异常'];
-                  self.CementTorncheckboxGroupTemp = ['无异常'];
-                  self.CementCrackcheckboxGroup = [];
-                  self.seen_CementCrack = false;
-                  self.CementJointcheckboxGroup = [];
-                  self.seen_CementJoint = false;
-                  self.CementSurfacecheckboxGroup = [];
-                  self.seen_CementSurface = false;
-                  self.CementOthercheckboxGroup = [];
-                  self.seen_CementOther = false;
-                  self.PitchDialogVisible = false;
-                  self.CementDialogVisible = true;
-                }
-              }
             }
           },
-
+          }
         ],
 
         // 在地图上画直线(该功能已删除，改成画多边形)
@@ -307,7 +292,11 @@
             console.log(self.polygons)
           }
         },
+        // 返回车道数组
+        StreetRatio: '',
+        StreetOptions: StreetOptions,
         // 沥青道路状态选择
+        seen_PitchTorn: false,
         PitchTorncheckboxGroup: ['无异常'],
         PitchTorncheckboxGroupTemp: ['无异常'],
         PitchTornOptions: PitchTornOptions,
@@ -324,6 +313,7 @@
         PitchOthercheckboxGroup:[],
         PitchOtherOptions: PitchOtherOptions,
         // 水泥道路状态选择
+        seen_CementTorn: false,
         CementTorncheckboxGroup: ['无异常'],
         CementTorncheckboxGroupTemp: ['无异常'],
         CementTornOptions: CementTornOptions,
@@ -340,10 +330,92 @@
         CementOthercheckboxGroup:[],
         CementOtherOptions: CementOtherOptions,
         // 临时变量定义
-        roadType: 0,
+        roadType: 1,
+        streetcount: 4,
       };
     },
     methods: {
+      // 初始化沥青路面信息
+      flushPitchData() {
+        this.PitchRoadInfo = [];
+        this.StreetOptions = [];
+        var StreetInfo = {};
+        for(var i=0; i<this.streetcount; i++) {
+          StreetInfo = {}
+          this.StreetOptions.push(StreetOptions[i])
+          StreetInfo.PitchTorncheckboxGroup = ['无异常'];
+          StreetInfo.PitchTorncheckboxGroupTemp = ['无异常'];
+          StreetInfo.PitchCrackcheckboxGroup = new Array();
+          StreetInfo.PitchShapecheckboxGroup = new Array();
+          StreetInfo.PitchLoosecheckboxGroup = new Array();
+          StreetInfo.PitchOthercheckboxGroup = new Array();
+          this.PitchRoadInfo.push(StreetInfo)
+        }
+        this.seen_PitchTorn = false;
+        this.seen_PitchCrack = false;
+        this.seen_PitchShape = false;
+        this.seen_PitchLoose = false;
+        this.seen_PitchOther = false;
+        this.PitchDialogVisible = true;
+        this.CementDialogVisible = false;
+      },
+      // 初始化水泥路面信息
+      flushCementData() {
+        this.CementRoadInfo = [];
+        this.StreetOptions = [];
+        var StreetInfo = {};
+        for(var i=0; i<this.streetcount; i++) {
+          StreetInfo = {}
+          this.StreetOptions.push(StreetOptions[i])
+          StreetInfo.CementTorncheckboxGroup = ['无异常'];
+          StreetInfo.CementTorncheckboxGroupTemp = ['无异常'];
+          StreetInfo.CementCrackcheckboxGroup = new Array();
+          StreetInfo.CementJointcheckboxGroup = new Array();
+          StreetInfo.CementSurfacecheckboxGroup = new Array();
+          StreetInfo.CementOthercheckboxGroup = new Array();
+          this.CementRoadInfo.push(StreetInfo)
+        }
+        this.seen_CementTorn = false;
+        this.seen_CementCrack = false;
+        this.seen_CementJoint = false;
+        this.seen_CementSurface = false;
+        this.seen_CementOther = false;
+        this.PitchDialogVisible = false;
+        this.CementDialogVisible = true;
+      },
+
+      //实现沥青车道切换功能
+      CheckPitchStreetOption() {
+        this.PitchTorncheckboxGroup = ['无异常'];
+        this.PitchTorncheckboxGroupTemp = ['无异常'];
+        this.PitchOthercheckboxGroup = [];
+        this.PitchShapecheckboxGroup = [];
+        this.PitchCrackcheckboxGroup = [];
+        this.PitchLoosecheckboxGroup = [];
+        this.seen_PitchTorn = true
+        this.NowStreet = this.StreetOptions.indexOf(this.StreetRatio)
+        this.seen_PitchCrack = false;
+        this.seen_PitchShape = false;
+        this.seen_PitchLoose = false;
+        this.seen_PitchOther = false;
+      },
+
+      //实现水泥车道切换功能
+      CheckCementStreetOption() {
+        this.CementTorncheckboxGroup = ['无异常'];
+        this.CementTorncheckboxGroupTemp = ['无异常'];
+        this.CementCrackcheckboxGroup = [];
+        this.CementJointcheckboxGroup = [];
+        this.CementSurfacecheckboxGroup = [];
+        this.CementOthercheckboxGroup = [];
+        this.seen_CementTorn = true
+        this.NowStreet = this.StreetOptions.indexOf(this.StreetRatio)
+        this.seen_CementCrack = false;
+        this.seen_CementJoint = false;
+        this.seen_CementSurface = false;
+        this.seen_CementOther = false;
+      },
+
       CheckCementOption() {
         //const CementTornOptions = ['有裂缝', '有接缝破坏', '有表面破坏', '其他情况', '无异常'];
         if(this.CementTorncheckboxGroupTemp.includes('无异常')&&(this.CementTorncheckboxGroup.includes('有裂缝')||this.CementTorncheckboxGroup.includes('有接缝破坏')
@@ -419,8 +491,8 @@
       },
 
       UpdatePitchInfo(){
-        this.$axios.post('http://47.107.45.161:8088/road/infoUpdate',{
-          //以下为测试常量
+        var updateInfo = {
+          // 以下为测试常量
           rid: "xxx001", //路段编号
           part: {  //路段所属区域
             region: "临空新城路段",
@@ -439,36 +511,38 @@
               latitude: 114.1111
             },
           ],
-          streets:[
-            {
-              rid: "xxx001", //所属路段编号
-              index: 1, //该路段路面编号
-              torn:{  //路面损害情况
-                crack: { //裂缝类
-                  c1: Number(this.PitchCrackcheckboxGroup.includes('线裂')), //线裂
-                  c2: Number(this.PitchCrackcheckboxGroup.includes('网裂')), //网裂
-                  c3: Number(this.PitchCrackcheckboxGroup.includes('龟裂')), //龟裂
-                },
-                shape: { //变形类
-                  s1: Number(this.PitchShapecheckboxGroup.includes('拥包')), //拥包
-                  s2: Number(this.PitchShapecheckboxGroup.includes('车辙')), //车辙
-                  s3: Number(this.PitchShapecheckboxGroup.includes('沉陷')), //沉陷
-                  s4: Number(this.PitchShapecheckboxGroup.includes('翻浆')), //翻浆
-                },
-                loose: {
-                  l1: Number(this.PitchLoosecheckboxGroup.includes('剥落')), //剥落
-                  l2: Number(this.PitchLoosecheckboxGroup.includes('坑槽')), //坑槽
-                  l3: Number(this.PitchLoosecheckboxGroup.includes('啃边')), //啃边
-                },
-                others: {
-                  o1: Number(this.PitchOthercheckboxGroup.includes('路框差')), //路框差
-                  o2: Number(this.PitchOthercheckboxGroup.includes('唧浆')), //唧浆
-                  o3: Number(this.PitchOthercheckboxGroup.includes('泛油')), //泛油
-                }
-              }
-            }
-          ],
-        }) //向后端更新道路信息
+          streets:[]
+        };
+
+        var streetInfo = {};
+
+        for(var i=0; i<this.streetcount; i++) {
+          streetInfo = {};
+          streetInfo.rid = "xxx001"; //所属路段编号
+          streetInfo.index = i; //该路段路面编号
+          streetInfo.torn = {};
+          streetInfo.torn.crack = {};
+          streetInfo.torn.crack.c1 = Number(this.PitchRoadInfo[i].PitchCrackcheckboxGroup.includes('线裂')); //线裂
+          streetInfo.torn.crack.c2 = Number(this.PitchRoadInfo[i].PitchCrackcheckboxGroup.includes('网裂')); //网裂
+          streetInfo.torn.crack.c3 = Number(this.PitchRoadInfo[i].PitchCrackcheckboxGroup.includes('龟裂')); //龟裂
+          streetInfo.torn.shape = {};
+          streetInfo.torn.shape.s1 = Number(this.PitchRoadInfo[i].PitchShapecheckboxGroup.includes('拥包')); //拥包
+          streetInfo.torn.shape.s2 = Number(this.PitchRoadInfo[i].PitchShapecheckboxGroup.includes('车辙')); //车辙
+          streetInfo.torn.shape.s3 = Number(this.PitchRoadInfo[i].PitchShapecheckboxGroup.includes('沉陷')); //沉陷
+          streetInfo.torn.shape.s4 = Number(this.PitchRoadInfo[i].PitchShapecheckboxGroup.includes('翻浆')); //翻浆
+          streetInfo.torn.loose = {};
+          streetInfo.torn.loose.l1 = Number(this.PitchRoadInfo[i].PitchLoosecheckboxGroup.includes('剥落')); //剥落
+          streetInfo.torn.loose.l2 = Number(this.PitchRoadInfo[i].PitchLoosecheckboxGroup.includes('坑槽')); //坑槽
+          streetInfo.torn.loose.l3 = Number(this.PitchRoadInfo[i].PitchLoosecheckboxGroup.includes('啃边')); //啃边
+          streetInfo.torn.others = {};
+          streetInfo.torn.others.o1 = Number(this.PitchRoadInfo[i].PitchOthercheckboxGroup.includes('路框差')); //路框差
+          streetInfo.torn.others.o2 = Number(this.PitchRoadInfo[i].PitchOthercheckboxGroup.includes('唧浆')); //唧浆
+          streetInfo.torn.others.o3 = Number(this.PitchRoadInfo[i].PitchOthercheckboxGroup.includes('泛油')); //泛油
+          updateInfo.streets.push(streetInfo);
+        }
+
+
+        this.$axios.post('http://47.107.45.161:8088/road/infoUpdate',updateInfo) //向后端更新道路信息
         .then((response) => {
             this.$alert('更新路段信息成功', '成功✔', {
           confirmButtonText: '确定',})
@@ -479,8 +553,8 @@
       },
 
       UpdateCementInfo(){
-        this.$axios.post('http://47.107.45.161:8088/road/infoUpdate',{
-          //以下为测试常量
+        var updateInfo = {
+          // 以下为测试常量
           rid: "xxx001", //路段编号
           part: {  //路段所属区域
             region: "临空新城路段",
@@ -499,51 +573,52 @@
               latitude: 114.1111
             },
           ],
-          streets:[
-            {
-              rid: "xxx001", //所属路段编号
-              index: 1, //该路段路面编号
-              torn:{  //路面损害情况
-                crack: { //裂缝类
-                  c1: Number(this.CementCrackcheckboxGroup.includes('线裂')), //线裂
-                  c2: Number(this.CementCrackcheckboxGroup.includes('板角断裂')), //板角断裂
-                  c3: Number(this.CementCrackcheckboxGroup.includes('D边角裂缝')), //D边角裂缝
-                  c4: Number(this.CementCrackcheckboxGroup.includes('交叉裂缝和破碎板')), //交叉裂缝和破碎板
-                },
-                joint: { //变形类
-                  j1: Number(this.CementJointcheckboxGroup.includes('接缝料损坏')), //接缝料损坏
-                  j2: Number(this.CementJointcheckboxGroup.includes('边角剥落')), //边角剥落
-                },
-                surface: {// 表面类
-                  s1: Number(this.CementSurfacecheckboxGroup.includes('坑洞')), //坑洞
-                  s2: Number(this.CementSurfacecheckboxGroup.includes('表面纹裂')), //表面纹裂
-                  s3: Number(this.CementSurfacecheckboxGroup.includes('层状剥落')), //层状剥落
-                },
-                others: { // 其他类
-                  o1: Number(this.CementOthercheckboxGroup.includes('错台')), //错台
-                  o2: Number(this.CementOthercheckboxGroup.includes('拱胀')), //拱胀
-                  o3: Number(this.CementOthercheckboxGroup.includes('唧浆')), //唧浆
-                  o4: Number(this.CementOthercheckboxGroup.includes('路框差')), //路框差
-                  o5: Number(this.CementOthercheckboxGroup.includes('沉陷')), //沉陷
-                }
-              }
-            }
-          ],
-        }) //向后端更新道路信息
+          streets:[]
+        };
+
+        var streetInfo = {};
+
+        for(var i=0; i<this.streetcount; i++) {
+          streetInfo = {};
+          streetInfo.rid = "xxx001"; //所属路段编号
+          streetInfo.index = i; //该路段路面编号
+          streetInfo.torn = {};
+          streetInfo.torn.crack = {};
+          streetInfo.torn.crack.c1 = Number(this.CementRoadInfo[i].CementCrackcheckboxGroup.includes('线裂')); //线裂
+          streetInfo.torn.crack.c2 = Number(this.CementRoadInfo[i].CementCrackcheckboxGroup.includes('板角断裂')); //板角断裂
+          streetInfo.torn.crack.c3 = Number(this.CementRoadInfo[i].CementCrackcheckboxGroup.includes('D边角裂缝')); //D边角裂缝
+          streetInfo.torn.crack.c4 = Number(this.CementRoadInfo[i].CementCrackcheckboxGroup.includes('交叉裂缝和破碎板')); //交叉裂缝和破碎板
+          streetInfo.torn.joint = {};
+          streetInfo.torn.joint.j1 = Number(this.CementRoadInfo[i].CementJointcheckboxGroup.includes('接缝料损坏')); //接缝料损坏
+          streetInfo.torn.joint.j2 = Number(this.CementRoadInfo[i].CementJointcheckboxGroup.includes('边角剥落')); //边角剥落
+          streetInfo.torn.surface = {};
+          streetInfo.torn.surface.s1 = Number(this.CementRoadInfo[i].CementSurfacecheckboxGroup.includes('坑洞')); //坑洞
+          streetInfo.torn.surface.s2 = Number(this.CementRoadInfo[i].CementSurfacecheckboxGroup.includes('表面纹裂')); //表面纹裂
+          streetInfo.torn.surface.s3 = Number(this.CementRoadInfo[i].CementSurfacecheckboxGroup.includes('层状剥落')); //层状剥落
+          streetInfo.torn.others = {};
+          streetInfo.torn.others.o1 = Number(this.CementRoadInfo[i].CementOthercheckboxGroup.includes('错台')); //错台
+          streetInfo.torn.others.o2 = Number(this.CementRoadInfo[i].CementOthercheckboxGroup.includes('拱胀')); //拱胀
+          streetInfo.torn.others.o3 = Number(this.CementRoadInfo[i].CementOthercheckboxGroup.includes('唧浆')); //唧浆
+          streetInfo.torn.others.o4 = Number(this.CementRoadInfo[i].CementOthercheckboxGroup.includes('路框差')); //路框差
+          streetInfo.torn.others.o5 = Number(this.CementRoadInfo[i].CementOthercheckboxGroup.includes('沉陷')); //沉陷
+          updateInfo.streets.push(streetInfo);
+        }
+
+        this.$axios.post('http://47.107.45.161:8088/road/infoUpdate',updateInfo) //向后端更新道路信息
         .then((response) => {
             this.$alert('更新路段信息成功', '成功✔', {
           confirmButtonText: '确定',})
         }).then((error) => {
             console.log(error);
         })
-        this.PitchDialogVisible = false
+        this.CementDialogVisible = false
       },
 
       // 改变道路上画直线的可编辑性
       changeEditable() {
         this.polyline.editable = !this.polyline.editable;
       },
-      
+
       // 向后端传送经纬度等道路信息
       sendlnglat() {
         alert('successful');
@@ -553,7 +628,7 @@
           lng: lng,
           lat: lat }) //向后端发送经纬度，经纬度信息是起始端点信息
         .then((response) => {
-                        
+
         }).then((error) => {
             console.log(error);
         })
@@ -575,33 +650,11 @@
                 this.form.targetid = e.target.getExtData()
                 if(this.roadType == 1){
                   //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
-                  this.PitchTorncheckboxGroup = ['无异常'];
-                  this.PitchTorncheckboxGroupTemp = ['无异常'];
-                  this.PitchCrackcheckboxGroup = [];
-                  this.seen_PitchCrack = false;
-                  this.PitchShapecheckboxGroup = [];
-                  this.seen_PitchShape = false;
-                  this.PitchLoosecheckboxGroup = [];
-                  this.seen_PitchLoose = false;
-                  this.PitchOthercheckboxGroup = [];
-                  this.seen_PitchOther = false;
-                  this.PitchDialogVisible = true;
-                  this.CementDialogVisible = false;
+                  this.flushPitchData()
                 }
                 else{
-                  //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
-                  this.CementTorncheckboxGroup = ['无异常'];
-                  this.CementTorncheckboxGroupTemp = ['无异常'];
-                  this.CementCrackcheckboxGroup = [];
-                  this.seen_CementCrack = false;
-                  this.CementJointcheckboxGroup = [];
-                  this.seen_CementJoint = false;
-                  this.CementSurfacecheckboxGroup = [];
-                  this.seen_CementSurface = false;
-                  this.CementOthercheckboxGroup = [];
-                  this.seen_CementOther = false;
-                  this.PitchDialogVisible = false;
-                  this.CementDialogVisible = true;
+                  //初始化水泥路面破损情况数据，之后可以根据后端返回数据更改
+                  this.flushCementData()
                 }
               }
             };
@@ -609,7 +662,7 @@
             this.polygons.push(paths);
           }
           // console.log(this.polygons)
-          this.newpath();          
+          this.newpath();
         })
       },
 
@@ -620,35 +673,14 @@
         temp.events = {
           click:(e) => {
             this.form.targetid = e.target.getExtData()
+            this.flushStreetOption()
             if(this.roadType == 1){
               //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
-              this.PitchTorncheckboxGroup = ['无异常'];
-              this.PitchTorncheckboxGroupTemp = ['无异常'];
-              this.PitchCrackcheckboxGroup = [];
-              this.seen_PitchCrack = false;
-              this.PitchShapecheckboxGroup = [];
-              this.seen_PitchShape = false;
-              this.PitchLoosecheckboxGroup = [];
-              this.seen_PitchLoose = false;
-              this.PitchOthercheckboxGroup = [];
-              this.seen_PitchOther = false;
-              this.PitchDialogVisible = true;
-              this.CementDialogVisible = false;
+              this.flushPitchData()
             }
             else{
-              //初始化沥青路面破损情况数据，之后可以根据后端返回数据更改
-              this.CementTorncheckboxGroup = ['无异常'];
-              this.CementTorncheckboxGroupTemp = ['无异常'];
-              this.CementCrackcheckboxGroup = [];
-              this.seen_CementCrack = false;
-              this.CementJointcheckboxGroup = [];
-              this.seen_CementJoint = false;
-              this.CementSurfacecheckboxGroup = [];
-              this.seen_CementSurface = false;
-              this.CementOthercheckboxGroup = [];
-              this.seen_CementOther = false;
-              this.PitchDialogVisible = false;
-              this.CementDialogVisible = true;
+              //初始化水泥路面破损情况数据，之后可以根据后端返回数据更改
+              this.flushCementData()
             }
           }
         };
@@ -661,7 +693,7 @@
         self.$axios.post('/api//road/add',{
           pathdata }) //向后端发送经纬度，经纬度信息是起始端点信息
         .then((response) => {
-                        
+
         }).then((error) => {
             console.log(error);
         })
@@ -670,7 +702,40 @@
       // 清除当前道路上的所有路径标注
       clearpath(){
         this.polygons = [];
-      }
+      },
+      
+      CheckPitchCrack(data) {
+        console.log(this.PitchRoadInfo)
+        this.PitchRoadInfo[this.NowStreet].PitchCrackcheckboxGroup = data
+      },
+
+      CheckPitchShape(data) {
+        this.PitchRoadInfo[this.NowStreet].PitchShapecheckboxGroup = data
+      },
+
+      CheckPitchLoose(data) {
+        this.PitchRoadInfo[this.NowStreet].PitchLoosecheckboxGroup = data
+      },
+
+      CheckPitchOther(data) {
+        this.PitchRoadInfo[this.NowStreet].PitchOthercheckboxGroup = data
+      },
+
+      CheckCementCrack(data) {
+        this.CementRoadInfo[this.NowStreet].CementCrackcheckboxGroup = data
+      },
+
+      CheckCementJoint(data) {
+        this.CementRoadInfo[this.NowStreet].CementJointcheckboxGroup = data
+      },
+
+      CheckCementSurface(data) {
+        this.CementRoadInfo[this.NowStreet].CementSurfacecheckboxGroup = data
+      },
+
+      CheckCementOther(data) {
+        this.CementRoadInfo[this.NowStreet].CementOthercheckboxGroup = data
+      },
     }
   };
 </script>

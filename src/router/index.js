@@ -1,8 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Register from '@/components/Register'
-import Login from '@/components/Login'
-import Edit from '@/components/Edit'
+
+import Register from '@/components/User/views/Register'
+import Login from '@/components/User/views/Login'
+import Edit from '@/components/User/views/Edit'
+import AdminLogin from '@/components/User/views/AdminLogin'
+import AdminSystem from '@/components/User/views/AdminSystemPage'
+import RegisterForm from '@/components/User/components/AdminRegisterForm'
+
 import map from '@/components/road/map'
 import vueRsource from 'vue-resource'
 import axios from 'axios'
@@ -40,9 +45,26 @@ export default new Router({
       component:Login
     },
     {
-      path: '/account/passwordChange',
+      path:'/account/adminlogin',
+      name: 'AdminLogin',
+      component:AdminLogin
+    },
+    {
+      path: '/account/Edit',
       name: 'Edit',
       component:Edit
+    },
+    {
+      path: '/AdminSystemPage',
+      name: 'AdminSystemPage',
+      component: AdminSystem,
+      children:[
+        {
+              path: '/AdminSystemPage',
+              name: 'RegisterForm',
+              component: RegisterForm
+        },
+      ]
     },
     {
       path: '/road/map',
