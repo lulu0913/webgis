@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {IP} from '../../../config/config.js'
+import {config} from '../../../config/config.js'
 export default {
   name: 'User',
   data () {
@@ -60,7 +60,7 @@ export default {
       localStorage.setItem('ms_username',self.ruleForm.account);
       localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
       console.log(JSON.stringify(self.ruleForm));                        
-      self.$axios.post( IP + '/account/login',self.ruleForm) //前端接口
+      self.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
       .then((response) => {
           console.log(response);
           if (response.data == -1) {
