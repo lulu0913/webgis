@@ -51,7 +51,7 @@
         <el-button type="text" @click="updateRoadInfo">保存修改</el-button>
       </div>
       <el-tabs v-if="roadData" class="side-bar-content" v-model="activeName" @tab-click="handleClick" tab-position="right" type="border-card" :stretch="true">
-        <el-tab-pane v-for="index in 1" :label="'车道 '+String(index)" :name="String(index)">
+        <el-tab-pane v-for="index in roadData.part.roadNum" :label="'车道 '+String(index)" :name="String(index)">
           <el-collapse v-model="activeNames" accordion>
             <el-collapse-item v-for="(option, i) in PitchTornOptions" :title="option.title" :name="String(i)">
               <el-form :model="roadData.streets[index-1]" label-width="50px"  size="mini">
@@ -133,50 +133,52 @@
 </style>
 
 <script>
-  const PitchCrackOptions = [{name: '线裂', idx: 'c1'},
-                             {name: '网裂', idx: 'c2'},
-                             {name: '龟裂', idx: 'c3'},
-                            ];
-  const PitchShapeOptions = [{name: '拥包', idx: 's1'},
-                             {name: '车辙', idx: 's2'},
-                             {name: '沉陷', idx: 's3'},
-                             {name: '翻浆', idx: 's4'},
-                            ];
-  const PitchLooseOptions = [{name: '剥落', idx: 'l1'},
-                             {name: '坑槽', idx: 'l2'},
-                             {name: '啃边', idx: 'l3'},
-                            ];
-  const PitchOtherOptions = [{name: '路框差', idx: 'o1'},
-                             {name: '唧浆', idx: 'o2'},
-                             {name: '泛油', idx: 'o3'},
-                            ];
-  const PitchTornOptions = [{
-      title: '有裂缝',
-      idx: 'crack',
-      content: PitchCrackOptions,
-    },{
-      title: '有变形',
-      idx: 'shape',
-      content: PitchShapeOptions,
-    },{
-      title: '有松散',
-      idx: 'loose',
-      content: PitchLooseOptions,
-    },{
-      title: '其他情况',
-      idx: 'others',
-      content: PitchOtherOptions,
-    },
-  ];
-  // 水泥路面情况
-  const CementTornOptions = ['有裂缝', '有接缝破坏', '有表面破坏', '其他情况', '无异常'];
-  const CementCrackOptions = ['线裂', '板角断裂', '边角裂缝', '交叉裂缝和破碎板'];
-  const CementJointOptions = ['接缝料损坏', '边角剥落'];
-  const CementSurfaceOptions = ['坑洞', '表面纹裂', '层状剥落'];
-  const CementOtherOptions = ['错台', '拱胀', '唧浆', '路框差', '沉陷'];
-  module.exports = {
-    data: function() {
-      let self = this;
+import {config} from '../../config/config.js'
+const PitchCrackOptions = [{name: '线裂', idx: 'c1'},
+                            {name: '网裂', idx: 'c2'},
+                            {name: '龟裂', idx: 'c3'},
+                          ];
+const PitchShapeOptions = [{name: '拥包', idx: 's1'},
+                            {name: '车辙', idx: 's2'},
+                            {name: '沉陷', idx: 's3'},
+                            {name: '翻浆', idx: 's4'},
+                          ];
+const PitchLooseOptions = [{name: '剥落', idx: 'l1'},
+                            {name: '坑槽', idx: 'l2'},
+                            {name: '啃边', idx: 'l3'},
+                          ];
+const PitchOtherOptions = [{name: '路框差', idx: 'o1'},
+                            {name: '唧浆', idx: 'o2'},
+                            {name: '泛油', idx: 'o3'},
+                          ];
+const PitchTornOptions = [{
+    title: '有裂缝',
+    idx: 'crack',
+    content: PitchCrackOptions,
+  },{
+    title: '有变形',
+    idx: 'shape',
+    content: PitchShapeOptions,
+  },{
+    title: '有松散',
+    idx: 'loose',
+    content: PitchLooseOptions,
+  },{
+    title: '其他情况',
+    idx: 'others',
+    content: PitchOtherOptions,
+  },
+];
+// 水泥路面情况
+const CementTornOptions = ['有裂缝', '有接缝破坏', '有表面破坏', '其他情况', '无异常'];
+const CementCrackOptions = ['线裂', '板角断裂', '边角裂缝', '交叉裂缝和破碎板'];
+const CementJointOptions = ['接缝料损坏', '边角剥落'];
+const CementSurfaceOptions = ['坑洞', '表面纹裂', '层状剥落'];
+const CementOtherOptions = ['错台', '拱胀', '唧浆', '路框差', '沉陷'];
+
+
+export default {
+    data(){
       return {
         PitchCrackOptions: [{name: '线裂', idx: 'c1'},
                                   {name: '网裂', idx: 'c2'},
@@ -427,11 +429,13 @@
         console.log(tab, event);
       },
       updateRoadInfo(){
-        this.$axios.post('http://47.107.45.161:8088/road/infoUpdate', this.roadData) //向后端更新道路信息
+        this.$axios.post(config.IP + '/road/infoUpdate', this.roadData) //向后端更新道路信息
         .then((response) => {
           console.log(response)
-          this.$alert('更新路段信息成功', '成功✔', {
-          confirmButtonText: '确定',})
+          this.$message({
+            message: '保存成功',
+            type: 'success'
+          });
         }).then((error) => {
             console.log(error);
         })
@@ -440,7 +444,7 @@
       flushData(rid) {
         // console.log(rid)
         var that = this
-        this.$axios.get('http://47.107.45.161:8088/road', {params: {rid: rid}})
+        this.$axios.get(config.IP + '/road', {params: {rid: rid}})
         .then((response) => {
           // console.log(response)
           that.roadData = response.data.data
@@ -480,7 +484,7 @@
 
         var streetInfos = [];
         console.log(updateInfo)
-        this.$axios.post('http://47.107.45.161:8088/road/infoUpdate',updateInfo) //向后端更新道路信息
+        this.$axios.post(config.IP + '/road/infoUpdate',updateInfo) //向后端更新道路信息
         .then((response) => {
             this.$alert('更新路段信息成功', '成功✔', {
           confirmButtonText: '确定',})
@@ -514,15 +518,15 @@
       showpath(){
         this.clearpath();
         // var url = 'static/hcx-coords.json';
-        this.$axios.get('http://47.107.45.161:8088/road/roads', {params:{condition:{}}}).then(res =>{
-          roadData = res.data.data;
-          for(key in roadData){
+        this.$axios.get(config.IP + '/road/roads', {params:{condition:{}}}).then(res =>{
+          var dataTemp = res.data.data;
+          for(var key in dataTemp){
             var paths = {};
-            paths.path = roadData[key].points;  //向地图中添加标注点
-            paths.rid = roadData[key].rid;
+            paths.path = dataTemp[key].points;  //向地图中添加标注点
+            paths.rid = dataTemp[key].rid;
             paths.events = {
               click:(e) => {
-                rid = e.target.getExtData()
+                var rid = e.target.getExtData()
                 this.flushData(rid)
               }
             };
@@ -530,7 +534,7 @@
             this.polygons.push(paths);
           }
         }).then((error) => {
-            console.log(error);
+            // console.log(error);
         })
       },
 
@@ -573,5 +577,5 @@
         this.polygons = [];
       },
     }
-  };
+}
 </script>
