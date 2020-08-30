@@ -48,7 +48,7 @@
     <div class="side-bar">
       <div class="side-bar-title">
         路段信息
-        <el-button type="text" @click="updateRoadInfo">保存修改</el-button>
+        <el-button v-if="roadData" type="text" @click="updateRoadInfo">保存修改</el-button>
       </div>
       <el-tabs v-if="roadData" class="side-bar-content" v-model="activeName" @tab-click="handleClick" tab-position="right" type="border-card" :stretch="true">
         <el-tab-pane v-for="index in roadData.part.roadNum" :label="'车道 '+String(index)" :name="String(index)">
