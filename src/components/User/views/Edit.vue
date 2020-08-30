@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import {IP} from '../../../config/config.js'
 export default {
   name: 'Edit',
   data () {

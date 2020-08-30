@@ -50,7 +50,7 @@ export default new Router({
       component:AdminLogin
     },
     {
-      path: '/account/Edit',
+      path: '/account/passwordChange',
       name: 'Edit',
       component:Edit
     },
