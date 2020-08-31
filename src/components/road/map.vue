@@ -50,6 +50,15 @@
         路段信息
         <el-button v-if="roadData" type="text" @click="updateRoadInfo">保存修改</el-button>
       </div>
+      <div v-if="roadData">
+        <el-input placeholder="请输入内容" v-model="roadData.part.region" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.part.road" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.part.roadNum" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.attribution.length" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.attribution.level" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.attribution.note" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.attribution.type" :disabled="true"></el-input>
+      </div>
       <el-tabs v-if="roadData" class="side-bar-content" v-model="activeName" @tab-click="handleClick" tab-position="right" type="border-card" :stretch="true">
         <el-tab-pane v-for="index in roadData.part.roadNum" :label="'车道 '+String(index)" :name="String(index)">
           <el-collapse v-model="activeNames" accordion>
@@ -176,7 +185,7 @@ const CementJointOptions = ['接缝料损坏', '边角剥落'];
 const CementSurfaceOptions = ['坑洞', '表面纹裂', '层状剥落'];
 const CementOtherOptions = ['错台', '拱胀', '唧浆', '路框差', '沉陷'];
 
-
+import qs from "qs"
 export default {
     data(){
       return {

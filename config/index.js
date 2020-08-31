@@ -10,7 +10,6 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    ws: true,
     proxyTable: {
       '/api': {
         target: 'http://47.107.45.161:8088/',//
@@ -18,7 +17,7 @@ module.exports = {
         changeOrigin: true,
 	ws: false,
         pathRewrite: {
-          '^/api': '/'
+          '^/api': ''
         }
       }
     },
