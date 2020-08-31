@@ -59,8 +59,16 @@ export default {
       const self = this;
       localStorage.setItem('ms_username',self.ruleForm.account);
       localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
-      console.log(JSON.stringify(self.ruleForm));                        
-      this.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
+      console.log(JSON.stringify(self.ruleForm));
+      if(self.ruleForm.account == ''){
+        this.$alert('用户名不能为空', '注意⚠️', {
+          confirmButtonText: '确定',})
+      }
+      else if(self.ruleForm.password == ''){
+        this.$alert('密码不能为空', '注意⚠️', {
+          confirmButtonText: '确定',})
+      }                        
+      self.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
       .then((response) => {
           console.log(response);
           if (response.data == -1) {
@@ -74,7 +82,7 @@ export default {
               this.$alert('密码错误', '注意⚠️', {
           confirmButtonText: '确定',})
           }
-           else {
+          else {
               this.$router.push('/road/map');  // 登录成功，跳转到功能界面
           }                          
       }).then((error) => {
