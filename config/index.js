@@ -10,14 +10,13 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    ws: true,
     proxyTable: {
       '/api': {
         target: 'http://47.107.45.161:8088/',//
         // target: 'https://husteicstu.cn:3000',//https://husteicstu.cn:3000
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/'
+          '^/api': ''
         }
       }
     },

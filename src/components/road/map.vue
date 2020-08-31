@@ -176,7 +176,7 @@ const CementJointOptions = ['接缝料损坏', '边角剥落'];
 const CementSurfaceOptions = ['坑洞', '表面纹裂', '层状剥落'];
 const CementOtherOptions = ['错台', '拱胀', '唧浆', '路框差', '沉陷'];
 
-
+import qs from "qs"
 export default {
     data(){
       return {
