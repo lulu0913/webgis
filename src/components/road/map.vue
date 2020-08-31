@@ -54,10 +54,10 @@
         <el-input placeholder="请输入内容" v-model="roadData.part.region" :disabled="true"></el-input>
         <el-input placeholder="请输入内容" v-model="roadData.part.road" :disabled="true"></el-input>
         <el-input placeholder="请输入内容" v-model="roadData.part.roadNum" :disabled="true"></el-input>
-        <el-input placeholder="请输入内容" v-model="roadData.attribution.length" :disabled="true"></el-input>
-        <el-input placeholder="请输入内容" v-model="roadData.attribution.level" :disabled="true"></el-input>
-        <el-input placeholder="请输入内容" v-model="roadData.attribution.note" :disabled="true"></el-input>
-        <el-input placeholder="请输入内容" v-model="roadData.attribution.type" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.attribute.length" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.attribute.level" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.attribute.note" :disabled="true"></el-input>
+        <el-input placeholder="请输入内容" v-model="roadData.attribute.type" :disabled="true"></el-input>
       </div>
       <el-tabs v-if="roadData" class="side-bar-content" v-model="activeName" @tab-click="handleClick" tab-position="right" type="border-card" :stretch="true">
         <el-tab-pane v-for="index in roadData.part.roadNum" :label="'车道 '+String(index)" :name="String(index)">
