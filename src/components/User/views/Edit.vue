@@ -19,11 +19,15 @@
       </div>
         <div id="mid">
         <br>
-        <p v-if="seen_1">账户名：</p><input v-if="seen_1" class="form-control" type="text" placeholder="请输入账户名"  name="account" v-model="account">
+        <p v-if="seen_1">账户名：</p><el-input v-if="seen_1" class="form-control" type="text" placeholder="请输入账户名"  name="account" v-model="account"></el-input>
         <el-row v-if="seen_1" ><el-button @click="submitQuery" value="查询用户" class="submitbutton" type="warning">查询用户</el-button></el-row>
-        <p v-if="seen_2">用户名：</p><input v-if="seen_2" class="form-control" type="text" placeholder="用户名"  name="username" v-model="username">
-        <p v-if="seen_2">密码：</p><input v-if="seen_2" class="form-control" type="text" placeholder="请设置新密码，若无需修改请忽略" name="password" v-model="password">
-        <p v-if="seen_2">权限：</p><input v-if="seen_2" class="form-control" type="text" placeholder="权限等级" name="level" v-model="level">
+        <div v-if="seen_1">
+          <br>
+          <el-link @click="backLogin()" value="返回登录界面" class=submitbutton_adminLogin>返回登录界面</el-link>
+        </div>
+        <p v-if="seen_2">用户名：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="用户名"  name="username" v-model="username"></el-input>
+        <p v-if="seen_2">密码：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="请设置新密码，若无需修改请忽略" name="password" v-model="password"></el-input>
+        <p v-if="seen_2">权限：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="权限等级" name="level" v-model="level"></el-input>
         <p v-if="seen_2">审核状态：</p>
         <select v-if="seen_2" v-model="status_text">
           <option v-for="(status_text, index) in status_texts" :key='index'>{{status_text}}</option>
@@ -70,7 +74,7 @@ export default {
           confirmButtonText: '确定',}
           )
         }
-        else {
+        {
           var obj_mid = document.getElementById("mid")
           obj_mid.style.height = "400px"
           var obj_app = document.getElementById("app")
@@ -130,7 +134,10 @@ export default {
         this.$router.push('/login');
       })
       }
-    }
+    },
+    backLogin() {
+        this.$router.push('/account/login');
+    },
   }
 }
 </script>
@@ -209,7 +216,7 @@ export default {
     #mid{
       font-family: "宋体-简";
       width:300px;
-      height:180px;
+      height:220px;
       background-color: #f0f0f0;
       border-bottom-right-radius:10px;
       border-bottom-left-radius:10px;
@@ -218,7 +225,7 @@ export default {
     .form-control{
         width: 260px;
         height:20px;
-        margin:10px 20px 10px 20px;
+        margin:10px 20px 25px 20px;
     }
     .submitbutton{
       font-family: "华文黑体";

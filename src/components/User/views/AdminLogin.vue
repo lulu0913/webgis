@@ -19,14 +19,14 @@
     </div>
     <div id="midden">
       <br>
-    <input placeholder="请输入管理员账号" type="text" name="account" v-model="ruleForm.account" class="inputinfo"/>
+    <el-input placeholder="请输入管理员账号" type="text" name="account" v-model="ruleForm.account" class="inputinfo"></el-input>
       <br>
-    <input placeholder="请输入密码" type="text" name="password" v-model="ruleForm.password" class="inputinfo"/>
+    <el-input placeholder="请输入密码" type="text" name="password" v-model="ruleForm.password" class="inputinfo" show-password></el-input>
     <el-row><el-button @click="submitForm('ruleForm')" value="登录" class="submitbutton_login" type="warning">登录</el-button></el-row>
     <el-row><el-button @click="handleCommand()" value="注册" class="submitbutton_registered" type="warning">注册</el-button></el-row>
     <div>
       <br>
-      <span @click="myedit()" value="修改密码" class=submitbutton_edit>修改密码</span><span @click="adminLogin()" value="管理员登录" class=submitbutton_adminLogin>普通用户登录</span>
+      <el-link @click="myedit()" value="修改密码" class=submitbutton_edit>修改密码</el-link><el-link @click="adminLogin()" value="管理员登录" class=submitbutton_adminLogin>普通用户登录</el-link>
     </div>
   </div>
 </div>
@@ -59,36 +59,30 @@ export default {
       const self = this;
       localStorage.setItem('ms_username',self.ruleForm.account);
       localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
-      console.log(JSON.stringify(self.ruleForm));  
-      jQuery.post(
-        '/api/user/findUser',
-        self.ruleForm,
-        function (res) {
-          console.log(res)
-          // that.tableData = res.data
-        }
-      ) 
-
-      // self.$axios.post('/api/user/findUser',self.ruleForm) //前端接口
-      // .then((response) => {
-      //     console.log(response);
-      //     if (response.data == -1) {
-      //         self.errorInfo = true;
-      //         self.errInfo = '该用户不存在';
-      //         console.log('该用户不存在')
-      //     } else if (response.data == 0) {
-      //         console.log('密码错误')
-      //         self.errorInfo = true;
-      //         self.errInfo = '密码错误';
-      //         this.$alert('密码错误', '注意⚠️', {
-      //     confirmButtonText: '确定',})
-      //     }
-      //      else {
-      //         this.$router.push('/AdminSystemPage');  // 登录成功，跳转到管理界面
-      //     }                          
-      // }).then((error) => {
-      //     console.log(error);
-      // })
+      console.log(JSON.stringify(self.ruleForm));
+      if(self.ruleForm.account == ''){
+        this.$alert('用户名不能为空', '注意⚠️', {
+          confirmButtonText: '确定',})
+      }
+      else if(self.ruleForm.password == ''){
+        this.$alert('密码不能为空', '注意⚠️', {
+          confirmButtonText: '确定',})
+      }                        
+      self.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
+      .then((response) => {
+          console.log(response);
+          console.log(response.data.code)
+          if (response.data.code == -1) {
+              self.errorInfo = true;
+              this.$alert(response.data.msg, '注意⚠️', {
+          confirmButtonText: '确定',})
+          }
+          else if (response.data.code == 1){
+              this.$router.push('/AdminSystemPage');  // 登录成功，跳转到功能界面
+          }                          
+      }).then((error) => {
+          console.log(error);
+      })
     },
     handleCommand() {
         this.$router.push('/account/register');
@@ -179,7 +173,7 @@ export default {
   #midden{
       font-family: "宋体-简";
       width:300px;
-      height: 300px;
+      height: 325px;
       background-color: #f0f0f0;
       border-bottom-right-radius:10px;
       border-bottom-left-radius:10px;
@@ -200,7 +194,7 @@ export default {
   .inputinfo{
       width: 260px;
       height:25px;
-      margin:10px 20px 10px 20px;
+      margin:10px 20px 25px 20px;
   }
   .submitbutton_login{
       font-family: "华文黑体";

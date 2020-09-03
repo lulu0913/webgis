@@ -19,11 +19,11 @@
       </div>
         <div id="mid">
         <br>
-        <input class="form-control" type="text" placeholder="账户名"  name="account" v-model="account">
+        <el-input class="form-control" type="text" placeholder="账户名"  name="account" v-model="account"></el-input>
         <br>
-        <input class="form-control" type="text" placeholder="请设置密码" name="password" v-model="password">
+        <el-input class="form-control" type="text" placeholder="请设置密码" name="password" v-model="password" show-password></el-input>
         <br>
-        <input class="form-control" type="text" placeholder="请再次输入密码" name="password" v-model="password_confirm">
+        <el-input class="form-control" type="text" placeholder="请再次输入密码" name="password" v-model="password_confirm" show-password></el-input>
         <br>
         <el-row><el-button @click="addUser" value="注册" class="submitbutton" type="warning">注册</el-button></el-row>
         <el-row><el-button @click="goUser" class="submitbutton" type="warning">已有账号，前往登录</el-button></el-row>
@@ -167,7 +167,7 @@ export default {
   #mid{
     font-family: "宋体-简";
     width:300px;
-    height: 300px;
+    height: 325px;
     background-color: #f0f0f0;
     border-bottom-right-radius:10px;
     border-bottom-left-radius:10px;
@@ -176,7 +176,7 @@ export default {
   .form-control{
     width: 260px;
     height:20px;
-    margin:10px 20px 10px 20px;
+    margin:10px 20px 25px 20px;
   }
   .submitbutton{
     font-family: "华文黑体";
