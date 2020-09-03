@@ -60,7 +60,7 @@ export default {
         )
       }
       else{
-        this.$axios.post('/account/accounts', { //后端接口路由
+        this.$axios.post(config.IP + '/account/accounts', { //后端接口路由
         //假想传入account，若查询失败，返回code0，若查询成功，返回code1与对应的name, level以及status。
         account: account
       },{}).then((response) => {
@@ -127,7 +127,7 @@ export default {
         else{
           alert('修改成功');
         }
-        this.$router.push('/Login');
+        this.$router.push('/login');
       })
       }
     }
