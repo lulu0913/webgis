@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import {IP} from '../../../config/config.js'
+import {config} from '../../../config/config.js'
 export default {
   name: 'Edit',
   data () {
@@ -113,7 +113,7 @@ export default {
         )
       }
       else{
-        this.$axios.post('/account/infoChange', { //后端接口路由
+        this.$axios.post(config.IP + '/account/infoChange', { //后端接口路由
         //若password为空则表示不修改
         username: username,
         password: password,

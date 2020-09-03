@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import {IP} from '../../../config/config.js'
+// import {IP} from '../../../config/config.js'
 export default {
   name: 'MyRights',
   data() {
@@ -57,7 +57,7 @@ export default {
       password: that.$cookies.get('adminPassword')
     }
     jQuery.get(
-      IP + '/getAllData',
+      '/backend/getAllData',
       data,
       function (res) {
         console.log(res.data)

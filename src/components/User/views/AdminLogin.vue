@@ -59,27 +59,36 @@ export default {
       const self = this;
       localStorage.setItem('ms_username',self.ruleForm.account);
       localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
-      console.log(JSON.stringify(self.ruleForm));                        
-      self.$axios.post('/api/user/findUser',self.ruleForm) //前端接口
-      .then((response) => {
-          console.log(response);
-          if (response.data == -1) {
-              self.errorInfo = true;
-              self.errInfo = '该用户不存在';
-              console.log('该用户不存在')
-          } else if (response.data == 0) {
-              console.log('密码错误')
-              self.errorInfo = true;
-              self.errInfo = '密码错误';
-              this.$alert('密码错误', '注意⚠️', {
-          confirmButtonText: '确定',})
-          }
-           else {
-              this.$router.push('/AdminSystemPage');  // 登录成功，跳转到管理界面
-          }                          
-      }).then((error) => {
-          console.log(error);
-      })
+      console.log(JSON.stringify(self.ruleForm));  
+      jQuery.post(
+        '/api/user/findUser',
+        self.ruleForm,
+        function (res) {
+          console.log(res)
+          // that.tableData = res.data
+        }
+      ) 
+
+      // self.$axios.post('/api/user/findUser',self.ruleForm) //前端接口
+      // .then((response) => {
+      //     console.log(response);
+      //     if (response.data == -1) {
+      //         self.errorInfo = true;
+      //         self.errInfo = '该用户不存在';
+      //         console.log('该用户不存在')
+      //     } else if (response.data == 0) {
+      //         console.log('密码错误')
+      //         self.errorInfo = true;
+      //         self.errInfo = '密码错误';
+      //         this.$alert('密码错误', '注意⚠️', {
+      //     confirmButtonText: '确定',})
+      //     }
+      //      else {
+      //         this.$router.push('/AdminSystemPage');  // 登录成功，跳转到管理界面
+      //     }                          
+      // }).then((error) => {
+      //     console.log(error);
+      // })
     },
     handleCommand() {
         this.$router.push('/account/register');

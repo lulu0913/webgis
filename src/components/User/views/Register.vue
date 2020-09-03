@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {IP} from '../../../config/config.js'
+import {config} from '../../../config/config.js'
 export default {
   name: 'Register',
   data () {
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     addUser() {
-      console.log('my IP is: ', IP);
+      console.log('my IP is: ', config.IP);
       let account = this.account;
       let password = this.password;
       let password_confirm = this.password_confirm;
@@ -71,7 +71,7 @@ export default {
         )
       }
       else{
-        this.$axios.post( IP + '/account/register', { //后端接口路由
+        this.$axios.post( config.IP + '/account/register', { //后端接口路由
         account: account,
         password: password
       },{}).then((response) => {

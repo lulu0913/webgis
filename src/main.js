@@ -4,8 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios';
+import Vueresource from 'vue-resource'
 import AMap from 'vue-amap';
+import VueCookies from 'vue-cookies'
 
+Vue.use(VueCookies);
+Vue.use(Vueresource);
+// Vue.prototype.$ajax=axios
 Vue.prototype.$axios = axios;
 import QS from 'qs'
 Vue.prototype.qs = QS;

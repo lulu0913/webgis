@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {IP} from '../../../config/config.js'
+import {config} from '../../../config/config.js'
 export default {
   name: 'User',
   data () {
@@ -59,22 +59,25 @@ export default {
       const self = this;
       localStorage.setItem('ms_username',self.ruleForm.account);
       localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
-      console.log(JSON.stringify(self.ruleForm));                        
-      self.$axios.post( IP + '/account/login',self.ruleForm) //前端接口
+      console.log(JSON.stringify(self.ruleForm));
+      if(self.ruleForm.account == ''){
+        this.$alert('用户名不能为空', '注意⚠️', {
+          confirmButtonText: '确定',})
+      }
+      else if(self.ruleForm.password == ''){
+        this.$alert('密码不能为空', '注意⚠️', {
+          confirmButtonText: '确定',})
+      }                        
+      self.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
       .then((response) => {
           console.log(response);
-          if (response.data == -1) {
+          console.log(response.data.code)
+          if (response.data.code == -1) {
               self.errorInfo = true;
-              self.errInfo = '该用户不存在';
-              console.log('该用户不存在')
-          } else if (response.data == 0) {
-              console.log('密码错误')
-              self.errorInfo = true;
-              self.errInfo = '密码错误';
-              this.$alert('密码错误', '注意⚠️', {
+              this.$alert(response.data.msg, '注意⚠️', {
           confirmButtonText: '确定',})
           }
-           else {
+          else if (response.data.code == 1){
               this.$router.push('/road/map');  // 登录成功，跳转到功能界面
           }                          
       }).then((error) => {
