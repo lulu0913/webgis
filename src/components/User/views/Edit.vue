@@ -6,8 +6,7 @@
     fit="cover"
     />
     <form id = "app">
-      <div class="top-bar"
-      :width='webWidth'>
+      <div class="top-bar">
       <div class='logo-bar'>
               <div class='linkt-logo'><img src="../../../assets/LKT-Logo.png" fit="cover"/></div>
       </div>

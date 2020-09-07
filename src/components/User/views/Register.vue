@@ -6,8 +6,7 @@
     fit="cover"
     />
     <form id = "app">
-      <div class="top-bar"
-      :width='webWidth'>
+      <div class="top-bar">
       <div class='logo-bar'>
               <div class='linkt-logo'><img src="../../../assets/LKT-Logo.png" fit="cover"/></div>
       </div>
@@ -76,13 +75,15 @@ export default {
         password: password
       },{}).then((response) => {
         console.log(response);
-        if(response.data==-1){
-          alert('账户名已存在');
+        if(response.data.code==-1){
+          this.$alert(response.data.msg, '注意⚠️', {
+          confirmButtonText: '确定',})
         }
         else{
-          alert('注册成功');
+          this.$alert('注册成功，请等待管理员审核', '成功✔️', {
+          confirmButtonText: '确定',})
+          this.$router.push('/account/login');
         }
-        this.$router.push('/account/login');
       })
       }
     },

@@ -5,8 +5,7 @@
     src="https://gitee.com/Zam-0703/BlogImage/raw/master/background.jpg"
     fit="cover"
   />
-  <div class="top-bar" 
-  :width='webWidth'>
+  <div class="top-bar">
     <div class='logo-bar'>
       <div class='linkt-logo'><img src="../../../assets/LKT-Logo.png" fit="cover"/></div>
     </div>
@@ -34,7 +33,7 @@
 </template>
 
 <script>
-
+import {config} from '../../../config/config.js'
 export default {
   name: 'User',
   data () {
