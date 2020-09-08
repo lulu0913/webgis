@@ -7,17 +7,11 @@
       @open="handleOpen" 
       @close="handleClose" 
       :collapse="isCollapse">
-      <el-menu-item index="1" 
+      <el-menu-item
         :width="100"
-        @click="redirect('SystemSetting')">
-        <i class="el-icon-set-up"></i>
-        <span slot="title">更改用户信息</span>
-      </el-menu-item>
-      <el-menu-item index="2" 
-        :width="100"
-        @click="redirect('RegisterForm')">
+        @click="redirect()">
         <i class="el-icon-s-order"></i>
-        <span slot="title">填报数据</span>
+        <span slot="title">退出登录</span>
       </el-menu-item>
     </el-menu>
   </div>
@@ -31,23 +25,10 @@ export default {
       };
     },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+    redirect(){
+      this.$cookies.remove('account')
+      this.$router.push('/account/adminlogin')
     },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    redirect(pathname){
-      this.$router.push({ name: pathname})
-    },
-    temp(){
-      jQuery.post(
-        'http://' + IP + '/',
-        data,
-        function (res) {
-        }
-      )
-    }
   }
 }
 </script>

@@ -77,6 +77,7 @@ export default {
           confirmButtonText: '确定',})
           }
           else if (response.data.code == 1){
+              this.$cookies.set('account', this.ruleForm.account)
               this.$router.push('/AdminSystemPage');  // 登录成功，跳转到功能界面
           }                          
       }).then((error) => {
