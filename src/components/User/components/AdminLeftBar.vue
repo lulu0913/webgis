@@ -4,8 +4,6 @@
       default-active="1-4-1" 
       class="el-menu-vertical-demo admin-left-bar-style" 
       :width="100"
-      @open="handleOpen" 
-      @close="handleClose" 
       :collapse="isCollapse">
       <el-menu-item
         :width="100"
