@@ -14,7 +14,7 @@
       </div>
       <div id="div_title">
         <br>
-        <div><h1>用户信息修改</h1></div>
+        <div><h1>用户密码修改</h1></div>
       </div>
         <div id="mid">
         <br>
@@ -24,18 +24,14 @@
           <br>
           <el-link @click="backLogin()" value="返回登录界面" class=submitbutton_adminLogin>返回登录界面</el-link>
         </div>
-        <p v-if="seen_2">用户名：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="用户名"  name="username" v-model="username"></el-input>
-        <p v-if="seen_2">密码：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="请设置新密码，若无需修改请忽略" name="password" v-model="password"></el-input>
-        <p v-if="seen_2">权限：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="权限等级" name="level" v-model="level"></el-input>
-        <p v-if="seen_2">审核状态：</p>
-        <select v-if="seen_2" v-model="status_text">
-          <option v-for="(status_text, index) in status_texts" :key='index'>{{status_text}}</option>
-        </select>
+        <p v-if="seen_2">用户名：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="用户名"  name="username" v-model="username" disabled></el-input>
+        <p v-if="seen_2">旧密码：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="请输入旧密码" name="oldpassword" v-model="oldpassword" show-password></el-input>
+        <p v-if="seen_2">新密码：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="请输入新密码" name="newpassword" v-model="newpassword" show-password></el-input>
+        <p v-if="seen_2">确认密码：</p><el-input v-if="seen_2" class="form-control" type="text" placeholder="请再次输入新密码" name="newpassword_confirm" v-model="newpassword_confirm" show-password></el-input>
         <el-row v-if="seen_2" ><el-button @click="submitEdit" value="提交修改" class="submitbutton" type="warning">提交修改</el-button></el-row>
         </div>
     </form>
   </div>
-  
 </template>
 
 <script>
@@ -48,10 +44,9 @@ export default {
       seen_2: false,
       account: '',
       username: '',
-      password: '',
-      level: 1,
-      status_text: '未审核通过',
-      status_texts: ['未审核通过','已审核通过']
+      oldpassword: '',
+      newpassword: '',
+      newpassword_confirm: ''
     }
   },
   methods: {
@@ -64,73 +59,64 @@ export default {
       }
       else{
         this.$axios.post(config.IP + '/account/accounts', { //后端接口路由
-        //假想传入account，若查询失败，返回code0，若查询成功，返回code1与对应的name, level以及status。
-        account: account
+        "condition":{
+          "account": this.account
+        }
       },{}).then((response) => {
         console.log(response);
-        if(response.code==0){
-          this.$alert('查询失败，账户名不存在，请重新输入', '注意⚠️', {
+        if(response.data.accounts.length==0){
+          this.$alert('账户名不存在，请重新输入！', '注意⚠️', {
           confirmButtonText: '确定',}
           )
         }
-        {
+        else{
           var obj_mid = document.getElementById("mid")
-          obj_mid.style.height = "400px"
+          obj_mid.style.height = "430px"
           var obj_app = document.getElementById("app")
-          obj_app.style.height = "400px"
+          obj_app.style.height = "430px"
           this.seen_1 = false;
           this.seen_2 = true;
-          this.username = response.name;
-          this.level = response.level;
-          if(response.status == 0){
-            this.status_text = '未审核通过'
-          }
-          else{
-            this.status_text = '已审核通过'
-          }
+          this.username = response.data.accounts[0].account;
         }
       })
       }
     },
     submitEdit() {
-      let username = this.username;
-      let password = this.password;
-      let level = this.level;
-      if(this.status_text == '已审核通过'){
-        var status = 1;
-      }
-      else{
-        var status = 0;
-      }
-      
-      if(username == ''){
-          this.$alert('修改后用户名不能为空', '注意⚠️', {
-          confirmButtonText: '确定',}
+      if(this.oldpassword == ''){
+        this.$alert('未输入旧密码！', '注意⚠️', {
+        confirmButtonText: '确定',}
         )
       }
-      //此处权限可以判断是否为合法等级，但是等级区分不明，故先判断是否为空
-      else if(level == '')
-      {
-          this.$alert('修改后权限不能为空', '注意⚠️', {
-          confirmButtonText: '确定',}
+      else if(this.newpassword == ''){
+        this.$alert('未设置新密码！', '注意⚠️', {
+        confirmButtonText: '确定',}
+        )
+      }
+      else if(this.newpassword != this.newpassword_confirm){
+        this.$alert('新密码两次输入不一致，请重新输入！', '注意⚠️', {
+        confirmButtonText: '确定',}
         )
       }
       else{
-        this.$axios.post(config.IP + '/account/infoChange', { //后端接口路由
-        //若password为空则表示不修改
-        username: username,
-        password: password,
-        level: level,
-        status: status
+        this.$axios.post(config.IP + '/account/passwordChange', { //后端接口路由
+        "account": this.username,
+        "oldPassword": this.oldpassword,
+        "newPassword": this.newpassword
       },{}).then((response) => {
         console.log(response);
-        if(response.data==-1){
-          alert('修改失败，用户权限不足');
+        if(response.data.code == -2){
+          this.$alert('输入的原密码错误，请重新输入！', '注意⚠️', {
+          confirmButtonText: '确定',})
         }
-        else{
-          alert('修改成功');
+        else if(response.data.code == -1){
+          this.$alert('输入的用户名不存在，请重新输入！', '注意⚠️', {
+          confirmButtonText: '确定',})
         }
-        this.$router.push('/login');
+        else if(response.data.code == 1){
+          this.$alert('修改密码成功！', '成功✔️', {
+          confirmButtonText: '确定',})
+          this.$router.push('/account/login');
+        }
       })
       }
     },
