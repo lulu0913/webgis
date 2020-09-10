@@ -83,15 +83,9 @@
       <el-tabs v-if="roadData" class="side-bar-content" v-model="activeName" @tab-click="handleClick" tab-position="right" type="border-card" :stretch="true">
         <el-tab-pane v-for="index in roadData.part.roadNum" :label="'车道 '+String(index)" :name="String(index)" :key="index">
           <el-collapse v-model="activeNames" accordion>
-<<<<<<< HEAD
-            <el-collapse-item v-for="(option, i) in PitchTornOptions" :title="option.title" :name="String(i)">
-              <el-form :model="roadData.streets[index-1]" label-width="50px" size="mini">
-                <el-form-item v-for="content in option.content" :label="content.name" class="title-font-size">
-=======
             <el-collapse-item v-for="(option, i) in PitchTornOptions" :title="option.title" :name="String(i)" :key="i">
               <el-form :model="roadData.streets[index-1]" label-width="50px"  size="mini" :key="index">
                 <el-form-item v-for="content in option.content" :label="content.name" class="title-font-size" :key="content.name">
->>>>>>> 946bbfcdc1c28a15437d01ce7655f226142cf27f
                   <el-select v-model="roadData.streets[index-1].torn[option.idx][content.idx]" placeholder="请选择损坏等级">
                     <el-option v-for="l in 4" :label="'level '+String(l-1)" :value="l-1" :key="l"></el-option>
                   </el-select>

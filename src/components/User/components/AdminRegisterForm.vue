@@ -33,24 +33,36 @@
       :visible.sync="centerDialogVisible"
       width="30%"
       center>
-      <div style="text-align:center">
-        <div>账号： <el-input style="width: 50%" v-model="DialogInfo.account" disabled></el-input></div>
-        <br>
-        <!-- 之后等具体人员角色明确后再改为 el-option 选择器 -->
-        <div>用户等级： <el-input style="width: 50%" v-model="DialogInfo.level"></el-input></div>
-        <br>
-        <div>用户姓名： <el-input style="width: 50%" v-model="DialogInfo.info.name"></el-input></div>
-        <br>
-        <div>用户uid： <el-input style="width: 50%" v-model="DialogInfo.info.uid"></el-input></div>
-        <br>
-        <div>用户职位： <el-input style="width: 50%" v-model="DialogInfo.info.occupation"></el-input></div>
-        <br>
-        <div>审核状态： <p>{{DialogInfo.status}}</p> </div>
+        <el-form style="margin-left: 30px" label-width="30%">
+          <el-form-item label="账号：">
+            <el-input style="width: 70%" v-model="DialogInfo.account" disabled></el-input>
+          </el-form-item>
+          <br>
+          <!-- 之后等具体人员角色明确后再改为 el-option 选择器 -->
+          <el-form-item label="用户等级：">
+            <el-input style="width: 70%" v-model="DialogInfo.level" placeholder="请指定用户权限等级"></el-input>
+          </el-form-item>
+          <br>
+          <el-form-item label="用户姓名：">
+            <el-input style="width: 70%" v-model="DialogInfo.info.name" placeholder="请输入用户姓名"></el-input>
+          </el-form-item>
+          <br>
+          <el-form-item label="用户UID：">
+            <el-input style="width: 70%" v-model="DialogInfo.info.uid" placeholder="请输入用户UID"></el-input>
+          </el-form-item>
+          <br>
+          <el-form-item label="用户职位：">
+            <el-input style="width: 70%" v-model="DialogInfo.info.occupation" placeholder="请输入用户职位"></el-input>
+          </el-form-item>
+          <br>
+          <el-form-item label="审核状态：">
+            {{DialogInfo.status}}
+          </el-form-item>
+        </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="centerDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submitEdit()">确 定</el-button>
+            <el-button @click="centerDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="submitEdit()">确 定</el-button>
         </span>
-      </div>
     </el-dialog>
     </div>
   </div>
@@ -64,7 +76,7 @@ export default {
         tableData: [],
         centerDialogVisible: false,
         DialogInfo: {
-          account: '111',
+          account: '',
           level: '',
           password: '',
           status: '',
