@@ -13,12 +13,15 @@
         prop="status"
         label="审核状态"
         sortable
-        width="200">
+        width="200"
+        column-key="date"
+        :filters="[{text: '未审核', value: '未审核'},{text: '已审核', value: '已审核'},{text: '已拒绝', value: '已拒绝'}]"
+        :filter-method="filterHandler">
       </el-table-column>
       <el-table-column
       fixed="right"
       label="操作"
-      width="300">
+      width="350">
         <template slot-scope="scope">
           <el-button @click="CallDialog(scope.row)" type="info" size="small">修改信息</el-button>
           <el-button v-if="scope.row.status == '未审核'" @click="CheckPass(scope.row)" type="primary" size="small">审核通过</el-button>
@@ -89,6 +92,10 @@ export default {
       };
     },
   methods: {
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] === value;
+    },
     CheckPass(row){
       console.log(row)
       this.$axios.post(config.IP + '/account/check', { //后端接口路由
