@@ -1,15 +1,27 @@
 <template>
   <div class='admin-left-bar'>
     <el-menu 
-      default-active="1-4-1" 
+      default-active="2" 
       class="el-menu-vertical-demo admin-left-bar-style" 
       :width="100"
       :collapse="isCollapse">
-      <el-menu-item
+      <el-menu-item  index="1"
         :width="100"
-        @click="redirect()">
+        @click="logout()">
         <i class="el-icon-s-order"></i>
         <span slot="title">退出登录</span>
+      </el-menu-item>
+      <el-menu-item  index="2"
+        :width="100"
+        @click="redirect('RegisterForm')">
+        <i class="el-icon-user-solid"></i>
+        <span slot="title">人员管理</span>
+      </el-menu-item>
+      <el-menu-item index="3"
+        :width="100"
+        @click="redirect('RoadForm')">
+        <i class="el-icon-data-analysis"></i>
+        <span slot="title">道路信息</span>
       </el-menu-item>
     </el-menu>
   </div>
@@ -23,9 +35,12 @@ export default {
       };
     },
   methods: {
-    redirect(){
+    logout(){
       this.$cookies.remove('account')
       this.$router.push('/account/adminlogin')
+    },
+    redirect(pathname){
+      this.$router.push({ name: pathname})
     },
   }
 }

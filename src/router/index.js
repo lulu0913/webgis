@@ -7,6 +7,7 @@ import Edit from '@/components/User/views/Edit'
 import AdminLogin from '@/components/User/views/AdminLogin'
 import AdminSystem from '@/components/User/views/AdminSystemPage'
 import RegisterForm from '@/components/User/components/AdminRegisterForm'
+import RoadForm from '@/components/User/components/AdminRoadForm'
 
 import map from '@/components/road/map'
 import vueRsource from 'vue-resource'
@@ -60,10 +61,15 @@ export default new Router({
       component: AdminSystem,
       children:[
         {
-              path: '/AdminSystemPage',
-              name: 'RegisterForm',
-              component: RegisterForm
+          path: '/AdminSystemPage',
+          name: 'RegisterForm',
+          component: RegisterForm
         },
+        {
+          path: '/AdminSystemPage',
+          name: 'RoadForm',
+          component: RoadForm
+        }
       ]
     },
     {

@@ -180,7 +180,7 @@ export default {
 
 <style>
 .my-allproblem{
-  width: 50rem;
+  width: 80rem;
   padding-top: 2rem;
   padding-left: 2rem;
 }
