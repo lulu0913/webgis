@@ -7,7 +7,9 @@ import axios from 'axios';
 import Vueresource from 'vue-resource'
 import AMap from 'vue-amap';
 import VueCookies from 'vue-cookies'
+import ElementUI from 'element-ui';
 
+Vue.use(ElementUI)
 Vue.use(VueCookies);
 Vue.use(Vueresource);
 // Vue.prototype.$ajax=axios

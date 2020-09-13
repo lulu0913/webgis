@@ -78,6 +78,7 @@ export default {
           }
           else if (response.data.code == 1){
             this.$cookies.set('account', this.ruleForm.account)
+            this.$cookies.set('password', this.ruleForm.password)
             this.$router.push('/road/map');  // 登录成功，跳转到功能界面
           }                          
       }).then((error) => {

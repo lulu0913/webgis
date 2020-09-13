@@ -10,6 +10,8 @@ import RegisterForm from '@/components/User/components/AdminRegisterForm'
 import RoadForm from '@/components/User/components/AdminRoadForm'
 
 import map from '@/components/road/map'
+import SystemPage from '@/components/road/SystemPage'
+
 import vueRsource from 'vue-resource'
 import axios from 'axios'
 import qs from 'qs'
@@ -61,12 +63,12 @@ export default new Router({
       component: AdminSystem,
       children:[
         {
-          path: '/AdminSystemPage',
+          path: '/AdminSystemPage/',
           name: 'RegisterForm',
           component: RegisterForm
         },
         {
-          path: '/AdminSystemPage',
+          path: '/AdminSystemPage/',
           name: 'RoadForm',
           component: RoadForm
         }
@@ -74,8 +76,15 @@ export default new Router({
     },
     {
       path: '/road/map',
-      name: 'map',
-      component:map
+      name: 'SystemPage',
+      component: SystemPage,
+      children:[
+        {
+          path: '/road/map',
+          name: 'map',
+          component: map
+        }
+      ]
     },
   ]
 })

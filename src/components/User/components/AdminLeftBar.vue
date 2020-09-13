@@ -36,7 +36,8 @@ export default {
     },
   methods: {
     logout(){
-      this.$cookies.remove('account')
+      this.$cookies.remove('Adminaccount')
+      this.$cookies.remove('Adminpassword')
       this.$router.push('/account/adminlogin')
     },
     redirect(pathname){
