@@ -6,12 +6,6 @@
     fit="cover"
     />
     <form id = "app">
-      <div class="top-bar">
-      <div class='logo-bar'>
-              <div class='linkt-logo'><img src="../../../assets/LKT-Logo.png" fit="cover"/></div>
-      </div>
-      <div class='logo-text'>临空新城道路养护管理系统</div>
-      </div>
       <div id="div_title">
         <br>
         <div><h1>用户密码修改</h1></div>
@@ -128,37 +122,6 @@ export default {
 </script>
 
 <style scoped>
-.top-bar{
-  background-color: #f0f0f0;
-  z-index: 20;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.logo-bar{
-  display: flex;
-  padding-top: 0px;
-  padding-left: 10%;
-  float: left;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-.logo-text{
-  margin-top: 9px;
-  float: left;
-  color: #101010;
-  font-size: 20px;
-}
-.linkt-logo{
-  padding-top: 5px;
-  width: auto;
-  height: 50px;
-}
 .background-img{
   position: absolute;
   top: 0;

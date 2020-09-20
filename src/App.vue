@@ -1,12 +1,18 @@
 <template>
   <div id="app">
+    <top-bar></top-bar>
     <router-view v-if="isRouterAlive"></router-view>
   </div>
 </template>
 
 <script>
+import TopBar from '@/components/navMenu/TopBar'
+
 export default {
   name: 'App',
+  components: {
+    TopBar:TopBar
+  },
   provide(){
     return {
       reload: this.reload
@@ -35,6 +41,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 60px;
 }
 body{
   margin: 0px;

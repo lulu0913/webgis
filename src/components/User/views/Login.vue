@@ -5,12 +5,6 @@
     src="https://gitee.com/Zam-0703/BlogImage/raw/master/background.jpg"
     fit="cover"
   />
-  <div class="top-bar">
-    <div class='logo-bar'>
-      <div class='linkt-logo'><img src="../../../assets/LKT-Logo.png" fit="cover"/></div>
-    </div>
-      <div class='logo-text'>临空新城道路养护管理系统</div>
-  </div>
   <div id="div_login">
     <div id="div_title">
       <br>
@@ -66,24 +60,26 @@ export default {
       else if(self.ruleForm.password == ''){
         this.$alert('密码不能为空', '注意⚠️', {
           confirmButtonText: '确定',})
-      }                        
-      self.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
-      .then((response) => {
-          console.log(response);
-          console.log(response.data.code)
-          if (response.data.code == -1) {
-              self.errorInfo = true;
-              this.$alert(response.data.msg, '注意⚠️', {
-          confirmButtonText: '确定',})
-          }
-          else if (response.data.code == 1){
-            this.$cookies.set('account', this.ruleForm.account)
-            this.$cookies.set('password', this.ruleForm.password)
-            this.$router.push('/road/map');  // 登录成功，跳转到功能界面
-          }                          
-      }).then((error) => {
-          console.log(error);
-      })
+      }
+      else{                        
+        self.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
+        .then((response) => {
+            console.log(response);
+            console.log(response.data.code)
+            if (response.data.code == -1) {
+                self.errorInfo = true;
+                this.$alert(response.data.msg, '注意⚠️', {
+            confirmButtonText: '确定',})
+            }
+            else if (response.data.code == 1){
+              this.$cookies.set('account', this.ruleForm.account)
+              this.$cookies.set('password', this.ruleForm.password)
+              this.$router.push('/road/map');  // 登录成功，跳转到功能界面
+            }                          
+        }).then((error) => {
+            console.log(error);
+        })
+      }
     },
     handleCommand() {
         this.$router.push('/account/register');
@@ -100,37 +96,7 @@ export default {
 </script>
 
 <style scoped>
-.top-bar{
-  background-color: #f0f0f0;
-  z-index: 20;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.logo-bar{
-  display: flex;
-  padding-top: 0px;
-  padding-left: 10%;
-  float: left;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-.logo-text{
-  margin-top: 9px;
-  float: left;
-  color: #101010;
-  font-size: 20px;
-}
-.linkt-logo{
-  padding-top: 5px;
-  width: auto;
-  height: 50px;
-}
+
 .background-img{
   position: absolute;
   top: 0;
