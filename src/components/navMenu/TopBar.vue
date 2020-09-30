@@ -1,39 +1,110 @@
 <template>
   <div class="top-bar">
-    <el-menu
-    mode="horizontal">
-      <div class='logo-bar'>
-        <div class='linkt-logo'><img style="height: 100%" src="../../assets/LKT-Logo.png" fit="cover"/></div>
-        <div class="logo-text">临空新城道路养护管理系统</div>
-      </div>
-    <el-menu-item>道路养护</el-menu-item>
-    <el-menu-item>审核模式</el-menu-item>
-    <el-menu-item>维护日志</el-menu-item>
-    <el-menu-item>已完成路段评测</el-menu-item>
-    </el-menu>
+    <div class='logo-bar'>
+      <div class='linkt-logo'><img style="height: 100%" src="../../assets/LKT-Logo.png" fit="cover"/></div>
+      <div class="logo-text">临空新城道路养护管理系统</div>
+    </div>
+    <div class='logo-bar-list' v-if="!omit">
+      <el-menu mode="horizontal">
+        <el-menu-item @click="jumpTo('map')">道路养护</el-menu-item>
+        <el-menu-item @click="jumpTo('RegisterForm')">审核模式</el-menu-item>
+        <el-menu-item @click="jumpTo('log')">维护日志</el-menu-item>
+        <el-menu-item @click="jumpTo('hasEval')">已完成路段评测</el-menu-item>
+        <el-menu-item @click="jumpTo('Login')">Logout</el-menu-item>
+      </el-menu>
+    </div>
+    <div class='logo-bar-list' v-if="omit">
+      <el-dropdown  trigger="click">
+        <el-menu mode="horizontal">
+          <el-menu-item>
+            下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-menu-item>
+        </el-menu>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item @click="jumpTo('map')">道路养护</el-dropdown-item>
+            <el-dropdown-item @click="jumpTo('RegisterForm')">审核模式</el-dropdown-item>
+            <el-dropdown-item @click="jumpTo('log')">维护日志</el-dropdown-item>
+            <el-dropdown-item @click="jumpTo('hasEval')">已完成路段评测</el-dropdown-item>
+            <el-dropdown-item @click="jumpTo('Login')">Logout</el-dropdown-item>
+          </el-dropdown-menu>
+      </el-dropdown>
+    </div>
   </div>
 </template>
 <script>
-
+export default {
+  name: 'TopBar',
+  data(){
+    return{
+      omit: true,
+      screenWidth: document.body.clientWidth
+    }
+  },
+  mounted(){
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = document.body.clientWidth
+        that.screenWidth = window.screenWidth
+      })()
+    }
+    if(that.screenWidth < 1350){
+      this.omit = true
+    }
+    else{
+      this.omit = false
+    }
+  },
+  methods:{ 
+    jumpTo(name){
+      console.log(name)
+      if(name == 'Login'){
+        this.$cookies.set('account', '')
+        this.$cookies.set('password', '')
+      }
+      this.$router.push({name: name});
+    }
+  },
+  watch:{
+    screenWidth(val){
+      if(val < 1350){
+        this.omit = true
+      }
+      else{
+        this.omit = false
+      }
+    }
+  }
+}
 </script>
 
 <style>
 .top-bar{
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   z-index: 0;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 57px;
+  /* height: 57px; */
   flex-direction: row;
   justify-content: space-between;
+}
+.logo-bar-list{
+  display: flex;
+  padding-top: 0px;
+  margin-right: 13vw;
+  /* margin-left: 13%; */
+  float: right;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 .logo-bar{
   display: flex;
   padding-top: 0px;
-  margin-right: 28%;
-  margin-left: 13%;
+  /* margin-right: 28%; */
+  margin-left: 13vw;
   float: left;
   flex-direction: row;
   justify-content: center;

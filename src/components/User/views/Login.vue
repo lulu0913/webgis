@@ -61,7 +61,8 @@ export default {
         this.$alert('密码不能为空', '注意⚠️', {
           confirmButtonText: '确定',})
       }
-      else{                        
+      else{
+        console.log(self.ruleForm)
         self.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
         .then((response) => {
             console.log(response);
