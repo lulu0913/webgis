@@ -3,7 +3,8 @@
     <el-table
       :data="tableData"
       stripe
-      style="width: 100%">
+      height="850"
+      width="auto">
       <el-table-column
         prop="rid"
         label="路段编号"
