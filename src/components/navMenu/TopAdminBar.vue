@@ -7,7 +7,7 @@
     <div class='logo-bar-list' v-if="!omit">
       <el-menu mode="horizontal">
         <el-menu-item @click="jumpTo('RegisterForm')">人员审核</el-menu-item>
-        <el-menu-item @click="jumpTo('log')">维护日志查询</el-menu-item>
+        <el-menu-item @click="jumpTo('AdminRoadLog')">维护日志查询</el-menu-item>
         <el-menu-item @click="jumpTo('AdminRoadForm')">已完成路段评测</el-menu-item>
         <el-menu-item @click="jumpTo('AdminLogin')">注销登录</el-menu-item>
       </el-menu>
@@ -20,10 +20,10 @@
           </el-menu-item>
         </el-menu>
           <el-dropdown-menu slot="dropdown">
-            <el-menu-item @click="jumpTo('RegisterForm')">人员审核</el-menu-item>
-            <el-dropdown-item @click="jumpTo('log')">维护日志查询</el-dropdown-item>
-            <el-dropdown-item @click="jumpTo('AdminRoadForm')">已完成路段评测</el-dropdown-item>
-            <el-dropdown-item @click="jumpTo('AdminLogin')">注销登录</el-dropdown-item>
+            <el-dropdown-item @click.native="jumpTo('RegisterForm')">人员审核</el-dropdown-item>
+            <el-dropdown-item @click.native="jumpTo('AdminRoadLog')">维护日志查询</el-dropdown-item>
+            <el-dropdown-item @click.native="jumpTo('AdminRoadForm')">已完成路段评测</el-dropdown-item>
+            <el-dropdown-item @click.native="jumpTo('AdminLogin')">注销登录</el-dropdown-item>
           </el-dropdown-menu>
       </el-dropdown>
     </div>

@@ -8,7 +8,7 @@ import AdminLogin from '@/components/User/views/AdminLogin'
 import AdminSystem from '@/components/User/views/AdminSystemPage'
 import RegisterForm from '@/components/User/components/AdminRegisterForm'
 import RoadForm from '@/components/User/components/AdminRoadForm'
-
+import RoadLog from '@/components/road/RoadLog.vue'
 import map from '@/components/road/map'
 import SystemPage from '@/components/road/SystemPage'
 
@@ -72,6 +72,11 @@ export default new Router({
           name: 'AdminRoadForm',
           component: RoadForm
         },
+        {
+          path: '/AdminSystemPage/',
+          name: 'AdminRoadLog',
+          component: RoadLog
+        }
       ]
     },
     {
@@ -88,6 +93,11 @@ export default new Router({
           path: '/road/map',
           name: 'RoadForm',
           component: RoadForm
+        },
+        {
+          path: '/road/map',
+          name: 'RoadLog',
+          component: RoadLog
         }
       ]
     },
