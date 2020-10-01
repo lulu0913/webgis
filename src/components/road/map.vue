@@ -36,7 +36,8 @@
         fillColor="#FFC0CB"
         fillOpacity="0.5"
         strokeColor="#FF0000">
-       </el-amap-polygon>
+      </el-amap-polygon>
+
     </el-amap>
 
     <!-- 在地图上进行编辑的工具栏   -->
@@ -408,6 +409,15 @@ export default {
               }
             });
         }
+        }
+      },
+      {
+        pName: 'ToolBar',
+        position: 'RB',
+        events: {
+          init(instance) {
+            console.log(instance);
+          }
         }
       }
       ],
