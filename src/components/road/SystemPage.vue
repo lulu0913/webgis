@@ -27,7 +27,7 @@ export default {
         message: '请先登录',
         type: 'info'
       })
-      // that.$router.push('/account/login')
+      that.$router.push('/account/login')
     }
     else {
       this.$axios.post(config.IP + '/account/login', data)
@@ -37,7 +37,7 @@ export default {
             message: '请先登录',
             type: 'info'
           })
-          // that.$router.push('/account/login')
+          that.$router.push('/account/login')
         }
       }).catch(
         function(error){
@@ -45,7 +45,7 @@ export default {
             message: '网络错误，请稍后重试',
             type: 'error'
           })
-          // that.$router.push('/account/login')
+          that.$router.push('/account/login')
         }
       )
     }

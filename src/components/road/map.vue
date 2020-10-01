@@ -43,10 +43,11 @@
     <!-- 在地图上进行编辑的工具栏   -->
     <div class="toolbar">
       <el-amap-search-box class="search-box" :search-option="searchOption" :on-search-result="onSearchResult"></el-amap-search-box>
-      <el-button type="primary" name="button" title="显示本地json文件保存的路径信息" v-on:click="showpath" plain round>显示已有标注</el-button>
-
-      <!-- 保存标注即将现有的路径的经纬度点坐标和路况信息传给后端 -->
-      <el-button type="success" name="button" title="保存当前地图上的路径信息" v-on:click="savepath" plain round>保存标注</el-button>
+      <div class="toolbar-inner">
+        <el-button type="primary" name="button" title="显示本地json文件保存的路径信息" v-on:click="showpath" plain round>显示已有标注</el-button>
+        <!-- 保存标注即将现有的路径的经纬度点坐标和路况信息传给后端 -->
+        <el-button type="success" name="button" title="保存当前地图上的路径信息" v-on:click="savepath" plain round>保存标注</el-button>
+      </div>
     </div>
     <div class="side-bar">
       <div class="side-bar-title">
@@ -161,16 +162,12 @@
   font-weight: bold;
   /* border-bottom: 1px rgb(187, 187, 187) solid; */
 }
-.amap-demo {
-  /* height: 50%; */
-}
 .el-vue-amap-container.amap-demo{
   width: 80%;
   height: 93.6vh;
 }
 .search-box {
-  top: 100px;
-  left: 0px;
+  margin: 0px 20px 0px 0px;
 }
 .amap-page-container {
   position: relative;
@@ -183,7 +180,11 @@
   z-index: 1000;
 }
 .toolbar{
+  height: 100px;
   position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   z-index: 2;
   top: 0px;
   left: 30px;
