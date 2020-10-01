@@ -25,6 +25,7 @@
       </el-amap-polyline>   -->
 
       <!-- 画出来的是多边形 -->
+      <el-amap-marker v-for="marker in markers" :position="marker" ></el-amap-marker>
       <el-amap-polygon
         v-for="(polygon, index) in polygons"
         :path="polygon.path"
@@ -40,6 +41,7 @@
 
     <!-- 在地图上进行编辑的工具栏   -->
     <div class="toolbar">
+      <el-amap-search-box class="search-box" :search-option="searchOption" :on-search-result="onSearchResult"></el-amap-search-box>
       <el-button type="primary" name="button" title="显示本地json文件保存的路径信息" v-on:click="showpath" plain round>显示已有标注</el-button>
 
       <!-- 保存标注即将现有的路径的经纬度点坐标和路况信息传给后端 -->
@@ -166,9 +168,8 @@
   height: 100vh;
 }
 .search-box {
-  position: absolute;
-  top: 25px;
-  left: 20px;
+  top: 100px;
+  left: 0px;
 }
 .amap-page-container {
   position: relative;
@@ -182,8 +183,8 @@
 .toolbar{
   position: absolute;
   z-index: 2;
-  top: 25px;
-  left: 20px;
+  top: 0px;
+  left: 30px;
 }
 </style>
 
@@ -391,8 +392,25 @@ export default {
           init(instance) {
             console.log(instance);
           }
+        }},
+      {
+        pName: 'Geolocation',
+        events: {
+          init(o) {
+            // o 是高德地图定位插件实例
+            o.getCurrentPosition((status, result) => {
+              if (result && result.position) {
+                self.lng = result.position.lng;
+                self.lat = result.position.lat;
+                self.center = [self.lng, self.lat];
+                self.loaded = true;
+                self.$nextTick();
+              }
+            });
         }
-      }],
+        }
+      }
+      ],
       form:{
         name: '',
         targetid: '',
@@ -471,6 +489,13 @@ export default {
           }
           console.log(self.polygons)
         }
+      },
+      markers: [
+
+      ],
+      searchOption: {
+      city: '武汉',
+      citylimit: true
       },
     };
   },
@@ -628,6 +653,28 @@ export default {
       clearpath(){
         this.polygons = [];
       },
+      addMarker: function() {
+        let lng = 114.22109 + Math.round(Math.random() * 1000) / 10000;
+        let lat = 30.729849 + Math.round(Math.random() * 500) / 10000;
+        this.markers.push([lng, lat]);
+      },
+      onSearchResult(pois) {
+        let latSum = 0;
+        let lngSum = 0;
+        if (pois.length > 0) {
+          pois.forEach(poi => {
+            let {lng, lat} = poi;
+            lngSum += lng;
+            latSum += lat;
+            this.markers.push([poi.lng, poi.lat]);
+          });
+          let Mapcenter = {
+            lng: lngSum / pois.length,
+            lat: latSum / pois.length
+          };
+          this.center = [Mapcenter.lng, Mapcenter.lat];
+        }
+      }
     }
 }
 </script>
