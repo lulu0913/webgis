@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <logo-bar></logo-bar>
-    <router-view v-if="isRouterAlive"></router-view>
+    <div class="container-position">
+      <router-view v-if="isRouterAlive"></router-view>
+    </div>
   </div>
 </template>
 
@@ -42,6 +44,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.container-position{
+  height: 80vh;
 }
 body{
   margin: 0px;

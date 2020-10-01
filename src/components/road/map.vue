@@ -144,7 +144,7 @@
   top: 0px;
   right: 0px;
   width: 20%;
-  height: 100vh;
+  height: 100%;
   z-index: 2;
   background-color: white;
   display: flex;  
@@ -161,11 +161,11 @@
   /* border-bottom: 1px rgb(187, 187, 187) solid; */
 }
 .amap-demo {
-  height: 300px;
+  /* height: 50%; */
 }
 .el-vue-amap-container.amap-demo{
   width: 80%;
-  height: 100vh;
+  height: 80vh;
 }
 .search-box {
   top: 100px;
@@ -173,6 +173,7 @@
 }
 .amap-page-container {
   position: relative;
+  height: 90%;
 }
 .info{
   position: absolute;
