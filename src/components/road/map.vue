@@ -36,7 +36,8 @@
         fillColor="#FFC0CB"
         fillOpacity="0.5"
         strokeColor="#FF0000">
-       </el-amap-polygon>
+      </el-amap-polygon>
+
     </el-amap>
 
     <!-- 在地图上进行编辑的工具栏   -->
@@ -144,7 +145,7 @@
   top: 0px;
   right: 0px;
   width: 20%;
-  height: 100%;
+  height: 93.6vh;
   z-index: 2;
   background-color: white;
   display: flex;  
@@ -165,7 +166,7 @@
 }
 .el-vue-amap-container.amap-demo{
   width: 80%;
-  height: 80vh;
+  height: 93.6vh;
 }
 .search-box {
   top: 100px;
@@ -409,6 +410,15 @@ export default {
               }
             });
         }
+        }
+      },
+      {
+        pName: 'ToolBar',
+        position: 'RB',
+        events: {
+          init(instance) {
+            console.log(instance);
+          }
         }
       }
       ],
