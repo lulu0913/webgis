@@ -1,13 +1,17 @@
 <template>
   <div>
+    <top-bar></top-bar>
     <router-view/>
   </div>
 </template>
 <script>
 import {config} from '../../config/config.js'
-
+import TopBar from '@/components/navMenu/TopUserBar'
 export default {
   name: 'SystemPage',
+  components: {
+    TopBar:TopBar
+  },
   data(){
     return {}
   },

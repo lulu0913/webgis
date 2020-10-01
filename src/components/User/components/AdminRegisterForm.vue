@@ -1,5 +1,5 @@
 <template>
-  <div class="my-allproblem">
+  <div class="RegisterForm">
     <el-table
       :data="tableData"
       stripe
@@ -179,7 +179,7 @@ export default {
 </script>
 
 <style>
-.my-allproblem{
+.RegisterForm{
   width: 80rem;
   padding-top: 2rem;
   padding-left: 2rem;

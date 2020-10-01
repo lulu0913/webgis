@@ -1,0 +1,128 @@
+<template>
+  <div class="top-bar">
+    <div class='logo-bar'>
+      <div class='linkt-logo'><img style="height: 100%" src="../../assets/LKT-Logo.png" fit="cover"/></div>
+      <div class="logo-text">临空新城道路养护管理系统</div>
+    </div>
+    <div class='logo-bar-list' v-if="!omit">
+      <el-menu mode="horizontal">
+        <el-menu-item @click="jumpTo('RegisterForm')">人员审核</el-menu-item>
+        <el-menu-item @click="jumpTo('log')">维护日志查询</el-menu-item>
+        <el-menu-item @click="jumpTo('AdminRoadForm')">已完成路段评测</el-menu-item>
+        <el-menu-item @click="jumpTo('AdminLogin')">注销登录</el-menu-item>
+      </el-menu>
+    </div>
+    <div class='logo-bar-list' v-if="omit">
+      <el-dropdown  trigger="click">
+        <el-menu mode="horizontal">
+          <el-menu-item>
+            功能菜单<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-menu-item>
+        </el-menu>
+          <el-dropdown-menu slot="dropdown">
+            <el-menu-item @click="jumpTo('RegisterForm')">人员审核</el-menu-item>
+            <el-dropdown-item @click="jumpTo('log')">维护日志查询</el-dropdown-item>
+            <el-dropdown-item @click="jumpTo('AdminRoadForm')">已完成路段评测</el-dropdown-item>
+            <el-dropdown-item @click="jumpTo('AdminLogin')">注销登录</el-dropdown-item>
+          </el-dropdown-menu>
+      </el-dropdown>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: 'TopBar',
+  data(){
+    return{
+      omit: true,
+      screenWidth: document.body.clientWidth
+    }
+  },
+  mounted(){
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = document.body.clientWidth
+        that.screenWidth = window.screenWidth
+      })()
+    }
+    if(that.screenWidth < 1350){
+      this.omit = true
+    }
+    else{
+      this.omit = false
+    }
+  },
+  methods:{ 
+    jumpTo(name){
+      console.log(name)
+      if(name == 'Login'){
+        this.$cookies.remove('Adminaccount')
+        this.$cookies.remove('Adminpassword')
+      }
+      this.$router.push({name: name});
+    }
+  },
+  watch:{
+    screenWidth(val){
+      if(val < 1350){
+        this.omit = true
+      }
+      else{
+        this.omit = false
+      }
+    }
+  }
+}
+</script>
+
+<style>
+.top-bar{
+  background-color: #ffffff;
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* height: 57px; */
+  flex-direction: row;
+  justify-content: space-between;
+}
+.logo-bar-list{
+  display: flex;
+  z-index: 1;
+  padding-top: 0px;
+  margin-right: 13vw;
+  /* margin-left: 13%; */
+  float: right;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.logo-bar{
+  display: flex;
+  z-index: 1;
+  padding-top: 0px;
+  /* margin-right: 28%; */
+  margin-left: 13vw;
+  float: left;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.logo-text{
+  display: flex;
+  z-index: 1;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.2rem;
+  color: rgb(53, 53, 53);
+  margin-right: 5rem;
+}
+.linkt-logo{
+  padding-top: 5px;
+  z-index: 1;
+  width: auto;
+  height: 50px;
+}
+</style>

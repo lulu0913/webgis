@@ -69,9 +69,9 @@ export default new Router({
         },
         {
           path: '/AdminSystemPage/',
-          name: 'RoadForm',
+          name: 'AdminRoadForm',
           component: RoadForm
-        }
+        },
       ]
     },
     {
@@ -83,6 +83,11 @@ export default new Router({
           path: '/road/map',
           name: 'map',
           component: map
+        },
+        {
+          path: '/road/map',
+          name: 'RoadForm',
+          component: RoadForm
         }
       ]
     },

@@ -61,23 +61,24 @@ export default {
         this.$alert('密码不能为空', '注意⚠️', {
           confirmButtonText: '确定',})
       }                        
-      self.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
-      .then((response) => {
-          console.log(response);
-          console.log(response.data.code)
-          if (response.data.code == -1) {
-              self.errorInfo = true;
-              this.$alert(response.data.msg, '注意⚠️', {
-          confirmButtonText: '确定',})
-          }
-          else if (response.data.code == 1){
-              this.$cookies.set('Adminaccount', this.ruleForm.account)
-              this.$cookies.set('Adminpassword', this.ruleForm.password)
-              this.$router.push('/AdminSystemPage');  // 登录成功，跳转到功能界面
-          }                          
-      }).then((error) => {
-          console.log(error);
-      })
+      else{self.$axios.post( config.IP + '/account/login',self.ruleForm) //前端接口
+        .then((response) => {
+            console.log(response);
+            console.log(response.data.code)
+            if (response.data.code == -1) {
+                self.errorInfo = true;
+                this.$alert(response.data.msg, '注意⚠️', {
+            confirmButtonText: '确定',})
+            }
+            else if (response.data.code == 1){
+                this.$cookies.set('Adminaccount', this.ruleForm.account)
+                this.$cookies.set('Adminpassword', this.ruleForm.password)
+                this.$router.push('/AdminSystemPage');  // 登录成功，跳转到功能界面
+            }                          
+        }).then((error) => {
+            console.log(error);
+        })
+      }
     },
     handleCommand() {
         this.$router.push('/account/register');

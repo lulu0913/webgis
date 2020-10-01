@@ -1,5 +1,5 @@
 <template>
-  <div class="my-allproblem">
+  <div class="RoadForm">
     <el-table
       :data="tableData"
       stripe
@@ -98,10 +98,17 @@ export default {
 </script>
 
 <style>
-.my-allproblem{
-  width: 80rem;
+.RoadForm{
+  z-index: 0;
+  width: 62rem;
   padding-top: 2rem;
   padding-left: 2rem;
+  position: absolute;
+  top: 5%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 .my-desc-text-container{
   padding-left:1rem;

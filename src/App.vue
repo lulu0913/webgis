@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <top-bar></top-bar>
+    <logo-bar></logo-bar>
     <router-view v-if="isRouterAlive"></router-view>
   </div>
 </template>
 
 <script>
-import TopBar from '@/components/navMenu/TopBar'
+import LogoBar from '@/components/navMenu/LogoBar'
 
 export default {
   name: 'App',
-  components: {
-    TopBar:TopBar
+  components:{
+    LogoBar:LogoBar
   },
   provide(){
     return {

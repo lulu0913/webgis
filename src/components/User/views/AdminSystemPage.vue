@@ -2,20 +2,20 @@
   <div>
     <div class="my-adminform-main-contain-col" :style="{width:adjustWidth}">
       <div class="my-adminform-main-contain-row">
-        <LeftBar/>
+        <TopBar/>
         <router-view/>
       </div>
     </div>
   </div>
 </template>
 <script>
-import LeftBar from '@/components/User/components/AdminLeftBar.vue'
+import TopBar from '@/components/navMenu/TopAdminBar'
 import {config} from '../../../config/config.js'
 
 export default {
   name: 'AdminForm',
-  components:{
-    LeftBar:LeftBar,
+    components:{
+    TopBar:TopBar
   },
   data(){
     return{

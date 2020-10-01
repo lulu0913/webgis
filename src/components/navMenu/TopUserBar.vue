@@ -7,25 +7,23 @@
     <div class='logo-bar-list' v-if="!omit">
       <el-menu mode="horizontal">
         <el-menu-item @click="jumpTo('map')">道路养护</el-menu-item>
-        <el-menu-item @click="jumpTo('RegisterForm')">审核模式</el-menu-item>
-        <el-menu-item @click="jumpTo('log')">维护日志</el-menu-item>
-        <el-menu-item @click="jumpTo('hasEval')">已完成路段评测</el-menu-item>
-        <el-menu-item @click="jumpTo('Login')">Logout</el-menu-item>
+        <el-menu-item @click="jumpTo('log')">维护日志查询</el-menu-item>
+        <el-menu-item @click="jumpTo('RoadForm')">已完成路段评测</el-menu-item>
+        <el-menu-item @click="jumpTo('Login')">注销登录</el-menu-item>
       </el-menu>
     </div>
     <div class='logo-bar-list' v-if="omit">
       <el-dropdown  trigger="click">
         <el-menu mode="horizontal">
           <el-menu-item>
-            下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+            功能菜单<i class="el-icon-arrow-down el-icon--right"></i>
           </el-menu-item>
         </el-menu>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click="jumpTo('map')">道路养护</el-dropdown-item>
-            <el-dropdown-item @click="jumpTo('RegisterForm')">审核模式</el-dropdown-item>
-            <el-dropdown-item @click="jumpTo('log')">维护日志</el-dropdown-item>
-            <el-dropdown-item @click="jumpTo('hasEval')">已完成路段评测</el-dropdown-item>
-            <el-dropdown-item @click="jumpTo('Login')">Logout</el-dropdown-item>
+            <el-dropdown-item @click="jumpTo('log')">维护日志查询</el-dropdown-item>
+            <el-dropdown-item @click="jumpTo('RoadForm')">已完成路段评测</el-dropdown-item>
+            <el-dropdown-item @click="jumpTo('Login')">注销登录</el-dropdown-item>
           </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -81,7 +79,7 @@ export default {
 <style>
 .top-bar{
   background-color: #ffffff;
-  z-index: 0;
+  z-index: 1;
   position: fixed;
   top: 0;
   left: 0;
@@ -92,6 +90,7 @@ export default {
 }
 .logo-bar-list{
   display: flex;
+  z-index: 1;
   padding-top: 0px;
   margin-right: 13vw;
   /* margin-left: 13%; */
@@ -102,6 +101,7 @@ export default {
 }
 .logo-bar{
   display: flex;
+  z-index: 1;
   padding-top: 0px;
   /* margin-right: 28%; */
   margin-left: 13vw;
@@ -112,6 +112,7 @@ export default {
 }
 .logo-text{
   display: flex;
+  z-index: 1;
   flex-direction: row;
   align-items: center;
   font-size: 1.2rem;
@@ -120,6 +121,7 @@ export default {
 }
 .linkt-logo{
   padding-top: 5px;
+  z-index: 1;
   width: auto;
   height: 50px;
 }
