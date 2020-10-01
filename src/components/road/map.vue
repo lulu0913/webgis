@@ -595,7 +595,7 @@ export default {
       showpath(){
         this.clearpath();
         // var url = 'static/hcx-coords.json';
-        this.$axios.get(config.IP + '/road/roads', {params:{condition:{}}}).then(res =>{
+        this.$axios.post(config.IP + '/road/roads', {params:{condition:{}}}).then(res =>{
           var dataTemp = res.data.data;
           for(var key in dataTemp){
             var paths = {};

@@ -38,12 +38,12 @@ export default {
             password: '',                   
         },
         rules: {
-            account: [
-                { required: true, message: '请输入用户名', trigger: 'blur' }
-            ],
-            password: [
-                { required: true, message: '请输入密码', trigger: 'blur' }
-            ],
+          account: [
+            { required: true, message: '请输入用户名', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'blur' }
+          ],
         }
     }
   },
@@ -75,7 +75,7 @@ export default {
             else if (response.data.code == 1){
               this.$cookies.set('account', this.ruleForm.account)
               this.$cookies.set('password', this.ruleForm.password)
-              this.$router.push('/road/map');  // 登录成功，跳转到功能界面
+              this.$router.push('/road/map')  // 登录成功，跳转到功能界面
             }                          
         }).then((error) => {
             console.log(error);
@@ -91,7 +91,6 @@ export default {
     adminLogin() {
         this.$router.push('/account/adminlogin');
     },
-
   }
 }
 </script>
