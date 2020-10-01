@@ -145,7 +145,7 @@
   top: 0px;
   right: 0px;
   width: 20%;
-  height: 100vh;
+  height: 93.6vh;
   z-index: 2;
   background-color: white;
   display: flex;  
@@ -166,7 +166,7 @@
 }
 .el-vue-amap-container.amap-demo{
   width: 80%;
-  height: 100vh;
+  height: 93.6vh;
 }
 .search-box {
   top: 100px;
