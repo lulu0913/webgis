@@ -57,10 +57,28 @@ export default {
     jumpTo(name){
       console.log(name)
       if(name == 'Login'){
-        this.$cookies.remove('Adminaccount')
-        this.$cookies.remove('Adminpassword')
+        this.$confirm('确认注销账户？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(()=>{
+          this.$cookies.set('account', '')
+          this.$cookies.set('password', '')
+          this.$router.push({name: name});
+          this.$message({
+            type: 'success',
+            message: '注销成功!'
+          });
+        }).catch(()=>{
+          this.$message({
+            type: 'info',
+            message: '已取消注销'
+          });
+        });
       }
-      this.$router.push({name: name});
+      else{
+        this.$router.push({name: name});
+      }
     }
   },
   watch:{
