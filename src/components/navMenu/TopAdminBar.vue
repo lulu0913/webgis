@@ -62,8 +62,8 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(()=>{
-          this.$cookies.set('account', '')
-          this.$cookies.set('password', '')
+          this.$cookies.set('Adminaccount', '')
+          this.$cookies.set('Adminpassword', '')
           this.$router.push({name: name});
           this.$message({
             type: 'success',
