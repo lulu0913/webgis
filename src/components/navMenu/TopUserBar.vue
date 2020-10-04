@@ -5,10 +5,10 @@
       <div class="logo-text">临空新城道路养护管理系统</div>
     </div>
     <div class='logo-bar-list' v-if="!omit">
-      <el-menu mode="horizontal">
-        <el-menu-item @click="jumpTo('map')">道路养护</el-menu-item>
-        <el-menu-item @click="jumpTo('RoadLog')">维护日志查询</el-menu-item>
-        <el-menu-item @click="jumpTo('RoadForm')">已完成路段评测</el-menu-item>
+      <el-menu :default-active="activeIndex" mode="horizontal">
+        <el-menu-item index="1" @click="jumpTo('map')">道路养护</el-menu-item>
+        <el-menu-item index="2" @click="jumpTo('RoadLog')">维护日志查询</el-menu-item>
+        <el-menu-item index="3" @click="jumpTo('RoadForm')">已完成路段评测</el-menu-item>
         <el-menu-item @click="jumpTo('Login')">注销登录</el-menu-item>
       </el-menu>
     </div>
@@ -19,10 +19,10 @@
             功能菜单<i class="el-icon-arrow-down el-icon--right"></i>
           </el-menu-item>
         </el-menu>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="jumpTo('map')">道路养护</el-dropdown-item>
-            <el-dropdown-item @click.native="jumpTo('RoadLog')">维护日志查询</el-dropdown-item>
-            <el-dropdown-item @click.native="jumpTo('RoadForm')">已完成路段评测</el-dropdown-item>
+          <el-dropdown-menu :default-active="activeIndex" slot="dropdown">
+            <el-dropdown-item index="1" @click.native="jumpTo('map')">道路养护</el-dropdown-item>
+            <el-dropdown-item index="2" @click.native="jumpTo('RoadLog')">维护日志查询</el-dropdown-item>
+            <el-dropdown-item index="3" @click.native="jumpTo('RoadForm')">已完成路段评测</el-dropdown-item>
             <el-dropdown-item @click.native="jumpTo('Login')">注销登录</el-dropdown-item>
           </el-dropdown-menu>
       </el-dropdown>
@@ -35,7 +35,8 @@ export default {
   data(){
     return{
       omit: true,
-      screenWidth: document.body.clientWidth
+      screenWidth: document.body.clientWidth,
+      activeIndex: '1'
     }
   },
   mounted(){
