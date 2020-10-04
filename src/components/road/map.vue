@@ -389,7 +389,7 @@ export default {
       status: [1, 0, 1],
       plugin:[{
         pName: 'MapType',
-        defaultType: 1,
+        defaultType: 0,
         showRoad: true,
         events: {
           init(instance) {
