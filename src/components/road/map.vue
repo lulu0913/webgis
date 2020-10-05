@@ -25,7 +25,7 @@
       </el-amap-polyline>   -->
 
       <!-- 画出来的是多边形 -->
-      <el-amap-marker v-for="marker in markers" :position="marker" ></el-amap-marker>
+      <el-amap-marker v-for="marker in markers" :position="marker" :key="marker"></el-amap-marker>
       <el-amap-polygon
         v-for="(polygon, index) in polygons"
         :path="polygon.path"
