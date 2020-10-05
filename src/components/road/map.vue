@@ -47,6 +47,7 @@
         <el-button type="primary" name="button" title="显示本地json文件保存的路径信息" v-on:click="showpath" plain round>显示已有标注</el-button>
         <!-- 保存标注即将现有的路径的经纬度点坐标和路况信息传给后端 -->
         <el-button type="success" name="button" title="保存当前地图上的路径信息" v-on:click="savepath" plain round>保存标注</el-button>
+        <el-button type="primary" name="button" title="测试" v-on:click="testpath" plain round>测试路段划分</el-button>
       </div>
     </div>
     <div class="side-bar">
@@ -686,6 +687,29 @@ export default {
           };
           this.center = [Mapcenter.lng, Mapcenter.lat];
         }
+      },
+      testpath(){
+        this.clearpath();
+        var url = 'https://localhost:8080/static/sjg-coords-2.json';
+        this.$axios.post( url).then(res =>{
+          console.log(res.data)
+          var dataTemp = res.data.data;
+          for(var key in dataTemp){
+            var paths = {};
+            paths.path = dataTemp[key].points;  //向地图中添加标注点
+            paths.rid = dataTemp[key].rid;
+            paths.events = {
+              click:(e) => {
+                var rid = e.target.getExtData()
+                this.flushData(rid)
+              }
+            };
+            paths.key = key;
+            this.polygons.push(paths);
+          }
+        }).then((error) => {
+            // console.log(error);
+        })   
       }
     }
 }
