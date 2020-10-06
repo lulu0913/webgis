@@ -48,14 +48,26 @@
         <!-- 保存标注即将现有的路径的经纬度点坐标和路况信息传给后端 -->
         <el-button type="success" name="button" title="保存当前地图上的路径信息" v-on:click="savepath" plain round>保存标注</el-button>
         <el-button type="primary" name="button" title="测试" v-on:click="testpath" plain round>测试路段划分</el-button>
+        <el-select v-model="RoadOption" @change="handleRoadOption" placeholder="请选择切换路段">
+          <el-option
+          v-for="item in RoadOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+          </el-option>
+        </el-select>
       </div>
     </div>
     <div class="side-bar">
       <div class="side-bar-title">
-        路段信息
+        路段信息（点击相应路段后显示）
         <el-button v-if="roadData" type="text" @click="updateRoadInfo">保存修改</el-button>
       </div>
       <div v-if="roadData" class="side-bar-head">
+        <div class="side-bar-head-raw">
+          <div class="side-bar-head-title">路段ID:</div>
+          <el-input placeholder="请输入内容" v-model="roadData.rid" :disabled="true" size="mini" style="margin-right: 10px"></el-input>
+        </div>
         <div class="side-bar-head-raw">
           <div class="side-bar-head-title">区域:</div>
           <el-input placeholder="请输入内容" v-model="roadData.part.region" :disabled="true" size="mini" style="margin-right: 10px"></el-input>
@@ -239,6 +251,11 @@ const CementOtherOptions = ['错台', '拱胀', '唧浆', '路框差', '沉陷']
 export default {
   data(){
     return {
+      RoadOptions:[{value: '景云路',label: '景云路'},
+                  {value: '宋家岗东路',label: '宋家岗东路'},
+                  {value: '航城西路',label: '航城西路'},
+                  ],
+      RoadOption:'',
       PitchCrackOptions: [{name: '线裂', idx: 'c1'},
                                 {name: '网裂', idx: 'c2'},
                                 {name: '龟裂', idx: 'c3'},
@@ -711,6 +728,20 @@ export default {
         }).then((error) => {
             // console.log(error);
         })   
+      },
+      handleRoadOption(){
+        if(this.RoadOption == "航城西路"){
+          this.center = [114.22109, 30.729849];
+        }
+        else if(this.RoadOption == "景云路"){
+          console.log("景云路")
+        }
+        else if(this.RoadOption == "宋家岗东路"){
+          console.log("宋家岗东路")
+        }
+        else{
+          console.log("RoadOption Error")
+        }
       }
     }
 }
