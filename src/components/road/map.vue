@@ -690,14 +690,15 @@ export default {
       },
       testpath(){
         this.clearpath();
-        var url = 'https://localhost:8080/static/sjg-coords-2.json';
-        this.$axios.post( url).then(res =>{
+        var url = 'static/jyl-coords-2.json';
+        this.$axios.get(url).then(res =>{
           console.log(res.data)
-          var dataTemp = res.data.data;
+          var dataTemp = res.data;
           for(var key in dataTemp){
+            console.log(key)
             var paths = {};
-            paths.path = dataTemp[key].points;  //向地图中添加标注点
-            paths.rid = dataTemp[key].rid;
+            paths.path = dataTemp[key];  //向地图中添加标注点
+            // paths.rid = dataTemp[key].rid;
             paths.events = {
               click:(e) => {
                 var rid = e.target.getExtData()
