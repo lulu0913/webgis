@@ -707,7 +707,7 @@ export default {
       },
       testpath(){
         this.clearpath();
-        var url = 'static/jyl-coords-2.json';
+        var url = 'static/sjg-coords.json';
         this.$axios.get(url).then(res =>{
           console.log(res.data)
           var dataTemp = res.data;
