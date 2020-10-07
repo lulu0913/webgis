@@ -468,6 +468,7 @@ export default {
           rid: '156485',
           events: {
             click:(e) => {
+              console.log(e)
               self.form.targetid = e.target.getExtData()
           }
         },
@@ -495,9 +496,10 @@ export default {
       events: {
         click(e) {
           let { lng, lat } = e.lnglat;
-          mypaths = self.polygons;
-          mylength = mypaths.length
-          console.log('length: ', mylength)
+          console.log('lng:',lng,'  lat:',lat)
+          var mypaths = self.polygons;
+          // var mylength = mypaths.length
+          // console.log('length: ', mylength)
           self.polygons[mylength-1].path.push([lng, lat]);
           // console.log('polygons: ', mypaths[mylength-1])
 
@@ -707,7 +709,7 @@ export default {
       },
       testpath(){
         this.clearpath();
-        var url = 'static/sjg-coords.json';
+        var url = 'static/wanwan.json';
         this.$axios.get(url).then(res =>{
           console.log(res.data)
           var dataTemp = res.data;
