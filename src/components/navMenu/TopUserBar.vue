@@ -31,6 +31,7 @@
 </template>
 <script>
 export default {
+  inject: ['reload'],
   name: 'TopBar',
   data(){
     return{
@@ -69,7 +70,8 @@ export default {
           this.$message({
             type: 'success',
             message: '注销成功!'
-          });
+          })
+          this.reload()
         }).catch(()=>{
           this.$message({
             type: 'info',

@@ -57,7 +57,7 @@ export default {
   methods:{ 
     jumpTo(name){
       console.log(name)
-      if(name == 'Login'){
+      if(name == 'AdminLogin'){
         this.$confirm('确认注销账户？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
