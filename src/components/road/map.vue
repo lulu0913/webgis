@@ -739,10 +739,10 @@ export default {
           this.center = [114.22109, 30.729849];
         }
         else if(this.RoadOption == "景云路"){
-          console.log("景云路")
+          this.center = [114.217, 30.74]
         }
         else if(this.RoadOption == "宋家岗东路"){
-          console.log("宋家岗东路")
+          this.center = [114.221, 30.74]
         }
         else{
           console.log("RoadOption Error")
