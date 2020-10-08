@@ -105,8 +105,10 @@ export default {
       },{}).then((response) => {
         if(response.data.code == 1){
           this.$alert('已审核通过！', '成功✔️', {
-          confirmButtonText: '确定',})
-          this.reload()
+          confirmButtonText: '确定',
+          callback: action => {
+            this.reload()
+          }})
         }
         else{
           this.$alert('审核用户不存在', '错误❌', {
@@ -122,8 +124,10 @@ export default {
       },{}).then((response) => {
         if(response.data.code == 1){
           this.$alert('已审核拒绝！', '成功✔️', {
-          confirmButtonText: '确定',})
-          this.reload()
+          confirmButtonText: '确定',
+          callback: action =>{
+            this.reload()
+          }})
         }
         else{
           this.$alert('审核用户不存在', '错误❌', {
@@ -144,8 +148,10 @@ export default {
       },{}).then((response) => {
         if(response.data.code == 1){
           this.$alert('已修改用户信息！', '成功✔️', {
-          confirmButtonText: '确定',})
-          this.reload()
+          confirmButtonText: '确定',
+          callback: action => {
+            this.reload()
+          }})
         }
         else{
           this.$alert('用户信息不存在', '错误❌', {

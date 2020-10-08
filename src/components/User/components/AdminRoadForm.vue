@@ -17,7 +17,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
       <el-button @click="csvVisible = false">取消</el-button>
-      <el-button type="primary" @click="csv">导入</el-button>
+      <el-button type="primary" :loading="pushing" @click="csv">导入</el-button>
       </span>
       </el-dialog>
 
@@ -38,10 +38,11 @@
       </span>
       </el-dialog>
     </div>
+    <br>
     <el-table
       :data="tableData"
       stripe
-      height="850"
+      height="840"
       width="auto">
       <el-table-column
         prop="rid"
@@ -114,7 +115,8 @@ export default {
         csvTitle: '导入CSV文件',
         jsonTitle: '导出CSV文件',
         csvVisible: false,
-        jsonVisible: false
+        jsonVisible: false,
+        pushing: false
       };
     },
   methods: {
@@ -127,6 +129,7 @@ export default {
       this.jsonTitle = '导出CSV文件';
     },
     csv() {
+      const self = this;
       if(this.$refs.csvData.files.length!=1){
         this.$alert("一次只能导入一个csv文件，您当前已导入" + this.$refs.csvData.files.length + "个文件", '注意⚠️', {
           confirmButtonText: '确定',})
@@ -136,8 +139,53 @@ export default {
           confirmButtonText: '确定',})
       }
       else{
+        this.pushing = true
         csv2arr.csv(this.$refs.csvData.files[0]).then((res)=>{
           console.log('我的数据', res)
+          var road = [];
+          var element = {};
+          var points = [];
+          var points_raw = [];
+          var point = {};
+          for(let i = 1; i < res.length; i++){
+            element = {}
+            element["rid"] = res[i][0]; //道路编号
+            element["part"] = {};
+            element["part"]["region"] = res[i][1]; //路段所属区域
+            element["part"]["road"] = res[i][2]; //道路名称
+            element["part"]["roadNum"] = Number(res[i][3]); //车道数量
+            element["attribute"] = {};
+            element["attribute"]["length"] = Number(res[i][4]); //路段长度
+            element["attribute"]["level"] = Number(res[i][5]); //破损等级
+            element["attribute"]["note"] = res[i][6];
+            element["attribute"]["type"] = Number(res[i][7]); //道路类型，1为沥青路面，0为水泥路面
+            points = [];
+            points_raw = String(res[i][8]).split("|");
+            for(let j = 0; j < points_raw.length; j++){
+              point = {}
+              point["longitude"] = points_raw[j].split(";")[0]; //经度
+              point["latitude"] = points_raw[j].split(";")[1]; //纬度
+              points.push(point);
+            }
+            element["points"] = points;
+            if(element["rid"] != ""){
+              road.push(element);
+            }
+          }
+          console.log(road)
+          self.$axios.post( config.IP + '/road/addRoads',{"road": road}) //前端接口
+          .then((response) => {
+              if (response.data.code == 1){
+                this.$alert('导入道路数据成功！', '成功✔️', {
+                confirmButtonText: '确定',
+                callback: action =>{
+                  this.reload()
+                }})
+              }
+          }).then((error) => {
+              console.log(error);
+          })
+          this.pushing = false
         })
         var test = document.getElementById('fileupload');
         test.value = ''

@@ -108,8 +108,10 @@ export default {
         }
         else if(response.data.code == 1){
           this.$alert('修改密码成功！', '成功✔️', {
-          confirmButtonText: '确定',})
-          this.$router.push('/account/login');
+          confirmButtonText: '确定',
+          callback: action =>{
+            this.$router.push('/account/login')
+          }});
         }
       })
       }
