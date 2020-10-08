@@ -9,7 +9,7 @@
       :title="csvTitle"
       :visible.sync="csvVisible"
       :append-to-body="true"
-      width="50%">
+      width="40%">
       <div>
           <el-form ref="file" label-width="120px">
             <center><input type="file" id="fileupload" name="csvfile" ref="csvData" /></center>
@@ -28,7 +28,7 @@
       :title="jsonTitle"
       :visible.sync="jsonVisible"
       :append-to-body="true"
-      width="50%">
+      width="30%">
       <div>
           确认导出当前路段信息？
       </div>
