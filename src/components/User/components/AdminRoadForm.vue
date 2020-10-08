@@ -173,7 +173,7 @@ export default {
             }
           }
           console.log(road)
-          self.$axios.post( config.IP + '/road/addRoads',{"road": road}) //前端接口
+          self.$axios.post( config.IP + '/road/addRoads',{"roads": road}) //前端接口
           .then((response) => {
               if (response.data.code == 1){
                 this.$alert('导入道路数据成功！', '成功✔️', {
