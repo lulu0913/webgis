@@ -101,6 +101,9 @@
 <script>
 import {config} from '../../../config/config.js'
 import csv2arr from '@/assets/csv-arr'
+import FileSaver from 'file-saver'
+const Json2csvParser = require('json2csv').Parser
+const datetime = Date.now()
 export default {
   inject: ['reload'],
   data() {
@@ -193,7 +196,7 @@ export default {
       }
     },
     json() {
-
+      
     }
   },
   mounted(){

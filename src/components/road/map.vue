@@ -249,6 +249,7 @@ const CementSurfaceOptions = ['坑洞', '表面纹裂', '层状剥落'];
 const CementOtherOptions = ['错台', '拱胀', '唧浆', '路框差', '沉陷'];
 
 export default {
+  inject: ['reload'],
   data(){
     return {
       RoadOptions:[{value: '景云路',label: '景云路'},
@@ -548,6 +549,7 @@ export default {
             message: '保存成功',
             type: 'success'
           });
+          this.reload()
         }).then((error) => {
             console.log(error);
         })

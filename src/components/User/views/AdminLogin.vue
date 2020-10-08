@@ -71,12 +71,23 @@ export default {
             confirmButtonText: '确定',})
             }
             else if (response.data.code == 1){
-                this.$cookies.set('Adminaccount', this.ruleForm.account)
-                this.$cookies.set('Adminpassword', this.ruleForm.password)
-                this.$router.push('/AdminSystemPage');  // 登录成功，跳转到功能界面
+              self.$axios.post(config.IP + '/account/accounts',{"condition":{"account":self.ruleForm.account}})
+              .then((response => {
+                if(response.data.accounts[0].level != 1){
+                  this.$alert("权限不足，请联系系统管理员提升权限！", '注意⚠️', {
+                  confirmButtonText: '确定',})
+                }
+                else{
+                  this.$cookies.set('Adminaccount', this.ruleForm.account)
+                  this.$cookies.set('Adminpassword', this.ruleForm.password)
+                  this.$router.push('/AdminSystemPage');  // 登录成功，跳转到功能界面
+                }
+              })).then((error)=>{
+                console.log(error);
+              })
             }                          
         }).then((error) => {
-            console.log(error);
+          console.log(error);
         })
       }
     },
