@@ -34,7 +34,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
       <el-button @click="jsonVisible = false">取消</el-button>
-      <el-button type="primary" @click="json">导出</el-button>
+      <el-button type="primary" @click="tempjson">导出</el-button>
       </span>
       </el-dialog>
     </div>
@@ -195,8 +195,62 @@ export default {
         this.csvVisible = false;
       }
     },
-    json() {
-      
+    // 临时轮子，导入json数据到后端
+    tempjson() {
+      const self = this;
+      var url = "../../../../static/jyl-coords-1.json"
+      var request = new XMLHttpRequest()
+      request.open("get",url)
+      request.send(null);
+      request.onload= function(){
+        if(request.status == 200){
+          var json = JSON.parse(request.responseText);
+          var road = [];
+          var element = {};
+          var points = [];
+          var points_raw = [];
+          var point = {};
+          var Objectlength = Object.getOwnPropertyNames(json).length;
+          for(let i = 0; i < Objectlength; i++){
+            element = {}
+            element["rid"] = "jyl-1-test-" + String(i); //道路编号
+            element["part"] = {};
+            element["part"]["region"] = "临空新城路段"; //路段所属区域
+            element["part"]["road"] = "景云路"; //道路名称
+            element["part"]["roadNum"] = 4; //车道数量
+            element["attribute"] = {};
+            element["attribute"]["length"] = 10; //路段长度
+            element["attribute"]["level"] = 0; //破损等级
+            element["attribute"]["note"] = "无";
+            element["attribute"]["type"] = 1; //道路类型，1为沥青路面，0为水泥路面
+            points = [];
+            points_raw = json[element["rid"]];
+            for(let j = 0; j < points_raw.length; j++){
+              point = {}
+              point["longitude"] = String(points_raw[j][0]); //经度
+              point["latitude"] = String(points_raw[j][1]); //纬度
+              points.push(point);
+            }
+            element["points"] = points;
+            if(element["rid"] != ""){
+              road.push(element);
+            }
+          }
+          console.log(road)
+          self.$axios.post( config.IP + '/road/addRoads',{"roads": road}) //前端接口
+          .then((response) => {
+              if (response.data.code == 1){
+                this.$alert('导入道路数据成功！', '成功✔️', {
+                confirmButtonText: '确定',
+                callback: action =>{
+                  this.reload()
+                }})
+              }
+          }).then((error) => {
+              console.log(error);
+          })
+        }
+      }
     }
   },
   mounted(){
