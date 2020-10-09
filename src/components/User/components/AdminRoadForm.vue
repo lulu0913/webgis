@@ -34,7 +34,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
       <el-button @click="jsonVisible = false">取消</el-button>
-      <el-button type="primary" @click="tempjson">导出</el-button>
+      <el-button type="primary" @click="json">导出</el-button>
       </span>
       </el-dialog>
     </div>
@@ -251,6 +251,50 @@ export default {
           })
         }
       }
+    },
+    json(){
+      const Json2csvParser = require('json2csv').Parser
+      //获取格式化时间字符串函数
+      function getNowTime(){      
+          var now= new Date();
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var day=now.getDate();
+          var hour=now.getHours();
+          var minute=now.getMinutes();
+          var second=now.getSeconds();
+          return "路段信息导出 " + year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+      };
+      //导出CSV函数
+      const exportCSV = (data, filename=`${datetime}.csv`) => {
+        const parser = new Json2csvParser();
+        const csvData = parser.parse(data);
+        const blob = new Blob(['\uFEFF' + csvData], {type: 'text/plain;charset=utf-8;'});
+        FileSaver.saveAs(blob, filename);
+      }
+      var datetime = getNowTime();
+      var road = [];
+      var element = {};
+      var pointstring = "";
+      for(let i = 0; i < this.tableData.length; i++){
+        element = {}
+        element["道路编号"] = this.tableData[i].rid; //道路编号
+        element["路段所属区域"] = this.tableData[i].part.region; //路段所属区域
+        element["道路名称"] = this.tableData[i].part.road; //道路名称
+        element["车道数量"] = this.tableData[i].part.roadNum; //车道数量
+        element["路段长度"] = this.tableData[i].attribute.length; //路段长度
+        element["破损等级"] = this.tableData[i].attribute.level; //破损等级
+        element["备注"] = this.tableData[i].attribute.note;
+        element["道路类型(1为沥青路面，0为水泥路面)"] = this.tableData[i].attribute.type; //道路类型，1为沥青路面，0为水泥路面
+        pointstring = "";
+        for(let j = 0; j < this.tableData[i].points.length; j++){
+          pointstring = pointstring + this.tableData[i].points[j].longitude + ';';
+          pointstring = pointstring + this.tableData[i].points[j].latitude + '|';
+        }
+        element["道路坐标"] = pointstring.substring(0, pointstring.length - 1);
+        road.push(element);
+      }
+      exportCSV(road)
     }
   },
   mounted(){
