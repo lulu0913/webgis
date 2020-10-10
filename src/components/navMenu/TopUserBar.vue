@@ -31,7 +31,6 @@
 </template>
 <script>
 export default {
-  inject: ['reload'],
   name: 'TopBar',
   data(){
     return{
@@ -71,7 +70,6 @@ export default {
             type: 'success',
             message: '注销成功!'
           })
-          this.reload()
         }).catch(()=>{
           this.$message({
             type: 'info',
@@ -103,7 +101,6 @@ export default {
   z-index: 1;
   position: fixed;
   top: 0;
-  left: -9%;
   width: 100%;
   /* height: 57px; */
   flex-direction: row;
@@ -113,9 +110,8 @@ export default {
   display: flex;
   z-index: 1;
   padding-top: 0px;
-  margin-right: 13vw;
-  /* margin-left: 13%; */
-  float: right;
+  margin-left: 13%;
+  float: left;
   flex-direction: row;
   justify-content: center;
   align-items: center;
