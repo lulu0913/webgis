@@ -61,7 +61,7 @@
     <div class="side-bar">
       <div class="side-bar-title">
         路段信息（点击相应路段后显示）
-        <el-button v-if="roadData" type="text" @click="updateRoadInfo">保存修改</el-button>
+        <el-button v-if="roadData" type="primary" @click="updateRoadInfo">保存修改</el-button>
       </div>
       <div v-if="roadData" class="side-bar-head">
         <div class="side-bar-head-raw">
