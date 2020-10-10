@@ -636,7 +636,15 @@ export default {
           var dataTemp = res.data.data;
           for(var key in dataTemp){
             var paths = {};
-            paths.path = dataTemp[key].points;  //向地图中添加标注点
+            var points = []
+            var point = []
+            for(let i = 0; i < 4; i++){
+              point = []
+              point.push(dataTemp[key].points[i].longitude)
+              point.push(dataTemp[key].points[i].latitude)
+              points.push(point)
+            }
+            paths.path = points;  //向地图中添加标注点
             paths.rid = dataTemp[key].rid;
             paths.events = {
               click:(e) => {

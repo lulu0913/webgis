@@ -227,8 +227,8 @@ export default {
             points_raw = json[element["rid"]];
             for(let j = 0; j < points_raw.length; j++){
               point = {}
-              point["longitude"] = String(points_raw[j][0]); //经度
-              point["latitude"] = String(points_raw[j][1]); //纬度
+              point["longitude"] = Number(points_raw[j][0]); //经度
+              point["latitude"] = Number(points_raw[j][1]); //纬度
               points.push(point);
             }
             element["points"] = points;
