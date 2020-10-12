@@ -249,8 +249,8 @@ const CementSurfaceOptions = ['坑洞', '表面纹裂', '层状剥落'];
 const CementOtherOptions = ['错台', '拱胀', '唧浆', '路框差', '沉陷'];
 
 export default {
-  inject: ['reload'],
   data(){
+    let self = this;
     return {
       RoadOptions:[{value: '景云路',label: '景云路'},
                   {value: '宋家岗东路',label: '宋家岗东路'},
@@ -453,11 +453,11 @@ export default {
       pitchEnable:true,
       pitch:80,
       rotation:-15,
-      viewMode: '3D',
+      viewMode: '2D',
       expandZoomRange: true,
       zooms: [3, 20],
       zoom: 16,
-      center: [114.22109, 30.729849],
+      center: [114.219659, 30.725282],
       lng: 0.0,
       lat: 0.0,
       // 在地图上画多边形
@@ -541,7 +541,8 @@ export default {
         console.log(tab, event);
       },
       updateRoadInfo(){
-        console.log(this.roadData)
+        this.roadData["account"] = this.$cookies.get('account')
+        console.log(JSON.stringify(this.roadData))
         this.$axios.post(config.IP + '/road/infoUpdate', this.roadData) //向后端更新道路信息
         .then((response) => {
           console.log(response)
@@ -549,7 +550,7 @@ export default {
             message: '保存成功',
             type: 'success'
           });
-          this.reload()
+          this.flushData(this.roadData.rid)
         }).then((error) => {
             console.log(error);
         })
@@ -570,7 +571,7 @@ export default {
             console.log(error);
         })
       },
-
+      //此功能已经弃用
       UpdatePitchInfo(){
         console.log(this.status)
         var updateInfo = {
@@ -746,13 +747,13 @@ export default {
       },
       handleRoadOption(){
         if(this.RoadOption == "航城西路"){
-          this.center = [114.22109, 30.729849];
+          this.center = [114.216526, 30.719495];
         }
         else if(this.RoadOption == "景云路"){
-          this.center = [114.217, 30.74]
+          this.center = [114.216781, 30.728968]
         }
         else if(this.RoadOption == "宋家岗东路"){
-          this.center = [114.221, 30.74]
+          this.center = [114.220521, 30.73079]
         }
         else{
           console.log("RoadOption Error")

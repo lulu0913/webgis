@@ -75,7 +75,6 @@
 <script>
 import {config} from '../../config/config.js'
 export default {
-  inject: ['reload'],
   data() {
       return {
         tableData: [],
@@ -103,7 +102,7 @@ export default {
       }
     }
       this.tableData = response.data.data
-      console.log(tableData);
+      console.log(JSON.stringify(this.tableData));
     }).then((error) => {
       console.log(error);
     })

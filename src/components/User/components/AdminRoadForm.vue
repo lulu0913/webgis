@@ -161,7 +161,15 @@ export default {
             element["attribute"]["length"] = Number(res[i][4]); //路段长度
             element["attribute"]["level"] = Number(res[i][5]); //破损等级
             element["attribute"]["note"] = res[i][6];
-            element["attribute"]["type"] = Number(res[i][7]); //道路类型，1为沥青路面，0为水泥路面
+            if(res[i][7] == "沥青路面"){
+              element["attribute"]["type"] = 1;
+            }
+            else if(res[i][7] == "水泥路面"){
+              element["attribute"]["type"] = 0;
+            }
+            else {
+              element["attribute"]["type"] = Number(res[i][7]); //道路类型，1为沥青路面，0为水泥路面
+            }
             points = [];
             points_raw = String(res[i][8]).split("|");
             for(let j = 0; j < points_raw.length; j++){
@@ -271,6 +279,11 @@ export default {
         const csvData = parser.parse(data);
         const blob = new Blob(['\uFEFF' + csvData], {type: 'text/plain;charset=utf-8;'});
         FileSaver.saveAs(blob, filename);
+        this.$alert('导出道路数据成功！', '成功✔️', {
+                confirmButtonText: '确定',
+                callback: action =>{
+                  this.jsonVisible = false;
+                }})
       }
       var datetime = getNowTime();
       var road = [];
