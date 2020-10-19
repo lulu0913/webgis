@@ -33,9 +33,9 @@
         :events="polygon.events"
         :key="index"
         :extData="polygon.rid"
-        fillColor="#FFC0CB"
+        :fillColor="polygon.color"
         fillOpacity="0.5"
-        strokeColor="#FF0000">
+        :strokeColor="polygon.color">
       </el-amap-polygon>
 
     </el-amap>
@@ -58,6 +58,7 @@
         </el-select>
       </div>
     </div>
+    <el-image class="legend" src="https://gitee.com/Zam-0703/BlogImage/raw/master/未标题-1.png"></el-image>
     <div class="side-bar">
       <div class="side-bar-title">
         路段信息（点击相应路段后显示）
@@ -201,6 +202,16 @@
   z-index: 2;
   top: 0px;
   left: 30px;
+}
+.legend{
+  height: auto;
+  width: auto;
+  position: absolute;
+  align-items: center;
+  z-index: 2;
+  bottom: -5px;
+  left: 260px;
+  margin-right: 23.5%;
 }
 </style>
 
@@ -646,6 +657,28 @@ export default {
               points.push(point)
             }
             paths.path = points;  //向地图中添加标注点
+            // 向地图中添加标识
+            if(dataTemp[key].attribute.level == 0){
+              paths.color = "#64FF64"
+            }
+            else if(dataTemp[key].attribute.level == 1){
+              paths.color = "#00FFFF"
+            }
+            else if(dataTemp[key].attribute.level == 2){
+              paths.color = "#0096FF"
+            }
+            else if(dataTemp[key].attribute.level == 3){
+              paths.color = "#0064FF"
+            }
+            else if(dataTemp[key].attribute.level == 4){
+              paths.color = "#0000FF"
+            }
+            else if(dataTemp[key].attribute.level == 5){
+              paths.color = "#FF00FF"
+            }
+            else{
+              paths.color = "#FF0000"
+            }
             paths.rid = dataTemp[key].rid;
             paths.events = {
               click:(e) => {
