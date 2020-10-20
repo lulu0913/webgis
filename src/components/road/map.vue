@@ -33,7 +33,7 @@
         :events="polygon.events"
         :key="index"
         :extData="polygon.rid"
-        :fillColor="polygon.color"
+        :fillColor="polygon.fillcolor"
         fillOpacity="0.5"
         :strokeColor="polygon.color">
       </el-amap-polygon>
@@ -660,24 +660,31 @@ export default {
             // 向地图中添加标识
             if(dataTemp[key].attribute.level == 0){
               paths.color = "#64FF64"
+              paths.fillcolor = "#7efd7e"
             }
             else if(dataTemp[key].attribute.level == 1){
               paths.color = "#00FFFF"
+              paths.fillcolor = "#80cbd4"
             }
             else if(dataTemp[key].attribute.level == 2){
               paths.color = "#0096FF"
+              paths.fillcolor = "#50a5e0"
             }
             else if(dataTemp[key].attribute.level == 3){
               paths.color = "#0064FF"
+              paths.fillcolor = "#356db5"
             }
             else if(dataTemp[key].attribute.level == 4){
               paths.color = "#0000FF"
+              paths.fillcolor = "#16499d"
             }
             else if(dataTemp[key].attribute.level == 5){
               paths.color = "#FF00FF"
+              paths.fillcolor = "#ab539b"
             }
             else{
               paths.color = "#FF0000"
+              paths.fillcolor = "#FF00aa"
             }
             paths.rid = dataTemp[key].rid;
             paths.events = {
