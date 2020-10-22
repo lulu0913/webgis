@@ -562,6 +562,7 @@ export default {
             type: 'success'
           });
           this.flushData(this.roadData.rid)
+          this.showpath()
         }).then((error) => {
             console.log(error);
         })
