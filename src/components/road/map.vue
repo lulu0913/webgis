@@ -643,10 +643,10 @@ export default {
 
       // 读取本地的道路经纬度信息的json文件，并在地图上显示道路划分
       showpath(){
-        this.clearpath();
         // var url = 'static/hcx-coords.json';
         this.$axios.post(config.IP + '/road/roads', {params:{condition:{}}}).then(res =>{
           var dataTemp = res.data.data;
+          var TempPolygons = [];
           for(var key in dataTemp){
             var paths = {};
             var points = []
@@ -695,7 +695,8 @@ export default {
               }
             };
             paths.key = key;
-            this.polygons.push(paths);
+            TempPolygons.push(paths);
+            this.polygons = TempPolygons;
           }
         }).then((error) => {
             // console.log(error);
