@@ -116,8 +116,8 @@
       <el-tabs v-if="CementRoad" class="side-bar-content" v-model="activeName" @tab-click="handleClick" tab-position="right" type="border-card" :stretch="true">
         <el-tab-pane v-for="index in roadData.part.roadNum" :label="'车道 '+String(index)" :name="String(index)" :key="index">
           <el-collapse v-model="activeNames" accordion>
-            <el-collapse-item v-for="(option, i) in PitchTornOptions" :title="option.title" :name="String(i)" :key="i">
-              <el-form :model="roadData.streets[index-1]" label-width="50px"  size="mini" :key="index">
+            <el-collapse-item v-for="(option, i) in CementTornOptions" :title="option.title" :name="String(i)" :key="i">
+              <el-form :model="roadData.streets[index-1]" label-width="60px"  size="mini" :key="index">
                 <el-form-item v-for="content in option.content" :label="content.name" class="title-font-size" :key="content.name">
                   <el-select v-model="roadData.streets[index-1].torn[option.idx][content.idx]" placeholder="请选择损坏等级">
                     <el-option v-for="l in 4" :label="'level '+String(l-1)" :value="l-1" :key="l"></el-option>
@@ -272,7 +272,7 @@ const CementCrackOptions = [{name: '线裂', idx: 'c1'},
                             {name: '板角断裂', idx: 'c2'},
                             {name: '边角裂缝', idx: 'c3'},
                             {name: '交叉裂缝和破碎板',idx: 'c4'}];
-const CementJointOptions = [{name: '接缝料损坏', idx: 'j1'},
+const CementJointOptions = [{name: '接缝损坏', idx: 'j1'},
                             {name: '边角剥落', idx: 'j2'}];
 const CementSurfaceOptions = [{name: '坑洞', idx: 's1'},
                               {name: '表面纹裂', idx:'s2'},
