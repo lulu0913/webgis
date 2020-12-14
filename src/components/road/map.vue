@@ -58,7 +58,7 @@
         </el-select>
       </div>
     </div>
-    <el-image class="legend" src="https://gitee.com/Zam-0703/BlogImage/raw/master/未标题-1.png"></el-image>
+    <el-image class="legend" src="https://gitee.com/Zam-0703/BlogImage/raw/master/legend.png"></el-image>
     <div class="side-bar">
       <div class="side-bar-title">
         路段信息（点击相应路段后显示）
@@ -715,28 +715,28 @@ export default {
             paths.path = points;  //向地图中添加标注点
             // 向地图中添加标识
             if(dataTemp[key].attribute.level == 0){
-              paths.color = "#64FF64"
-              paths.fillcolor = "#7efd7e"
+              paths.color = "#4ed27e"
+              paths.fillcolor = "#78da9b"
             }
             else if(dataTemp[key].attribute.level == 1){
-              paths.color = "#00FFFF"
-              paths.fillcolor = "#80cbd4"
+              paths.color = "#48abe5"
+              paths.fillcolor = "#80c4eb"
             }
             else if(dataTemp[key].attribute.level == 2){
-              paths.color = "#0096FF"
-              paths.fillcolor = "#50a5e0"
+              paths.color = "#ffd044"
+              paths.fillcolor = "#f4d883"
             }
             else if(dataTemp[key].attribute.level == 3){
-              paths.color = "#0064FF"
-              paths.fillcolor = "#356db5"
+              paths.color = "#fb7e22"
+              paths.fillcolor = "#f9ae76"
             }
             else if(dataTemp[key].attribute.level == 4){
-              paths.color = "#0000FF"
-              paths.fillcolor = "#16499d"
+              paths.color = "#e80e0d"
+              paths.fillcolor = "#eb5554"
             }
             else if(dataTemp[key].attribute.level == 5){
-              paths.color = "#FF00FF"
-              paths.fillcolor = "#ab539b"
+              paths.color = "#9f1515"
+              paths.fillcolor = "#a03535"
             }
             else{
               paths.color = "#FF0000"
