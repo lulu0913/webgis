@@ -58,7 +58,7 @@
         </el-select>
       </div>
     </div>
-    <el-image class="legend" src="https://gitee.com/Zam-0703/BlogImage/raw/master/未标题-1.png"></el-image>
+    <el-image class="legend" src="https://gitee.com/Zam-0703/BlogImage/raw/master/legend.png"></el-image>
     <div class="side-bar">
       <div class="side-bar-title">
         路段信息（点击相应路段后显示）
@@ -98,11 +98,26 @@
           <el-input placeholder="请输入内容" v-model="roadData.attribute.type?'沥青路':'水泥路'" :disabled="true" size="mini" style="margin-right: 10px"></el-input>
         </div>
       </div>
-      <el-tabs v-if="roadData" class="side-bar-content" v-model="activeName" @tab-click="handleClick" tab-position="right" type="border-card" :stretch="true">
+      <el-tabs v-if="PitchRoad" class="side-bar-content" v-model="activeName" @tab-click="handleClick" tab-position="right" type="border-card" :stretch="true">
         <el-tab-pane v-for="index in roadData.part.roadNum" :label="'车道 '+String(index)" :name="String(index)" :key="index">
           <el-collapse v-model="activeNames" accordion>
             <el-collapse-item v-for="(option, i) in PitchTornOptions" :title="option.title" :name="String(i)" :key="i">
               <el-form :model="roadData.streets[index-1]" label-width="50px"  size="mini" :key="index">
+                <el-form-item v-for="content in option.content" :label="content.name" class="title-font-size" :key="content.name">
+                  <el-select v-model="roadData.streets[index-1].torn[option.idx][content.idx]" placeholder="请选择损坏等级">
+                    <el-option v-for="l in 4" :label="'level '+String(l-1)" :value="l-1" :key="l"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-form>
+            </el-collapse-item>
+          </el-collapse>
+        </el-tab-pane>
+      </el-tabs>
+      <el-tabs v-if="CementRoad" class="side-bar-content" v-model="activeName" @tab-click="handleClick" tab-position="right" type="border-card" :stretch="true">
+        <el-tab-pane v-for="index in roadData.part.roadNum" :label="'车道 '+String(index)" :name="String(index)" :key="index">
+          <el-collapse v-model="activeNames" accordion>
+            <el-collapse-item v-for="(option, i) in CementTornOptions" :title="option.title" :name="String(i)" :key="i">
+              <el-form :model="roadData.streets[index-1]" label-width="60px"  size="mini" :key="index">
                 <el-form-item v-for="content in option.content" :label="content.name" class="title-font-size" :key="content.name">
                   <el-select v-model="roadData.streets[index-1].torn[option.idx][content.idx]" placeholder="请选择损坏等级">
                     <el-option v-for="l in 4" :label="'level '+String(l-1)" :value="l-1" :key="l"></el-option>
@@ -253,11 +268,24 @@ const PitchTornOptions = [{
   },
 ];
 // 水泥路面情况
-const CementTornOptions = ['有裂缝', '有接缝破坏', '有表面破坏', '其他情况', '无异常'];
-const CementCrackOptions = ['线裂', '板角断裂', '边角裂缝', '交叉裂缝和破碎板'];
-const CementJointOptions = ['接缝料损坏', '边角剥落'];
-const CementSurfaceOptions = ['坑洞', '表面纹裂', '层状剥落'];
-const CementOtherOptions = ['错台', '拱胀', '唧浆', '路框差', '沉陷'];
+const CementCrackOptions = [{name: '线裂', idx: 'c1'},
+                            {name: '板角断裂', idx: 'c2'},
+                            {name: '边角裂缝', idx: 'c3'},
+                            {name: '交叉裂缝和破碎板',idx: 'c4'}];
+const CementJointOptions = [{name: '接缝损坏', idx: 'j1'},
+                            {name: '边角剥落', idx: 'j2'}];
+const CementSurfaceOptions = [{name: '坑洞', idx: 's1'},
+                              {name: '表面纹裂', idx:'s2'},
+                              {name: '层状剥落', idx: 's3'}];
+const CementOtherOptions = [{name: '错台', idx: 'o1'},
+                            {name: '拱胀', idx: 'o2'},
+                            {name: '唧浆', idx: 'o3'},
+                            {name: '路框差', idx: 'o4'},
+                            {name: '沉陷', idx: 'o5'}];
+const CementTornOptions = [ {title: '有裂缝', idx: 'crack', content: CementCrackOptions},
+                            {title: '有接缝破坏', idx: 'joint', content: CementJointOptions},
+                            {title: '有表面破坏', idx: 'surface', content: CementSurfaceOptions},
+                            {title: '其他情况', idx: 'others', content: CementSurfaceOptions}];
 
 export default {
   data(){
@@ -303,7 +331,27 @@ export default {
           content: PitchOtherOptions,
         },
       ],
+      CementCrackOptions: [{name: '线裂', idx: 'c1'},
+                          {name: '板角断裂', idx: 'c2'},
+                          {name: '边角裂缝', idx: 'c3'},
+                          {name: '交叉裂缝和破碎板',idx: 'c4'}],
+      CementJointOptions: [{name: '接缝料损坏', idx: 'j1'},
+                          {name: '边角剥落', idx: 'j2'}],
+      CementSurfaceOptions: [{name: '坑洞', idx: 's1'},
+                            {name: '表面纹裂', idx:'s2'},
+                            {name: '层状剥落', idx: 's3'}],
+      CementOtherOptions: [{name: '错台', idx: 'o1'},
+                          {name: '拱胀', idx: 'o2'},
+                          {name: '唧浆', idx: 'o3'},
+                          {name: '路框差', idx: 'o4'},
+                          {name: '沉陷', idx: 'o5'}],
+      CementTornOptions: [{title: '有裂缝', idx: 'crack', content: CementCrackOptions},
+                          {title: '有接缝破坏', idx: 'joint', content: CementJointOptions},
+                          {title: '有表面破坏', idx: 'surface', content: CementSurfaceOptions},
+                          {title: '其他情况', idx: 'others', content: CementSurfaceOptions}],
       roadData: false,
+      PitchRoad: false,
+      CementRoad: false,
       streets:[
         {
           rid: 'abc002',
@@ -577,7 +625,14 @@ export default {
           that.roadData = response.data.data
           // this.roadData.streets = this.streets
           console.log(that.roadData)
-
+          if(that.roadData.attribute.type == 1){
+            that.CementRoad = false;
+            that.PitchRoad = true;
+          } 
+          else{
+            that.PitchRoad = false;
+            that.CementRoad = true;
+          }
           
         }).then((error) => {
             console.log(error);
@@ -660,28 +715,28 @@ export default {
             paths.path = points;  //向地图中添加标注点
             // 向地图中添加标识
             if(dataTemp[key].attribute.level == 0){
-              paths.color = "#64FF64"
-              paths.fillcolor = "#7efd7e"
+              paths.color = "#4ed27e"
+              paths.fillcolor = "#78da9b"
             }
             else if(dataTemp[key].attribute.level == 1){
-              paths.color = "#00FFFF"
-              paths.fillcolor = "#80cbd4"
+              paths.color = "#48abe5"
+              paths.fillcolor = "#80c4eb"
             }
             else if(dataTemp[key].attribute.level == 2){
-              paths.color = "#0096FF"
-              paths.fillcolor = "#50a5e0"
+              paths.color = "#ffd044"
+              paths.fillcolor = "#f4d883"
             }
             else if(dataTemp[key].attribute.level == 3){
-              paths.color = "#0064FF"
-              paths.fillcolor = "#356db5"
+              paths.color = "#fb7e22"
+              paths.fillcolor = "#f9ae76"
             }
             else if(dataTemp[key].attribute.level == 4){
-              paths.color = "#0000FF"
-              paths.fillcolor = "#16499d"
+              paths.color = "#e80e0d"
+              paths.fillcolor = "#eb5554"
             }
             else if(dataTemp[key].attribute.level == 5){
-              paths.color = "#FF00FF"
-              paths.fillcolor = "#ab539b"
+              paths.color = "#9f1515"
+              paths.fillcolor = "#a03535"
             }
             else{
               paths.color = "#FF0000"
