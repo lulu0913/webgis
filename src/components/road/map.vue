@@ -741,8 +741,8 @@ export default {
               paths.fillcolor = "#a03535"
             }
             else{
-              paths.color = "#FF0000"
-              paths.fillcolor = "#FF00aa"
+              paths.color = "#9f1515"
+              paths.fillcolor = "#a03535"
             }
             paths.rid = dataTemp[key].rid;
             paths.events = {
