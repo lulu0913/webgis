@@ -294,6 +294,8 @@ export default {
       RoadOptions:[{value: '景云路',label: '景云路'},
                   {value: '宋家岗东路',label: '宋家岗东路'},
                   {value: '航城西路',label: '航城西路'},
+                  {value: '庆云路',label: '庆云路'},
+                  {value: '黄花涝路',label: '黄花涝路'}
                   ],
       RoadOption:'',
       PitchCrackOptions: [{name: '线裂', idx: 'c1'},
@@ -851,6 +853,12 @@ export default {
         }
         else if(this.RoadOption == "宋家岗东路"){
           this.center = [114.220521, 30.73079]
+        }
+        else if(this.RoadOption == "庆云路"){
+          this.center = [114.222796, 30.727172]
+        }
+        else if(this.RoadOption == "黄花涝路"){
+          this.center = [114.214728, 30.732825]
         }
         else{
           console.log("RoadOption Error")

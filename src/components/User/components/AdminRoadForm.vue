@@ -2,7 +2,7 @@
   <div class="RoadForm">
     <div>
 
-      <el-button style="margin-left: 10px;" type="success" @click="openCsvDialog()" icon="el-icon-plus">
+      <el-button style="margin-left: 10px;" type="success" @click="tempjson()" icon="el-icon-plus">
       导入路段信息
       </el-button>
       <el-dialog
@@ -206,7 +206,7 @@ export default {
     // 临时轮子，导入json数据到后端
     tempjson() {
       const self = this;
-      var url = "../../../../static/jyl-coords-1.json"
+      var url = "../../../../static/json/yellowflower-coords-4.json"
       var request = new XMLHttpRequest()
       request.open("get",url)
       request.send(null);
@@ -219,9 +219,9 @@ export default {
           var points_raw = [];
           var point = {};
           var Objectlength = Object.getOwnPropertyNames(json).length;
-          for(let i = 0; i < Objectlength; i++){
+          for(let i = 0; i < 100; i++){
             element = {}
-            element["rid"] = "jyl-1-test-" + String(i); //道路编号
+            element["rid"] = "yellowflower-4-test-" + String(i); //道路编号
             element["part"] = {};
             element["part"]["region"] = "临空新城路段"; //路段所属区域
             element["part"]["road"] = "景云路"; //道路名称
@@ -247,6 +247,7 @@ export default {
           console.log(road)
           self.$axios.post( config.IP + '/road/addRoads',{"roads": road}) //前端接口
           .then((response) => {
+              console.log(response.data)
               if (response.data.code == 1){
                 this.$alert('导入道路数据成功！', '成功✔️', {
                 confirmButtonText: '确定',
