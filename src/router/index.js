@@ -11,6 +11,8 @@ import RoadForm from '@/components/User/components/AdminRoadForm'
 import RoadLog from '@/components/road/RoadLog.vue'
 import map from '@/components/road/map'
 import SystemPage from '@/components/road/SystemPage'
+import GPSImport from '@/components/User/views/GPSImport'
+import GPSView from '@/components/User/views/GPSView'
 
 import vueRsource from 'vue-resource'
 import axios from 'axios'
@@ -76,6 +78,11 @@ export default new Router({
           path: '/AdminSystemPage/',
           name: 'AdminRoadLog',
           component: RoadLog
+        },
+        {
+          path: '/AdminSystemPage/',
+          name: 'GPSView',
+          component: GPSView
         }
       ]
     },
@@ -98,6 +105,11 @@ export default new Router({
           path: '/road/map',
           name: 'RoadLog',
           component: RoadLog
+        },
+        {
+          path: '/road/map',
+          name: 'GPSImport',
+          component: GPSImport
         }
       ]
     },
