@@ -3,10 +3,10 @@
 // 地图限定城市
 // export const MapCityName = '武汉'
 // 服务器地址
-const IP = 'http://47.107.45.161:8088'
+const IP = 'http://47.107.45.161:3001'
 // var IP = 10
 const config = {
-  IP: 'http://47.107.45.161:8088'
+  IP: 'http://47.107.45.161:3001'
 }
 export {
   config
