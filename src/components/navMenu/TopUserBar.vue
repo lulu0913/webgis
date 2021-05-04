@@ -23,7 +23,8 @@
           <el-dropdown-menu :default-active="activeIndex" slot="dropdown">
             <el-dropdown-item index="1" @click.native="jumpTo('map')">道路养护</el-dropdown-item>
             <el-dropdown-item index="2" @click.native="jumpTo('RoadLog')">维护日志查询</el-dropdown-item>
-            <el-dropdown-item index="3" @click.native="jumpTo('GPSImport')">GPS 数据导入</el-dropdown-item>
+            <el-dropdown-item index="3" @click.native="jumpTo('RoadForm')">已完成路段评测</el-dropdown-item>
+            <el-dropdown-item index="4" @click.native="jumpTo('GPSImport')">GPS 数据导入</el-dropdown-item>
             <el-dropdown-item @click.native="jumpTo('Login')">注销登录</el-dropdown-item>
           </el-dropdown-menu>
       </el-dropdown>

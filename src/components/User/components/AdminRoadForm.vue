@@ -2,7 +2,7 @@
   <div class="RoadForm">
     <div>
 
-      <el-button style="margin-left: 10px;" type="success" @click="tempjson()" icon="el-icon-plus">
+      <el-button style="margin-left: 10px;" type="success" @click="openCsvDialog()" icon="el-icon-plus">
       导入路段信息
       </el-button>
       <el-dialog

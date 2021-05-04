@@ -9,7 +9,7 @@
         <el-menu-item index="1" @click="jumpTo('RegisterForm')">人员审核</el-menu-item>
         <el-menu-item index="2" @click="jumpTo('AdminRoadLog')">维护日志查询</el-menu-item>
         <el-menu-item index="3" @click="jumpTo('AdminRoadForm')">已完成路段评测</el-menu-item>
-        <el-menu-item index="4" @click.native="jumpTo('GPSView')">GPS路段查看</el-menu-item>
+        <el-menu-item index="4" @click="jumpTo('GPSView')">GPS路段查看</el-menu-item>
         <el-menu-item @click="jumpTo('AdminLogin')">注销登录</el-menu-item>
       </el-menu>
     </div>
