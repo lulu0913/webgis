@@ -187,10 +187,10 @@ export default {
           self.$axios.post( config.IP + '/road/addRoads',{"roads": road}) //前端接口
           .then((response) => {
               if (response.data.code == 1){
-                this.$alert('导入道路数据成功！', '成功✔️', {
+                self.$alert('导入道路数据成功！', '成功✔️', {
                 confirmButtonText: '确定',
                 callback: action =>{
-                  this.reload()
+                  self.reload()
                 }})
               }
           }).then((error) => {
@@ -206,7 +206,7 @@ export default {
     // 临时轮子，导入json数据到后端
     tempjson() {
       const self = this;
-      var url = "../../../../static/json/xll-coords-2.json"
+      var url = "../../../../static/sjg-coords.json"
       var request = new XMLHttpRequest()
       request.open("get",url)
       request.send(null);
@@ -221,10 +221,10 @@ export default {
           var Objectlength = Object.getOwnPropertyNames(json).length;
           for(let i = 0; i < Objectlength; i++){
             element = {}
-            element["rid"] = "xll-2-test-" + String(i); //道路编号
+            element["rid"] = "sjg-test-" + String(i); //道路编号
             element["part"] = {};
             element["part"]["region"] = "临空新城路段"; //路段所属区域
-            element["part"]["road"] = "兴龙路"; //道路名称
+            element["part"]["road"] = "宋家岗东路"; //道路名称
             element["part"]["roadNum"] = 4; //车道数量
             element["attribute"] = {};
             element["attribute"]["length"] = 10; //路段长度
@@ -249,10 +249,10 @@ export default {
           .then((response) => {
               console.log(response.data)
               if (response.data.code == 1){
-                this.$alert('导入道路数据成功！', '成功✔️', {
+                self.$alert('导入道路数据成功！', '成功✔️', {
                 confirmButtonText: '确定',
                 callback: action =>{
-                  this.reload()
+                  self.reload()
                 }})
               }
           }).then((error) => {
