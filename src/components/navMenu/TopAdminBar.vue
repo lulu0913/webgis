@@ -86,7 +86,7 @@ export default {
   },
   watch:{
     screenWidth(val){
-      if(val < 1350){
+      if(val < 1370){
         this.omit = true
       }
       else{
@@ -113,7 +113,7 @@ export default {
   display: flex;
   z-index: 1;
   padding-top: 0px;
-  margin-right: 13vw;
+  margin-right: 10vw;
   /* margin-left: 13%; */
   float: right;
   flex-direction: row;
@@ -125,7 +125,7 @@ export default {
   z-index: 1;
   padding-top: 0px;
   /* margin-right: 28%; */
-  margin-left: 13vw;
+  margin-left: 10vw;
   float: left;
   flex-direction: row;
   justify-content: center;

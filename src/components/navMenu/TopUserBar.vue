@@ -112,8 +112,9 @@ export default {
   display: flex;
   z-index: 1;
   padding-top: 0px;
-  margin-left: 13%;
-  float: left;
+  margin-right: 10vw;
+  /* margin-left: 13%; */
+  float: right;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -123,7 +124,7 @@ export default {
   z-index: 1;
   padding-top: 0px;
   /* margin-right: 28%; */
-  margin-left: 13vw;
+  margin-left: 10vw;
   float: left;
   flex-direction: row;
   justify-content: center;
