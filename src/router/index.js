@@ -14,6 +14,8 @@ import SystemPage from '@/components/road/SystemPage'
 import GPSImport from '@/components/User/views/GPSImport'
 import GPSView from '@/components/User/views/GPSView'
 
+import map_site from '@/components/road/map_site'
+
 import vueRsource from 'vue-resource'
 import axios from 'axios'
 import qs from 'qs'
@@ -85,6 +87,11 @@ export default new Router({
           component: GPSView
         }
       ]
+    },
+    {
+      path: '/test',
+      name: 'map_site',
+      component: map_site,
     },
     {
       path: '/road/map',

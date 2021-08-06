@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <logo-bar></logo-bar>
+    <!-- <logo-bar></logo-bar> -->
     <div class="container-position">
       <router-view v-if="isRouterAlive"></router-view>
     </div>
@@ -43,11 +43,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
-.container-position{
+/* .container-position{
   height: 80vh;
-}
+} */
 body{
   margin: 0px;
   border: 0px;
