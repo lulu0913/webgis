@@ -45,15 +45,25 @@ export default {
       let account = this.account;
       let password = this.password;
       let password_confirm = this.password_confirm;
-
+      var pattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&+=\(\)-]).{8,20}$/;
       if(account == ''){
           this.$alert('账户名不能为空', '注意⚠️', {
+          confirmButtonText: '确定',}
+        )
+      }
+      else if(account.length < 6 || account.length > 10){
+        this.$alert('账户名长度限制为 6-10 位', '注意⚠️', {
           confirmButtonText: '确定',}
         )
       }
       else if(password == '')
       {
           this.$alert('密码不能为空', '注意⚠️', {
+          confirmButtonText: '确定',}
+        )
+      }
+      else if(!pattern.test(password)){
+        this.$alert('密码长度限制为 8-20 位且同时包含数字、大小写字母、符号（@#$%^&+=()-）三类字符', '注意⚠️', {
           confirmButtonText: '确定',}
         )
       }
